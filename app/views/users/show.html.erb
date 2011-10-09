@@ -1,0 +1,55 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Email:</b>
+  <%= @user.email %>
+</p>
+
+<p>
+  <b>Hashed password:</b>
+  <%= @user.hashed_password %>
+</p>
+
+<p>
+  <b>Salt:</b>
+  <%= @user.salt %>
+</p>
+
+<p>
+  <b>Jom social:</b>
+  <%= @user.jom_social_id %>
+</p>
+
+<p>
+  <b>Access level:</b>
+  <%= @user.access_level %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @user.name %>
+</p>
+
+<p>
+  <b>Phone number:</b>
+  <%= @user.phone_number %>
+</p>
+
+<p>
+  <b>Room number:</b>
+  <%= @user.room_number %>
+</p>
+
+<p>
+  <b>Hours per week:</b>
+  <%= @user.hours_per_week %>
+</p>
+
+<p>
+  <b>Notes:</b>
+  <%= @user.notes %>
+</p>
+
+
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', users_path %>
