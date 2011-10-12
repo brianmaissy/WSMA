@@ -1,0 +1,55 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @house.name %>
+</p>
+
+<p>
+  <b>Semester start date:</b>
+  <%= @house.semester_start_date %>
+</p>
+
+<p>
+  <b>Permanent chores start week:</b>
+  <%= @house.permanent_chores_start_week %>
+</p>
+
+<p>
+  <b>Hours per week:</b>
+  <%= @house.hours_per_week %>
+</p>
+
+<p>
+  <b>Sign off by hours after:</b>
+  <%= @house.sign_off_by_hours_after %>
+</p>
+
+<p>
+  <b>Using online sign off:</b>
+  <%= @house.using_online_sign_off %>
+</p>
+
+<p>
+  <b>Sign off verification method:</b>
+  <%= @house.sign_off_verification_method %>
+</p>
+
+<p>
+  <b>Blow off penalty factor:</b>
+  <%= @house.blow_off_penalty_factor %>
+</p>
+
+<p>
+  <b>New week job:</b>
+  <%= @house.new_week_job_id %>
+</p>
+
+<p>
+  <b>Wsm email:</b>
+  <%= @house.wsm_email %>
+</p>
+
+
+<%= link_to 'Edit', edit_house_path(@house) %> |
+<%= link_to 'Back', houses_path %>

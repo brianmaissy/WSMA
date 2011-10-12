@@ -1,0 +1,41 @@
+<h1>Listing houses</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Semester start date</th>
+    <th>Permanent chores start week</th>
+    <th>Hours per week</th>
+    <th>Sign off by hours after</th>
+    <th>Using online sign off</th>
+    <th>Sign off verification method</th>
+    <th>Blow off penalty factor</th>
+    <th>New week job</th>
+    <th>Wsm email</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @houses.each do |house| %>
+  <tr>
+    <td><%= house.name %></td>
+    <td><%= house.semester_start_date %></td>
+    <td><%= house.permanent_chores_start_week %></td>
+    <td><%= house.hours_per_week %></td>
+    <td><%= house.sign_off_by_hours_after %></td>
+    <td><%= house.using_online_sign_off %></td>
+    <td><%= house.sign_off_verification_method %></td>
+    <td><%= house.blow_off_penalty_factor %></td>
+    <td><%= house.new_week_job_id %></td>
+    <td><%= house.wsm_email %></td>
+    <td><%= link_to 'Show', house %></td>
+    <td><%= link_to 'Edit', edit_house_path(house) %></td>
+    <td><%= link_to 'Destroy', house, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New House', new_house_path %>

@@ -1,0 +1,57 @@
+<%= form_for(@house) do |f| %>
+  <% if @house.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@house.errors.count, "error") %> prohibited this house from being saved:</h2>
+
+      <ul>
+      <% @house.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :semester_start_date %><br />
+    <%= f.date_select :semester_start_date %>
+  </div>
+  <div class="field">
+    <%= f.label :permanent_chores_start_week %><br />
+    <%= f.number_field :permanent_chores_start_week %>
+  </div>
+  <div class="field">
+    <%= f.label :hours_per_week %><br />
+    <%= f.text_field :hours_per_week %>
+  </div>
+  <div class="field">
+    <%= f.label :sign_off_by_hours_after %><br />
+    <%= f.text_field :sign_off_by_hours_after %>
+  </div>
+  <div class="field">
+    <%= f.label :using_online_sign_off %><br />
+    <%= f.number_field :using_online_sign_off %>
+  </div>
+  <div class="field">
+    <%= f.label :sign_off_verification_method %><br />
+    <%= f.number_field :sign_off_verification_method %>
+  </div>
+  <div class="field">
+    <%= f.label :blow_off_penalty_factor %><br />
+    <%= f.text_field :blow_off_penalty_factor %>
+  </div>
+  <div class="field">
+    <%= f.label :new_week_job_id %><br />
+    <%= f.text_field :new_week_job_id %>
+  </div>
+  <div class="field">
+    <%= f.label :wsm_email %><br />
+    <%= f.text_field :wsm_email %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
