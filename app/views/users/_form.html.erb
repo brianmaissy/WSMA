@@ -29,7 +29,7 @@
   </div>
   <div class="field">
     <%= f.label :access_level %><br />
-    <%= f.number_field :access_level %>
+    <%= f.select(:access_level, options_for_select([['Resident', 1], ['Workshift Manager', 2], ['Administrator', 3]], 1)) %>
   </div>
   <div class="field">
     <%= f.label :name %><br />

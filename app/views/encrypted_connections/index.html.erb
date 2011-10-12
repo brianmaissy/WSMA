@@ -1,5 +1,9 @@
 <h1>Listing encrypted_connections</h1>
 
+<% if flash[:notice] -%>
+  <div id="notice"><%= flash[:notice] %></div>
+<% end -%>
+
 <table>
   <tr>
     <th>Public key</th>
