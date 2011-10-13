@@ -1,4 +1,8 @@
 WSMA::Application.routes.draw do
+  resources :houses
+
+  resources :encrypted_connections
+
   resources :users
 
   # The priority is based upon order of creation:
