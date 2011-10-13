@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
 
   after_initialize :initialize_defaults
   
-  validates_presence_of :email, :hashed_password, :salt, :access_level, :hours_per_week
+  validates_presence_of :email, :hashed_password, :salt, :access_level
   validates_numericality_of :hours_per_week
   validates_uniqueness_of :email
   validate :access_level_has_legal_value

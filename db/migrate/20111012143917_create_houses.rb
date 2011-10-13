@@ -7,7 +7,7 @@ class CreateHouses < ActiveRecord::Migration
       t.decimal :hours_per_week
       t.decimal :sign_off_by_hours_after
       t.integer :using_online_sign_off
-      t.integer :sign_off_verification_method
+      t.integer :sign_off_verification_mode
       t.decimal :blow_off_penalty_factor
       t.string :new_week_job_id
       t.string :wsm_email
