@@ -10,7 +10,29 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111009230645) do
+ActiveRecord::Schema.define(:version => 20111012143917) do
+
+  create_table "encrypted_connections", :force => true do |t|
+    t.string   "public_key"
+    t.string   "private_key"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "houses", :force => true do |t|
+    t.string   "name"
+    t.date     "semester_start_date"
+    t.integer  "permanent_chores_start_week"
+    t.decimal  "hours_per_week"
+    t.decimal  "sign_off_by_hours_after"
+    t.integer  "using_online_sign_off"
+    t.integer  "sign_off_verification_mode"
+    t.decimal  "blow_off_penalty_factor"
+    t.string   "new_week_job_id"
+    t.string   "wsm_email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email"
