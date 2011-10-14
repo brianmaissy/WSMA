@@ -1,0 +1,23 @@
+<h1>Listing preferences</h1>
+
+<table>
+  <tr>
+    <th>Rating</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @preferences.each do |preference| %>
+  <tr>
+    <td><%= preference.rating %></td>
+    <td><%= link_to 'Show', preference %></td>
+    <td><%= link_to 'Edit', edit_preference_path(preference) %></td>
+    <td><%= link_to 'Destroy', preference, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Preference', new_preference_path %>
