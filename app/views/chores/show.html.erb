@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @chore.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @chore.description %>
+</p>
+
+<p>
+  <b>Hours:</b>
+  <%= @chore.hours %>
+</p>
+
+<p>
+  <b>Sign out by hours before:</b>
+  <%= @chore.sign_out_by_hours_before %>
+</p>
+
+<p>
+  <b>Due hours after:</b>
+  <%= @chore.due_hours_after %>
+</p>
+
+
+<%= link_to 'Edit', edit_chore_path(@chore) %> |
+<%= link_to 'Back', chores_path %>

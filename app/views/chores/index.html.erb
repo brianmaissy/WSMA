@@ -1,0 +1,31 @@
+<h1>Listing chores</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Hours</th>
+    <th>Sign out by hours before</th>
+    <th>Due hours after</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @chores.each do |chore| %>
+  <tr>
+    <td><%= chore.name %></td>
+    <td><%= chore.description %></td>
+    <td><%= chore.hours %></td>
+    <td><%= chore.sign_out_by_hours_before %></td>
+    <td><%= chore.due_hours_after %></td>
+    <td><%= link_to 'Show', chore %></td>
+    <td><%= link_to 'Edit', edit_chore_path(chore) %></td>
+    <td><%= link_to 'Destroy', chore, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Chore', new_chore_path %>

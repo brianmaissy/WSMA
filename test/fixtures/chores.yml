@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  description: MyString
+  hours: 9.99
+  sign_out_by_hours_before: 9.99
+  due_hours_after: 9.99
+
+two:
+  name: MyString
+  description: MyString
+  hours: 9.99
+  sign_out_by_hours_before: 9.99
+  due_hours_after: 9.99

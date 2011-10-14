@@ -4,6 +4,8 @@ WSMA::Application.routes.draw do
 
   resources :encrypted_connections
 
+  resources :chores
+
   resources :shifts
 
   resources :assignments
