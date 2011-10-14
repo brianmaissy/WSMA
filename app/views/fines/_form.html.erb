@@ -1,0 +1,33 @@
+<%= form_for(@fine) do |f| %>
+  <% if @fine.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@fine.errors.count, "error") %> prohibited this fine from being saved:</h2>
+
+      <ul>
+      <% @fine.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :amount %><br />
+    <%= f.text_field :amount %>
+  </div>
+  <div class="field">
+    <%= f.label :paid %><br />
+    <%= f.number_field :paid %>
+  </div>
+  <div class="field">
+    <%= f.label :paid_date %><br />
+    <%= f.date_select :paid_date %>
+  </div>
+  <div class="field">
+    <%= f.label :hours_fined_for %><br />
+    <%= f.text_field :hours_fined_for %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

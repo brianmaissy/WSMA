@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Amount:</b>
+  <%= @fine.amount %>
+</p>
+
+<p>
+  <b>Paid:</b>
+  <%= @fine.paid %>
+</p>
+
+<p>
+  <b>Paid date:</b>
+  <%= @fine.paid_date %>
+</p>
+
+<p>
+  <b>Hours fined for:</b>
+  <%= @fine.hours_fined_for %>
+</p>
+
+
+<%= link_to 'Edit', edit_fine_path(@fine) %> |
+<%= link_to 'Back', fines_path %>

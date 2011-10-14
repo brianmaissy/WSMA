@@ -4,6 +4,8 @@ WSMA::Application.routes.draw do
 
   resources :encrypted_connections
 
+  resources :fines
+
   resources :preferences
 
   resources :user_hour_requirements
