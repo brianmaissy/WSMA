@@ -1,0 +1,25 @@
+<h1>Listing user_hour_requirements</h1>
+
+<table>
+  <tr>
+    <th>Week</th>
+    <th>Hours</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @user_hour_requirements.each do |user_hour_requirement| %>
+  <tr>
+    <td><%= user_hour_requirement.week %></td>
+    <td><%= user_hour_requirement.hours %></td>
+    <td><%= link_to 'Show', user_hour_requirement %></td>
+    <td><%= link_to 'Edit', edit_user_hour_requirement_path(user_hour_requirement) %></td>
+    <td><%= link_to 'Destroy', user_hour_requirement, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New User hour requirement', new_user_hour_requirement_path %>

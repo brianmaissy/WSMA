@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Week:</b>
+  <%= @user_hour_requirement.week %>
+</p>
+
+<p>
+  <b>Hours:</b>
+  <%= @user_hour_requirement.hours %>
+</p>
+
+
+<%= link_to 'Edit', edit_user_hour_requirement_path(@user_hour_requirement) %> |
+<%= link_to 'Back', user_hour_requirements_path %>

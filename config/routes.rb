@@ -1,11 +1,12 @@
 WSMA::Application.routes.draw do
-<<<<<<< HEAD
+
   resources :houses
 
   resources :encrypted_connections
-=======
+
+  resources :user_hour_requirements
+
   resources :house_hour_requirements
->>>>>>> created HouseHourRequirement scaffold
 
   resources :users
 
