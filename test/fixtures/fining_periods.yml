@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  fining_week: 1
+  fine_for_hours_below: 9.99
+  fine_per_hour_below: 9.99
+  forgive_percentage_of_fined_hours: 9.99
+  fine_job_id: MyString
+
+two:
+  fining_week: 1
+  fine_for_hours_below: 9.99
+  fine_per_hour_below: 9.99
+  forgive_percentage_of_fined_hours: 9.99
+  fine_job_id: MyString

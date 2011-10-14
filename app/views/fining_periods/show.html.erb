@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Fining week:</b>
+  <%= @fining_period.fining_week %>
+</p>
+
+<p>
+  <b>Fine for hours below:</b>
+  <%= @fining_period.fine_for_hours_below %>
+</p>
+
+<p>
+  <b>Fine per hour below:</b>
+  <%= @fining_period.fine_per_hour_below %>
+</p>
+
+<p>
+  <b>Forgive percentage of fined hours:</b>
+  <%= @fining_period.forgive_percentage_of_fined_hours %>
+</p>
+
+<p>
+  <b>Fine job:</b>
+  <%= @fining_period.fine_job_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_fining_period_path(@fining_period) %> |
+<%= link_to 'Back', fining_periods_path %>

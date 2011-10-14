@@ -4,6 +4,8 @@ WSMA::Application.routes.draw do
 
   resources :encrypted_connections
 
+  resources :fining_periods
+
   resources :fines
 
   resources :preferences

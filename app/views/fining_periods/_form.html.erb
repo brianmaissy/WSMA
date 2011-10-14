@@ -1,0 +1,37 @@
+<%= form_for(@fining_period) do |f| %>
+  <% if @fining_period.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@fining_period.errors.count, "error") %> prohibited this fining_period from being saved:</h2>
+
+      <ul>
+      <% @fining_period.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :fining_week %><br />
+    <%= f.number_field :fining_week %>
+  </div>
+  <div class="field">
+    <%= f.label :fine_for_hours_below %><br />
+    <%= f.text_field :fine_for_hours_below %>
+  </div>
+  <div class="field">
+    <%= f.label :fine_per_hour_below %><br />
+    <%= f.text_field :fine_per_hour_below %>
+  </div>
+  <div class="field">
+    <%= f.label :forgive_percentage_of_fined_hours %><br />
+    <%= f.text_field :forgive_percentage_of_fined_hours %>
+  </div>
+  <div class="field">
+    <%= f.label :fine_job_id %><br />
+    <%= f.text_field :fine_job_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
