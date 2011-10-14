@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  day_of_week: 1
+  time: 2011-10-14 15:30:39
+  temporary: 1
+
+two:
+  day_of_week: 1
+  time: 2011-10-14 15:30:39
+  temporary: 1

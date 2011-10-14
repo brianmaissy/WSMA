@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Day of week:</b>
+  <%= @shift.day_of_week %>
+</p>
+
+<p>
+  <b>Time:</b>
+  <%= @shift.time %>
+</p>
+
+<p>
+  <b>Temporary:</b>
+  <%= @shift.temporary %>
+</p>
+
+
+<%= link_to 'Edit', edit_shift_path(@shift) %> |
+<%= link_to 'Back', shifts_path %>
