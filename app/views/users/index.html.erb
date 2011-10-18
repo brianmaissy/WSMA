@@ -2,6 +2,7 @@
 
 <table>
   <tr>
+    <th>House</th>
     <th>Email</th>
     <th>Hashed password</th>
     <th>Salt</th>
@@ -19,6 +20,7 @@
 
 <% @users.each do |user| %>
   <tr>
+    <td><%= user.house.name %></td>
     <td><%= user.email %></td>
     <td><%= user.hashed_password %></td>
     <td><%= user.salt %></td>

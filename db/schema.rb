@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(:version => 20111014223155) do
   end
 
   create_table "users", :force => true do |t|
+    t.integer  "house_id",        :null => false
     t.string   "email"
     t.string   "hashed_password"
     t.string   "salt"

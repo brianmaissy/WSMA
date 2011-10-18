@@ -1,5 +1,7 @@
 class House < ActiveRecord::Base
 
+  has_many :users
+
   after_initialize :initialize_defaults
   before_destroy :cancel_jobs
   

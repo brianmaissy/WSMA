@@ -1,6 +1,7 @@
 class CreateUsers < ActiveRecord::Migration
   def change
     create_table :users do |t|
+      t.integer :house_id, :null => false
       t.string :email
       t.string :hashed_password
       t.string :salt

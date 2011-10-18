@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
 
+  belongs_to :house
+
   after_initialize :initialize_defaults
   
   validates_presence_of :email, :hashed_password, :salt, :access_level

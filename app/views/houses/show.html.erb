@@ -6,6 +6,15 @@
 </p>
 
 <p>
+  <b>Users:</b>
+  <ul>
+    <% for user in @house.users %>
+      <li><%= user.name %> (<%= user.email %>)</li>
+    <% end %>
+  </ul>
+</p>
+
+<p>
   <b>Semester start date:</b>
   <%= @house.semester_start_date %>
 </p>
