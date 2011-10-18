@@ -5,17 +5,13 @@ class User < ActiveRecord::Base
   after_initialize :initialize_defaults
   
   validates_presence_of :email, :hashed_password, :salt, :access_level
-  validates_numericality_of :hours_per_week
+  validates_numericality_of :hours_per_week, :greater_than_or_equal_to => 0
+  validates_numericality_of :access_level, :only_integer => true
   validates_uniqueness_of :email
   validate :access_level_has_legal_value
-  validate :hours_per_week_has_legal_value
 
   def access_level_has_legal_value
     errors.add(:access_level, 'must be 1, 2, or 3' ) if not [1, 2, 3].include? access_level
-  end
-  
-  def hours_per_week_has_legal_value
-    errors.add(:hours_per_week, 'must be nonnegative' ) if hours_per_week < 0
   end
 
   def initialize_defaults
