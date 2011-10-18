@@ -22,7 +22,7 @@ class ActiveSupport::TestCase
 
   def test_attribute_must_be_unique(model, attribute)
     assert model.invalid?
-    model.name = "unique"
+    model[attribute] = "unique"
     assert model.valid?
   end
   
