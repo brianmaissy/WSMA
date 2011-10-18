@@ -12,7 +12,7 @@ class EncryptedConnectionsControllerTest < ActionController::TestCase
   end
 
   test "should create encrypted_connection" do
-    assert_difference('EncryptedConnection.count', 1) do
+    assert_difference('EncryptedConnection.count') do
       get :new, :encrypted_connection => @encrypted_connection.attributes
     end
 
