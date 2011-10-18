@@ -9,17 +9,54 @@ class ActiveSupport::TestCase
   # -- they do not yet inherit this setting
   fixtures :all
 
-  def many_integers
-    [-23,-3,-1,0,1,2,3,10,200]
+  MANY_INTEGERS = [-23,-3,-1,0,1,2,3,10,200]
+  MANY_NEGATIVE_INTEGERS = [-23,-13,-6,-4,-3,-1]
+  MANY_NONNEGATIVE_INTEGERS = [0,1,2,3,5,10,52,200]
+  MANY_NONINTEGERS = [-9.99, -2.34, -0.2, 0.2, 1.5, 2.0, 2.7, 6.4, 12.5]
+
+  def test_attribute_may_not_be_null(model, attribute)
+    assert model.valid?
+    model[attribute] = nil
+    assert model.invalid?
   end
-  def many_negative_integers
-    [-23,-13,-6,-4,-3,-1]
+
+  def test_attribute_must_be_unique(model, attribute)
+    assert model.invalid?
+    model.name = "unique"
+    assert model.valid?
   end
-  def many_nonnegative_integers
-    [0,1,2,3,5,10,52,200]
+  
+  def test_attribute_must_be_nonnegative(model, attribute)
+    assert model.valid?
+    for number in MANY_NEGATIVE_INTEGERS
+      model[attribute] = number
+      assert model.invalid?
+      assert model.errors[attribute].include? "must be greater than or equal to 0"
+    end
+    for number in MANY_NONNEGATIVE_INTEGERS
+      model[attribute] = number
+      assert model.valid?
+    end
   end
-  def many_non_integers
-    [-9.99, -2.34, -0.2, 0.2, 1.5, 2.0, 2.7, 6.4, 12.5]
+  
+  def test_attribute_must_be_null_or_nonnegative_integer(model, attribute)
+    assert model.valid?
+    model[attribute] = nil
+    assert model.valid?
+    for number in MANY_NONINTEGERS
+      model[attribute] = number
+      assert model.invalid?
+      assert model.errors[attribute].include? "must be an integer"
+    end
+    for number in MANY_NEGATIVE_INTEGERS
+      model[attribute] = number
+      assert model.invalid?
+      assert model.errors[attribute].include? "must be greater than or equal to 0"
+    end
+    for number in MANY_NONNEGATIVE_INTEGERS
+      model[attribute] = number
+      assert model.valid?
+    end
   end
   
 end
