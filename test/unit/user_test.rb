@@ -6,6 +6,10 @@ class UserTest < ActiveSupport::TestCase
     assert_equal houses(:one).hours_per_week, @user.hours_per_week
   end
   
+  test "house_id must not be null" do
+    test_attribute_may_not_be_null users(:one), :house_id
+  end
+  
   test "email must not be null" do
     test_attribute_may_not_be_null users(:one), :email
   end
