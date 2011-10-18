@@ -33,11 +33,11 @@
   </div>
   <div class="field">
     <%= f.label :using_online_sign_off %><br />
-    <%= f.number_field :using_online_sign_off %>
+    <%= f.select(:using_online_sign_off, options_for_select([['No', 0], ['Yes', 1]], 1)) %>
   </div>
   <div class="field">
     <%= f.label :sign_off_verification_mode %><br />
-    <%= f.number_field :sign_off_verification_mode %>
+    <%= f.select(:sign_off_verification_mode, options_for_select([['None', 0], ['Without authentication', 1], ['With authentication', 2]], 2)) %>
   </div>
   <div class="field">
     <%= f.label :blow_off_penalty_factor %><br />
