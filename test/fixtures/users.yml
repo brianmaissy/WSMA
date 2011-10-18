@@ -1,7 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  email: MyString
+  email: MyString1
   house: one
   hashed_password: MyString
   salt: MyString
@@ -10,11 +10,11 @@ one:
   name: MyString
   phone_number: MyString
   room_number: MyString
-  hours_per_week: 
+  hours_per_week: 9.99
   notes: MyText
 
 two:
-  email: MyString
+  email: MyString2
   house: one
   hashed_password: MyString
   salt: MyString
@@ -23,5 +23,5 @@ two:
   name: MyString
   phone_number: MyString
   room_number: MyString
-  hours_per_week: 
+  hours_per_week: 9.99
   notes: MyText

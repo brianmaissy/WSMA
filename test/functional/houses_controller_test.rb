@@ -3,6 +3,7 @@ require 'test_helper'
 class HousesControllerTest < ActionController::TestCase
   setup do
     @house = houses(:one)
+    @house.name = "unique"
   end
 
   test "should get index" do

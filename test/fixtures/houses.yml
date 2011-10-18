@@ -1,7 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  name: MyString
+  name: MyString1
   semester_start_date: 2011-10-12
   permanent_chores_start_week: 1
   hours_per_week: 9.99
@@ -13,7 +13,7 @@ one:
   wsm_email: MyString
 
 two:
-  name: MyString
+  name: MyString2
   semester_start_date: 2011-10-12
   permanent_chores_start_week: 1
   hours_per_week: 9.99
