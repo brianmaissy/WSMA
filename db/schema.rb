@@ -10,11 +10,55 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111012143917) do
+ActiveRecord::Schema.define(:version => 20111014223155) do
+
+  create_table "assignments", :force => true do |t|
+    t.integer  "week"
+    t.integer  "status"
+    t.string   "blow_off_job_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "chores", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.decimal  "hours"
+    t.decimal  "sign_out_by_hours_before"
+    t.decimal  "due_hours_after"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "encrypted_connections", :force => true do |t|
     t.string   "public_key"
     t.string   "private_key"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "fines", :force => true do |t|
+    t.decimal  "amount"
+    t.integer  "paid"
+    t.date     "paid_date"
+    t.decimal  "hours_fined_for"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "fining_periods", :force => true do |t|
+    t.integer  "fining_week"
+    t.decimal  "fine_for_hours_below"
+    t.decimal  "fine_per_hour_below"
+    t.decimal  "forgive_percentage_of_fined_hours"
+    t.string   "fine_job_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "house_hour_requirements", :force => true do |t|
+    t.integer  "week"
+    t.decimal  "hours"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -30,6 +74,27 @@ ActiveRecord::Schema.define(:version => 20111012143917) do
     t.decimal  "blow_off_penalty_factor"
     t.string   "new_week_job_id"
     t.string   "wsm_email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "preferences", :force => true do |t|
+    t.integer  "rating"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "shifts", :force => true do |t|
+    t.integer  "day_of_week"
+    t.time     "time"
+    t.integer  "temporary"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "user_hour_requirements", :force => true do |t|
+    t.integer  "week"
+    t.decimal  "hours"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
