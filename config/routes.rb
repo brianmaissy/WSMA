@@ -20,6 +20,10 @@ WSMA::Application.routes.draw do
 
   resources :house_hour_requirements
 
+  resources :houses
+
+  resources :encrypted_connections
+
   resources :users
 
   # The priority is based upon order of creation:
