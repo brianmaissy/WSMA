@@ -6,8 +6,10 @@ class House < ActiveRecord::Base
   before_destroy :cancel_jobs
   
   validates_presence_of :name, :using_online_sign_off, :sign_off_verification_mode
-  validates_numericality_of :hours_per_week, :sign_off_by_hours_after, :blow_off_penalty_factor
-  validates_numericality_of :permanent_chores_start_week, :allow_nil => true
+  validates_numericality_of :hours_per_week, :sign_off_by_hours_after, 
+                            :blow_off_penalty_factor, :greater_than_or_equal_to => 0 
+  validates_numericality_of :permanent_chores_start_week, :allow_nil => true, :only_integer => true, :greater_than_or_equal_to => 0 
+  validates_numericality_of :using_online_sign_off, :sign_off_verification_mode, :only_integer => true
   #TODO: find a way to do date validation
   #validates_datetime :semester_start_date
   validates_uniqueness_of :name
