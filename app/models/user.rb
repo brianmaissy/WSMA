@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
 
   after_initialize :initialize_defaults
   
-  validates_presence_of :email, :hashed_password, :salt, :access_level
+  validates_presence_of :house_id, :email, :hashed_password, :salt, :access_level
   validates_numericality_of :hours_per_week, :greater_than_or_equal_to => 0
   validates_numericality_of :access_level, :only_integer => true
   validates_uniqueness_of :email
