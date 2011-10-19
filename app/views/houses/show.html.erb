@@ -9,7 +9,7 @@
   <b>Users:</b>
   <ul>
     <% for user in @house.users %>
-      <li><%= user.name %> (<%= user.email %>)</li>
+      <li><%= link_to (user.name  + '(' + user.email + ')'), user%></li>
     <% end %>
   </ul>
 </p>
