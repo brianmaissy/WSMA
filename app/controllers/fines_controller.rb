@@ -1,4 +1,6 @@
 class FinesController < ApplicationController
+  layout 'scaffold'
+
   # GET /fines
   # GET /fines.json
   def index

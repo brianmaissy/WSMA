@@ -1,4 +1,6 @@
 class HousesController < ApplicationController
+  layout 'scaffold'
+
   # GET /houses
   # GET /houses.json
   def index
