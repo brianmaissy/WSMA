@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(:version => 20111014223155) do
   end
 
   create_table "user_hour_requirements", :force => true do |t|
+    t.integer  "user_id",    :null => false
     t.integer  "week"
     t.decimal  "hours"
     t.datetime "created_at"

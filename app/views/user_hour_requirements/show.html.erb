@@ -1,6 +1,11 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <b>User:</b>
+  <%= link_to @user_hour_requirement.user.name, @user_hour_requirement.user %>
+</p>
+
+<p>
   <b>Week:</b>
   <%= @user_hour_requirement.week %>
 </p>

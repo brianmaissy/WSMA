@@ -2,6 +2,7 @@
 
 <table>
   <tr>
+    <th>User</th>
     <th>Week</th>
     <th>Hours</th>
     <th></th>
@@ -11,6 +12,7 @@
 
 <% @user_hour_requirements.each do |user_hour_requirement| %>
   <tr>
+    <td><%= user_hour_requirement.user.name %></td>
     <td><%= user_hour_requirement.week %></td>
     <td><%= user_hour_requirement.hours %></td>
     <td><%= link_to 'Show', user_hour_requirement %></td>
