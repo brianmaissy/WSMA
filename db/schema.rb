@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(:version => 20111014223155) do
   end
 
   create_table "house_hour_requirements", :force => true do |t|
+    t.integer  "house_id",   :null => false
     t.integer  "week"
     t.decimal  "hours"
     t.datetime "created_at"

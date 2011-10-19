@@ -64,6 +64,14 @@
   <%= @house.wsm_email %>
 </p>
 
+<p>
+  <b>House hour requirements:</b>
+  <ul>
+    <% for req in @house.house_hour_requirements %>
+      <li><%= link_to (req.week.to_s + ': ' + req.hours.to_s), req%></li>
+    <% end %>
+  </ul>
+</p>
 
 <%= link_to 'Edit', edit_house_path(@house) %> |
 <%= link_to 'Back', houses_path %>

@@ -1,6 +1,7 @@
 class House < ActiveRecord::Base
 
   has_many :users, :dependent => :destroy
+  has_many :house_hour_requirements, :dependent => :destroy
 
   after_initialize :initialize_defaults
   before_destroy :cancel_jobs
