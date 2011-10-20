@@ -5,7 +5,7 @@ class Shift < ActiveRecord::Base
   has_many :assignments
   
   validates_presence_of :day_of_week, :time, :temporary
-  validates_numericality_of :day_of_week :greater_than_or_equal_to => 0, :less_than_or_equal_to => 7
+  validates_numericality_of :day_of_week, :greater_than_or_equal_to => 0, :less_than_or_equal_to => 7
   #TODO: find a way to do time validation
   #validates_time :time
   validate :temporary_has_legal_value
