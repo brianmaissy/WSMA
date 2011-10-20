@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(:version => 20111014223155) do
   end
 
   create_table "house_hour_requirements", :force => true do |t|
+    t.integer  "house_id",   :null => false
     t.integer  "week"
     t.decimal  "hours"
     t.datetime "created_at"
@@ -66,6 +67,7 @@ ActiveRecord::Schema.define(:version => 20111014223155) do
   create_table "houses", :force => true do |t|
     t.string   "name"
     t.date     "semester_start_date"
+    t.date     "semester_end_date"
     t.integer  "permanent_chores_start_week"
     t.decimal  "hours_per_week"
     t.decimal  "sign_off_by_hours_after"
@@ -93,6 +95,7 @@ ActiveRecord::Schema.define(:version => 20111014223155) do
   end
 
   create_table "user_hour_requirements", :force => true do |t|
+    t.integer  "user_id",    :null => false
     t.integer  "week"
     t.decimal  "hours"
     t.datetime "created_at"

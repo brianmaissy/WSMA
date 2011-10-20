@@ -12,6 +12,11 @@
   <% end %>
 
   <div class="field">
+    <%= f.label :house_id %><br />
+    <%= f.collection_select(:house_id, House.all, :id, :name) %>
+  </div>
+  
+  <div class="field">
     <%= f.label :week %><br />
     <%= f.number_field :week %>
   </div>

@@ -1,6 +1,11 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <b>House:</b>
+  <%= link_to @house_hour_requirement.house.name, @house_hour_requirement.house %>
+</p>
+
+<p>
   <b>Week:</b>
   <%= @house_hour_requirement.week %>
 </p>

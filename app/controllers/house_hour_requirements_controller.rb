@@ -1,4 +1,6 @@
 class HouseHourRequirementsController < ApplicationController
+  layout 'scaffold'
+
   # GET /house_hour_requirements
   # GET /house_hour_requirements.json
   def index

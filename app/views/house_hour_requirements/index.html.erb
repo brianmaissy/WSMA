@@ -2,6 +2,7 @@
 
 <table>
   <tr>
+    <th>House</th>
     <th>Week</th>
     <th>Hours</th>
     <th></th>
@@ -11,6 +12,7 @@
 
 <% @house_hour_requirements.each do |house_hour_requirement| %>
   <tr>
+    <td><%= house_hour_requirement.house.name %></td>
     <td><%= house_hour_requirement.week %></td>
     <td><%= house_hour_requirement.hours %></td>
     <td><%= link_to 'Show', house_hour_requirement %></td>

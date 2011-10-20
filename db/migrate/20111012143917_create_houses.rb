@@ -3,6 +3,7 @@ class CreateHouses < ActiveRecord::Migration
     create_table :houses do |t|
       t.string :name
       t.date :semester_start_date
+      t.date :semester_end_date
       t.integer :permanent_chores_start_week
       t.decimal :hours_per_week
       t.decimal :sign_off_by_hours_after

@@ -10,6 +10,10 @@ class UserTest < ActiveSupport::TestCase
     test_attribute_may_not_be_null users(:one), :house_id
   end
   
+  test "name must not be null" do
+    test_attribute_may_not_be_null users(:one), :name
+  end
+  
   test "email must not be null" do
     test_attribute_may_not_be_null users(:one), :email
   end

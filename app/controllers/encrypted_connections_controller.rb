@@ -1,4 +1,6 @@
 class EncryptedConnectionsController < ApplicationController
+  layout 'scaffold'
+
   # GET /encrypted_connections
   # GET /encrypted_connections.json
   def index

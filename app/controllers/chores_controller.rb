@@ -1,4 +1,6 @@
 class ChoresController < ApplicationController
+  layout 'scaffold'
+
   # GET /chores
   # GET /chores.json
   def index
