@@ -1,5 +1,4 @@
 class FiningPeriodsController < ApplicationController
-  layout 'scaffold'
 
   # GET /fining_periods
   # GET /fining_periods.json
