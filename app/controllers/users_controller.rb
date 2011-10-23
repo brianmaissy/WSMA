@@ -81,4 +81,9 @@ class UsersController < ApplicationController
       format.json { head :ok }
     end
   end
+  
+  # Stuff for login
+  def login
+	
+  end
 end
