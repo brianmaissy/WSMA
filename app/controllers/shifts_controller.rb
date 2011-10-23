@@ -1,5 +1,4 @@
 class ShiftsController < ApplicationController
-  layout 'scaffold'
 
   # GET /shifts
   # GET /shifts.json

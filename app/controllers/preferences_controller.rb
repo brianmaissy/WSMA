@@ -1,5 +1,4 @@
 class PreferencesController < ApplicationController
-  layout 'scaffold'
 
   # GET /preferences
   # GET /preferences.json
