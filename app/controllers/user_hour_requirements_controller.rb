@@ -1,5 +1,4 @@
 class UserHourRequirementsController < ApplicationController
-  layout 'scaffold'
 
   # GET /user_hour_requirements
   # GET /user_hour_requirements.json
