@@ -3,13 +3,13 @@
 one:
   name: MyString
   description: MyString
-  hours: 9.99
-  sign_out_by_hours_before: 9.99
-  due_hours_after: 9.99
+  hours: 3.23
+  sign_out_by_hours_before: 2.85
+  due_hours_after: 13.2
 
 two:
   name: MyString
   description: MyString
   hours: 9.99
   sign_out_by_hours_before: 9.99
-  due_hours_after: 9.99
+  due_hours_after: 15
