@@ -11,10 +11,6 @@ class FiningPeriod < ActiveRecord::Base
   
   validates_numericality_of :forgive_percentage_of_fined_hours, :greater_than_or_equal_to => 0, :less_than_or_equal_to => 1
   
-  def initialize(house, fining_week, fine_for_hours_below, fine_per_hour_below, forgive_percentage_of_fined_hours)
-    #TODO: implement this
-  end
-  
   def initialize_defaults
     #TODO: implement this
   end

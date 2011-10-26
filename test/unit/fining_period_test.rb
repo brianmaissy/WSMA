@@ -11,6 +11,7 @@ class FiningPeriodTest < ActiveSupport::TestCase
 
   test "fine_for_hours_below must not be null" do
     test_attribute_may_not_be_null fining_periods(:one), :fine_for_hours_below
+  end
     
   test "fine_for_hours_below must be nonpositive" do
     #TODO: implement this

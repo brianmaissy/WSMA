@@ -7,11 +7,7 @@ class Chore < ActiveRecord::Base
   
   validates_numericality_of :hours, :sign_out_by_hours_before, :greater_than_or_equal_to => 0
   
-  validates_numericality_of :due_hours_after, :greater_than_or_equal_to =>hours, :less_than_or_equal_to => 168
-  
-  def initialize(house, name, hours)
-    #TODO: implement this
-  end
+  validates_numericality_of :due_hours_after, :greater_than_or_equal_to => :hours, :less_than_or_equal_to => 168
   
   def initialize_defaults
     if new_record?
