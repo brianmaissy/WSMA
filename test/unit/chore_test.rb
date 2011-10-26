@@ -10,7 +10,7 @@ class ChoreTest < ActiveSupport::TestCase
   end
 
   test "hours must be nonnegative" do
-    test_attribute_may_not_be_nonnegative chores(:one), :hours
+    test_attribute_must_be_nonnegative chores(:one), :hours
   end
       
   test "sign out by hours before must not be null" do
