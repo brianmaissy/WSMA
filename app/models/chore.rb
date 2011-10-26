@@ -12,7 +12,7 @@ class Chore < ActiveRecord::Base
   def initialize_defaults
     if new_record?
       self.sign_out_by_hours_before = 0 if self.sign_out_by_hours_before.nil?
-      self.due_hours_after = hours if self.due_hours_after.nil?
+      self.due_hours_after = self.hours if self.due_hours_after.nil?
     end
   end
   
