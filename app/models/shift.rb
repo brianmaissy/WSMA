@@ -14,8 +14,4 @@ class Shift < ActiveRecord::Base
     errors.add(:temporary, 'must be 0 or 1') if not [0, 1].include? temporary
   end
   
-  def intiailize(chore, day_of_week, time, temporary)
-    #TODO:implement this
-  end
-  
 end

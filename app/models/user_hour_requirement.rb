@@ -5,8 +5,4 @@ class UserHourRequirement < ActiveRecord::Base
   validates_numericality_of :week, :hours, :greater_than_or_equal_to => 0
   validates_uniqueness_of :week, :scope => [:user_id]
   
-  def initialize(user, week, hours)
-    #TODO: implement this
-  end
-  
 end
