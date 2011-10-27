@@ -33,10 +33,6 @@ class ActiveSupport::TestCase
       assert model.invalid?
       assert model.errors[attribute].include? "must be greater than or equal to 0"
     end
-    for number in MANY_NONNEGATIVE_INTEGERS
-      model[attribute] = number
-      assert model.valid?
-    end
   end
   
   def test_attribute_must_be_null_or_nonnegative_integer(model, attribute)
@@ -52,10 +48,6 @@ class ActiveSupport::TestCase
       model[attribute] = number
       assert model.invalid?
       assert model.errors[attribute].include? "must be greater than or equal to 0"
-    end
-    for number in MANY_NONNEGATIVE_INTEGERS
-      model[attribute] = number
-      assert model.valid?
     end
   end
   

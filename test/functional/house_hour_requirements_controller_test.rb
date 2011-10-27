@@ -3,6 +3,7 @@ require 'test_helper'
 class HouseHourRequirementsControllerTest < ActionController::TestCase
   setup do
     @house_hour_requirement = house_hour_requirements(:one)
+    @house_hour_requirement.house = houses(:two)
   end
 
   test "should get index" do
