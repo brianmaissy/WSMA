@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  house_id: one
+  house: one
   week: 1
   hours: 9.99
 
 two:
-  house_id: two
-  week: 4
+  house: one
+  week: 3
   hours: 2.33

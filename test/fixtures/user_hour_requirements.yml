@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  user_id: one
+  user: one
   week: 1
   hours: 9.99
 
 two:
-  user_id: two
+  user: one
   week: 4
   hours: 2.33

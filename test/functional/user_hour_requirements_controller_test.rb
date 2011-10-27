@@ -2,7 +2,9 @@ require 'test_helper'
 
 class UserHourRequirementsControllerTest < ActionController::TestCase
   setup do
-    @user_hour_requirement = user_hour_requirements(:one)
+    @house = House.create(:name => "testHouse")
+    @user = User.create(:name => "testUser", :email => "testEmail", :hashed_password => "xxxx", :salt => "xxxx", :house => @house, :access_level => 1)
+    @user_hour_requirement = UserHourRequirement.create(:user => @user, :week => 1, :hours => 5)
   end
 
   test "should get index" do
@@ -18,6 +20,7 @@ class UserHourRequirementsControllerTest < ActionController::TestCase
 
   test "should create user_hour_requirement" do
     assert_difference('UserHourRequirement.count') do
+      @user_hour_requirement.week = 2
       post :create, :user_hour_requirement => @user_hour_requirement.attributes
     end
 
