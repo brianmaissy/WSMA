@@ -82,8 +82,9 @@ class UsersController < ApplicationController
     end
   end
   
-  # Stuff for login
+  # POST /users/login
   def login
+	
 	
   end
 end
