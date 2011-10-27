@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>BSC Workshift Manager</title>
-<link href="css/constant.css" rel="stylesheet" type="text/css" />
+<%= stylesheet_link_tag "constant" %>
 <style type="text/css">
 
 #Layer1 {
@@ -76,7 +76,9 @@
         	<a class="headerlistitem" href="">Logout</a>
    		</span>
       </div>
-      <div id="logobar"><img src="assets/BSC-logo-small.jpg" width="204" height="191" id="logo" /><span id="logotext">Workshift Manager</span>      </div>
+      <div id="logobar">
+	  <%= image_tag "BSC-logo-small.jpg", :alt => "Go Home", :id => "logo" %>
+	  <span id="logotext">Workshift Manager</span>      </div>
       <div id="navbar">
 		<ul id="navlist">
 			<li><a class="navlistitem" href="">My Shifts</a><li>

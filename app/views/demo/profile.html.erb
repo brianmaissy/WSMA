@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>BSC Workshift Manager</title>
-<link href="css/constant.css" rel="stylesheet" type="text/css" />
+<%= stylesheet_link_tag "constant" %>
 <style type="text/css">
 
 #Layer1 {
@@ -50,6 +50,45 @@
 	left: 371px;
 	top: 15px;
 }
+#Layer7 {
+	position:absolute;
+	width:200px;
+	height:115px;
+	z-index:2;
+}
+#Layer8 {
+	position:absolute;
+	width:171px;
+	height:22px;
+	z-index:2;
+	left: 67px;
+	top: 14px;
+	visibility: visible;
+}
+#Layer9 {
+	position:absolute;
+	width:168px;
+	height:22px;
+	z-index:2;
+	left: 135px;
+	top: 49px;
+}
+#Layer10 {
+	position:absolute;
+	width:168px;
+	height:23px;
+	z-index:2;
+	left: 69px;
+	top: 84px;
+}
+#Layer11 {
+	position:absolute;
+	width:200px;
+	height:26px;
+	z-index:2;
+	top: 117px;
+	left: 140px;
+}
 
 </style>
 </head>
@@ -67,7 +106,9 @@
         	<a class="headerlistitem" href="">Logout</a>
    		</span>
       </div>
-      <div id="logobar"><img src="assets/BSC-logo-small.jpg" width="204" height="191" id="logo" /><span id="logotext">Workshift Manager</span>      </div>
+      <div id="logobar">
+	  <%= image_tag "BSC-logo-small.jpg", :alt => "Go Home",:id => "logo" %>	  
+	  <span id="logotext">Workshift Manager</span>      </div>
       <div id="navbar">
 		<ul id="navlist">
 			<li><a class="navlistitem" href="">My Shifts</a><li>
@@ -82,43 +123,44 @@
 			Put content for different pages in this div! 
 			
 		-->
-		<div id="Layer1"><strong>Fine Management </strong></div>
-        <p>Current Fine:</p>
-        <div id="Layer4">
-          <table width="350" border="1">
-            <tr>
-              <td width="103">Name</td>
-              <td width="125">Net Hours </td>
-              <td width="100">Fine</td>
-            </tr>
-            <tr>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </tr>
-          </table>
-        </div>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <div id="Layer5">Current Fining Period:        
-          <label>
-          <input type="text" name="textfield" />
-          </label>
-        </div>
-        <p>&nbsp;</p>
-        <div id="layer">Current Rate:
-          <label>
-            <input type="text" name="textfield2" />
-            </label>
-        </div>
-        <div id="Layer6">
+		<div id="Layer1"><strong>My Profile </strong></div>
+        <p>Name: </p>
+        <div id="Layer8">
           <form id="form1" name="form1" method="post" action="">
             <label>
-            <input name="Submit" type="reset" value="Edit" />
+              <input type="text" name="textfield" />
             </label>
           </form>
         </div>
+        <p>Room Number: </p>
+        <div id="Layer9">
+          <form id="form2" name="form2" method="post" action="">
+            <label>
+              <input type="text" name="textfield2" />
+            </label>
+          </form>
+        </div>
+        <p>Email: </p>
+        <div id="Layer10">
+          <form id="form3" name="form3" method="post" action="">
+            <label>
+              <input type="text" name="textfield3" />
+            </label>
+          </form>
+        </div>
+        <p>Phone Number:        </p>
         <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>Modify Email</p>
+        <p>Modify Phone Number</p>
+        <p>Modify Password   </p>
+        <div id="Layer11">
+          <form id="form4" name="form4" method="post" action="">
+            <label>
+              <input type="text" name="textfield4" />
+            </label>
+          </form>
+        </div>
       </div>
       <div id="footer">
 		<span id="footertext">(c) 2011 Team WSMA!!</span>
