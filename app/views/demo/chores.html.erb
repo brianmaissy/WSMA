@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>BSC Workshift Manager</title>
+<%= stylesheet_link_tag "constant", "chores", "SpryAccordion" %>
+<%= javascript_tag "SpryAccordian" %>
+</head>
+
+<body>
+<div id="wrap">
+	<div id="main">
+      <div id="header">
+      	<span id="headertitle">
+    		Berkeley Student Cooperative Workshift Manager
+   		</span>
+    	<span id="headerlist">
+			<a class="headerlistitem" href="">Home</a>
+        	<a class="headerlistitem" href="">Profile</a>
+        	<a class="headerlistitem" href="">Logout</a>
+   		</span>
+      </div>
+      <div id="logobar">
+		
+		<%= image_tag "BSC-logo-small.jpg", :alt => "Go Home", :id => "logo" %>
+		<span id="logotext">Workshift Manager</span>
+      </div>
+      <div id="navbar">
+		<ul id="navlist">
+			<li><a class="navlistitem" href="">My Shifts</a><li>
+        	<li><a class="navlistitem" href="">My Fines</a></li>
+        	<li><a class="navlistitem" href="">Shift Preferences</a></li>
+   		</ul>
+      </div>
+      <div id="content">
+	  
+		<!-- 
+		
+			Put content for different pages in this div! 
+			
+		-->
+        <div id="content_header">
+        	<h2>Chores</h2>
+        </div>
+        
+        <!-- Chore creation field -->
+        <div id="chore_creation_form">
+       
+        <h3> Create a chore </h3>
+        <form>
+          <div class="box">
+            <p>
+              <label>
+                <span>Name</span>
+                <input type="text" class="input_text" name="name" id="name"/>
+              </label>
+              <label>
+                <span>Description</span>
+                <textarea class="description" name="description" id="description"></textarea>
+                
+              </label>
+              <label>
+                <span>Time intervals</span>
+                <input type="text" class="input_text" name="time_interval" id="time_interval"/>
+              </label>
+              <label>
+              
+                <span id="span_chk">Days</span>
+               
+                <input type="checkbox" name="DaySelect" value="Monday" id="DaySelect" />Monday
+                <input type="checkbox" name="DaySelect" value="Tuesday" id="DaySelect" />Tuesday
+                <input type="checkbox" name="DaySelect" value="Wednesday" id="DaySelect" />Wednesday
+                <input type="checkbox" name="DaySelect" value="Thursday" id="DaySelect" />Thursday
+                <input type="checkbox" name="DaySelect" value="Friday" id="DaySelect" />Friday
+                <input type="checkbox" name="DaySelect" value="Saturday" id="DaySelect" />Saturday
+                <input type="checkbox" name="DaySelect" value="Sunday" id="DaySelect" />Sunday 
+     
+              </label>
+              <label>
+                <span>Number of Hours</span>
+                <input type="text" class="input_text" name="num_hours" id="num_hours"/>
+              </label>
+              <label>
+                <span>Sign out deadline</span>
+                <input type="text" class="input_text" name="signout_deadline" id="signout_deadline"/>
+                
+                
+              </label>
+              <label>
+              <input name="Submit" type="submit" class="button" value="Create Chore" />
+              </label>
+              
+            </p>
+          </div>
+    </form>
+        
+        </div>
+		
+        <div id="chore_list">
+        <h3> Created Chores </h3>
+        <div id="Accordion1" class="Accordion" tabindex="0">
+          <div class="AccordionPanel">
+            <div class="AccordionPanelTab">Label 1</div>
+            <div class="AccordionPanelContent">Content 1</div>
+          </div>
+          <div class="AccordionPanel">
+            <div class="AccordionPanelTab">Label 2</div>
+            <div class="AccordionPanelContent">Content 2</div>
+          </div>
+        </div>
+        </div>
+      </div>
+    
+    <!-- End Main Content -->
+      <div id="footer">
+		<span id="footertext">(c) 2011 Team WSMA!!</span>
+      </div>
+	  <div id="spacer">
+      </div>
+	</div>
+</div>
+<script type="text/javascript">
+var Accordion1 = new Spry.Widget.Accordion("Accordion1");
+</script>
+</body>
+</html>

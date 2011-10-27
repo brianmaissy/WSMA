@@ -26,6 +26,9 @@ WSMA::Application.routes.draw do
 
   resources :users
   
+  resources :demo
+  
+  match "/demo/login" => "demo#login"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -76,7 +79,7 @@ WSMA::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-    root :to => 'users#show'
+    root :to => 'demo#index'
 
   # See how all your routes lay out with "rake routes"
 
