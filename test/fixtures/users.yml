@@ -3,8 +3,7 @@
 one:
   email: MyString1
   house: one
-  hashed_password: MyString
-  salt: MyString
+  password_hash: MyString
   jom_social_id: MyString
   access_level: 1
   name: MyString
@@ -16,8 +15,7 @@ one:
 two:
   email: MyString2
   house: one
-  hashed_password: MyString
-  salt: MyString
+  password_hash: MyString
   jom_social_id: MyString
   access_level: 1
   name: MyString

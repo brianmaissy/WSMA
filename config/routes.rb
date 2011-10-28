@@ -30,6 +30,9 @@ WSMA::Application.routes.draw do
   
   match "/demo/login" => "demo#login"
 
+  match "/login" => "users#login"
+  match "/logout" => "users#logout"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

@@ -3,7 +3,9 @@ require 'test_helper'
 class UserHourRequirementsControllerTest < ActionController::TestCase
   setup do
     @house = House.create(:name => "testHouse")
-    @user = User.create(:name => "testUser", :email => "testEmail", :hashed_password => "xxxx", :salt => "xxxx", :house => @house, :access_level => 1)
+    @user = User.new(:name => "testUser", :email => "testEmail", :house => @house, :access_level => 1)
+    @user.password = "testpassword"
+    @user.save!
     @user_hour_requirement = UserHourRequirement.create(:user => @user, :week => 1, :hours => 5)
   end
 

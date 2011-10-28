@@ -20,12 +20,8 @@
     <%= f.text_field :email %>
   </div>
   <div class="field">
-    <%= f.label :hashed_password %><br />
-    <%= f.text_field :hashed_password %>
-  </div>
-  <div class="field">
-    <%= f.label :salt %><br />
-    <%= f.text_field :salt %>
+    <%= label_tag :password %><br />
+    <%= text_field_tag :password %>
   </div>
   <div class="field">
     <%= f.label :jom_social_id %><br />

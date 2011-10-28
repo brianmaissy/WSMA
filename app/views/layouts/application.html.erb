@@ -9,7 +9,9 @@
 <link href="constant.css" rel="stylesheet" type="text/css" />
 <link href="login.css" rel="stylesheet" type="text/css" />
 -->
-<%= stylesheet_link_tag "constant", "login" %>
+<%= stylesheet_link_tag "constant", "application" %>
+<%= javascript_include_tag :application %>
+<%= csrf_meta_tags %>
 </head>
 
 <body>
@@ -22,7 +24,11 @@
     	<span id="headerlist">
 			<a class="headerlistitem" href="">Home</a>
         	<a class="headerlistitem" href="">Profile</a>
-        	<a class="headerlistitem" href="">Logout</a>
+            <% if @logged_user %>
+        	    <a class="headerlistitem" href="/logout">Logout</a>
+            <% else %>
+              <a class="headerlistitem" href="/login">Login</a>
+            <% end %>
    		</span>
       </div>
       <div id="logobar">
@@ -37,6 +43,9 @@
    		</ul>
       </div>
       <div id="content">
+        <% if not flash[:notice].blank? -%>
+          <div id="notice"><%= flash[:notice] %></div>
+        <% end -%>
 		<%= yield %>
 	  </div>
 
