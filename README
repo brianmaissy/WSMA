@@ -1,6 +1,24 @@
 WSMA
 Workshift Manager's Assistant
-
 CS169 Fall 2011
 Professor George Necula
 UC Berkeley
+
+To run the server:
+bundle install
+rake bootstrap
+rails server
+
+(The rake bookstrap task sets up the database and loads it with some sample data)
+
+To see a demo of the existing parts of the frontend, navigate to:
+localhost:3000/
+
+To use the scaffolding to examine the working aspects of the backend (model skeletons, validation, associations between some models), navigate to:
+localhost:3000/scaffold.html
+
+(houses and users have preloaded data)
+
+To run the tests:
+rake test
+

@@ -82,8 +82,8 @@
 {
 	list-style: none;
 	position: absolute;
-	top: 15px;
-	left: -10px;
+	top: 65px;
+	left: 8px;
 	height: 300px;
 	width: 160px;
 }
@@ -96,8 +96,8 @@
 	height: 800px;
 	width: 790px;
 	position: absolute;
-	top: 45px;
-	left: 210px;
+	top: 129px;
+	left: 215px;
 	background-color: #CCC;
 	float: right;
 }
@@ -129,6 +129,3 @@
 	position: absolute;
 	top: 895px;
 }
-
-
-

@@ -3,8 +3,7 @@ class CreateUsers < ActiveRecord::Migration
     create_table :users do |t|
       t.integer :house_id, :null => false
       t.string :email
-      t.string :hashed_password
-      t.string :salt
+      t.string :password_hash
       t.string :jom_social_id
       t.integer :access_level
       t.string :name

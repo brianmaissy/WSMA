@@ -2,7 +2,8 @@ require 'test_helper'
 
 class HouseHourRequirementsControllerTest < ActionController::TestCase
   setup do
-    @house_hour_requirement = house_hour_requirements(:one)
+    @house = House.create(:name => "testHouse")
+    @house_hour_requirement = HouseHourRequirement.create(:house => @house, :week => 1, :hours => 5)
   end
 
   test "should get index" do
@@ -18,6 +19,7 @@ class HouseHourRequirementsControllerTest < ActionController::TestCase
 
   test "should create house_hour_requirement" do
     assert_difference('HouseHourRequirement.count') do
+      @house_hour_requirement.week = 2
       post :create, :house_hour_requirement => @house_hour_requirement.attributes
     end
 

@@ -1,0 +1,69 @@
+@charset "utf-8";
+/* CSS Document */
+
+#content_header {
+	padding-left: 10px;
+}
+#chore_creation_form {
+	width: 450px;
+	height: 500px;
+}
+#chore_creation_form label{
+	width:100%;
+	display: block;
+	padding: 10px 0 10px 0;
+	font-size:15px;
+}
+#chore_creation_form label span{
+	display: block;
+	float:left;
+	text-align: right;
+	width:150px;
+	
+	padding: 5px 20px 0 0;
+}
+#chore_creation_form .check_box_array{
+	font-size:9px;
+	float: right;
+}
+#chore_creation_form #span_chk{
+	height:50px;
+
+}
+#chore_creation_form #check_boxes{
+	font-size:9px;
+}
+
+#chore_creation_form .input_text{
+	padding: 4px 4px;
+	width: 200px;
+}
+
+#chore_creation_form .button{
+	margin:20px 0 10px 0;
+	padding:7px 7px;
+	position: relative;
+	
+	top: 10px;
+	left: 200px;
+	
+	
+}
+#chore_creation_form .description{
+	padding: 7px 7px;
+	width: 250px;
+	height: 100px;
+	overflow:hidden;
+}
+form, input, textarea {
+	margin:0;
+	padding:0;
+}
+
+#content #chore_list{
+	width: 300px;
+	float: right;
+	position: relative;
+	top: -520px;
+	
+}

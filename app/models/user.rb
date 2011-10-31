@@ -1,11 +1,16 @@
+require 'bcrypt'
+
 class User < ActiveRecord::Base
+
+  include BCrypt
 
   belongs_to :house
   has_many :user_hour_requirements, :dependent => :destroy
 
   after_initialize :initialize_defaults
-  
-  validates_presence_of :house_id, :email, :name, :hashed_password, :salt, :access_level
+
+  validates_presence_of :house_id, :email, :name, :access_level
+  validate :presence_of_password
   validates_numericality_of :hours_per_week, :greater_than_or_equal_to => 0
   validates_numericality_of :access_level, :only_integer => true
   validates_uniqueness_of :email
@@ -15,10 +20,13 @@ class User < ActiveRecord::Base
     errors.add(:access_level, 'must be 1, 2, or 3' ) if not [1, 2, 3].include? access_level
   end
 
+  def presence_of_password
+    errors[:base] << ("Password can't be blank") if password_hash.nil?
+  end
+
   def initialize_defaults
-    if new_record?
-      #TODO: take value from House instead of 5
-      self.hours_per_week = 5 if self.hours_per_week.nil?
+    if new_record? and not house.nil?
+      self.hours_per_week = house.hours_per_week if self.hours_per_week.nil?
     end
   end
 
@@ -26,7 +34,21 @@ class User < ActiveRecord::Base
     #TODO: implement this
     raise NotImplementedError
   end
-  
+
+  def self.create_random_password
+    chars = [('a'..'z'),(0..9)].map{|i| i.to_a}.flatten
+    return (0..12).map{ chars[rand(chars.length)] }.join
+  end
+
+  def password
+    @password ||= Password.new(password_hash)
+  end
+
+  def password=(new_password)
+    @password = Password.create(new_password)
+    self.password_hash = @password
+  end
+
   def hour_balance
     #TODO: implement this
     raise NotImplementedError
@@ -53,8 +75,7 @@ class User < ActiveRecord::Base
   end
   
   def hours_required_this_week
-    #TODO: implement this
-    raise NotImplementedError
+    return hours_required_for_week house.current_week
   end
   
   def hours_required_for_week(week)

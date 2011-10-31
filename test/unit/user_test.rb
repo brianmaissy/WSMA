@@ -22,12 +22,8 @@ class UserTest < ActiveSupport::TestCase
     test_attribute_must_be_unique User.new(users(:one).attributes), :email
   end
   
-  test "hashed password must not be null" do
-    test_attribute_may_not_be_null users(:one), :hashed_password
-  end
-  
-  test "salt must not be null" do
-    test_attribute_may_not_be_null users(:one), :salt
+  test "password hash must not be null" do
+    test_attribute_may_not_be_null users(:one), :password_hash
   end
   
   test "access level must not be null" do
