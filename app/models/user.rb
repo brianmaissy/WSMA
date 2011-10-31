@@ -51,8 +51,12 @@ class User < ActiveRecord::Base
   end
 
   def hour_balance
-    #TODO: implement this
-    raise NotImplementedError
+    balance = 0
+    assignments.where(:status => 2).each { |a| balance += a.chore.hours }
+    assignments.where(:status => 3).each { |a| balance -= a.chore.hours * house.blow_off_penalty_factor }
+    (0...house.current_week).each { |week| balance -= hours_required_for_week(week) }
+    #TODO: include fines in calculation
+    return balance
   end
 
   def total_allocated_hours

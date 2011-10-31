@@ -90,6 +90,7 @@ ActiveRecord::Schema.define(:version => 20111014223155) do
   end
 
   create_table "shifts", :force => true do |t|
+    t.integer  "chore_id"
     t.integer  "day_of_week"
     t.time     "time"
     t.integer  "temporary"
