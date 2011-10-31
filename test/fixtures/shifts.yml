@@ -3,11 +3,13 @@
 one:
   day_of_week: 1
   chore: one
+  user: one
   time: 2011-10-14 15:30:39
   temporary: 1
 
 two:
   day_of_week: 1
   chore: two
+  user: one
   time: 2011-10-14 15:30:39
   temporary: 1

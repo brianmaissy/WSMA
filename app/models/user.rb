@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
 
   belongs_to :house
   has_many :user_hour_requirements, :dependent => :destroy
+  has_many :shifts
   has_many :assignments, :dependent => :destroy
 
   after_initialize :initialize_defaults
@@ -32,7 +33,7 @@ class User < ActiveRecord::Base
   end
 
   def authenticate(encrypted_password, public_key)
-    #TODO: implement this
+    #TODO: implement this (iteration 3)
     raise NotImplementedError
   end
 
@@ -60,23 +61,27 @@ class User < ActiveRecord::Base
   end
 
   def total_allocated_hours
-    #TODO: implement this
-    raise NotImplementedError
+    hours = 0
+    shifts.all.each { |s| hours += s.chore.hours }
+    return hours
   end
 
   def assigned_hours_this_week
-    #TODO: implement this
-    raise NotImplementedError
+    hours = 0
+    assignments.where(:week => house.current_week).each { |a| hours += a.chore.hours }
+    return hours
   end
 
   def completed_hours_this_week
-    #TODO: implement this
-    raise NotImplementedError
+    hours = 0
+    assignments.where(:week => house.current_week, :status => 2).each { |a| hours += a.chore.hours }
+    return hours
   end
 
   def pending_hours_this_week
-    #TODO: implement this
-    raise NotImplementedError
+    hours = 0
+    assignments.where(:week => house.current_week, :status => 1).each { |a| hours += a.chore.hours }
+    return hours
   end
 
   def hours_required_this_week
@@ -101,12 +106,12 @@ class User < ActiveRecord::Base
   end
 
   def change_password(encrypted_new_password, public_key)
-    #TODO: implement this
+    #TODO: implement this (iteration 3)
     raise NotImplementedError
   end
 
   def send_reset_password_email
-    #TODO: implement this
+    #TODO: implement this (iteration 3)
     raise NotImplementedError
   end
 

@@ -88,4 +88,37 @@ class UserTest < ActiveSupport::TestCase
     #TODO: test fines
   end
 
+  test "total allocated hours calculation" do
+    assert_equal(0, @user.total_allocated_hours)
+    s1 = Shift.create(:user => @user, :day_of_week => 1, :chore => chores(:one), :time => Time.now, :temporary => 0)
+    assert s1.valid?
+    assert_equal(chores(:one).hours, @user.total_allocated_hours)
+    s2 = Shift.create(:user => @user, :day_of_week => 1, :chore => chores(:two), :time => Time.now, :temporary => 0)
+    assert s2.valid?
+    assert_equal(chores(:one).hours + chores(:two).hours, @user.total_allocated_hours)
+  end
+
+  test "assigned hours this week calculation" do
+    Assignment.create(:user => @user, :shift => shifts(:one), :week => 0, :status => 1, :blow_off_job_id => "a")
+    Assignment.create(:user => @user, :shift => shifts(:two), :week => 0, :status => 2, :blow_off_job_id => "a")
+    Assignment.create(:user => @user, :shift => shifts(:one), :week => 1, :status => 2, :blow_off_job_id => "a")
+    assert_equal(shifts(:one).chore.hours + shifts(:two).chore.hours, @user.assigned_hours_this_week)
+  end
+
+  test "pending hours this week calculation" do
+    Assignment.create(:user => @user, :shift => shifts(:one), :week => 0, :status => 1, :blow_off_job_id => "a")
+    Assignment.create(:user => @user, :shift => shifts(:two), :week => 0, :status => 2, :blow_off_job_id => "a")
+    Assignment.create(:user => @user, :shift => shifts(:one), :week => 1, :status => 2, :blow_off_job_id => "a")
+    assert_equal(shifts(:one).chore.hours, @user.pending_hours_this_week)
+  end
+
+  test "completed hours this week calculation" do
+    Assignment.create(:user => @user, :shift => shifts(:one), :week => 0, :status => 1, :blow_off_job_id => "a")
+    Assignment.create(:user => @user, :shift => shifts(:two), :week => 0, :status => 2, :blow_off_job_id => "a")
+    Assignment.create(:user => @user, :shift => shifts(:one), :week => 1, :status => 2, :blow_off_job_id => "a")
+    assert_equal(shifts(:two).chore.hours, @user.completed_hours_this_week)
+  end
+
+
+
 end

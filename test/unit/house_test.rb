@@ -100,4 +100,28 @@ class HouseTest < ActiveSupport::TestCase
     test_attribute_must_be_nonnegative @house, :blow_off_penalty_factor
   end
 
+  test "unassigned shifts works" do
+    c1 = Chore.create(:house => @house, :name => "a", :hours => 2, :sign_out_by_hours_before => 2, :due_hours_after => 4)
+    c2 = Chore.create(:house => @house, :name => "b", :hours => 2, :sign_out_by_hours_before => 2, :due_hours_after => 4)
+    assert_equal(0, @house.unassigned_shifts.length)
+    s1 = Shift.create(:day_of_week => 1, :chore => c1, :time => Time.now, :temporary => 0)
+    assert_equal(1, @house.unassigned_shifts.length)
+    assert_equal(s1, @house.unassigned_shifts[0])
+    s2 = Shift.create(:user => users(:one), :day_of_week => 1, :chore => c2, :time => Time.now, :temporary => 0)
+    assert_equal(2, @house.unassigned_shifts.length)
+    Assignment.create(:user => users(:one), :shift => s1, :week => 0, :status => 1, :blow_off_job_id => "a")
+    assert_equal(1, @house.unassigned_shifts.length)
+    assert_equal(s2, @house.unassigned_shifts[0])
+  end
+
+  test "unallocated shifts works" do
+    c1 = Chore.create(:house => @house, :name => "a", :hours => 2, :sign_out_by_hours_before => 2, :due_hours_after => 4)
+    c2 = Chore.create(:house => @house, :name => "b", :hours => 2, :sign_out_by_hours_before => 2, :due_hours_after => 4)
+    assert_equal(0, @house.unallocated_shifts.length)
+    s1 = Shift.create(:day_of_week => 1, :chore => c1, :time => Time.now, :temporary => 0)
+    Shift.create(:user => users(:one), :day_of_week => 1, :chore => c2, :time => Time.now, :temporary => 0)
+    assert_equal(1, @house.unallocated_shifts.length)
+    assert_equal(s1, @house.unallocated_shifts[0])
+  end
+
 end

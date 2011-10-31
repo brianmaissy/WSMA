@@ -1,6 +1,8 @@
 class House < ActiveRecord::Base
 
   has_many :users, :dependent => :destroy
+  has_many :chores, :dependent => :destroy
+  has_many :shifts, :through => :chores
   has_many :house_hour_requirements, :dependent => :destroy
 
   after_initialize :initialize_defaults
@@ -42,7 +44,7 @@ class House < ActiveRecord::Base
   end
 
   def import(roster_csv)
-    #TODO: implement this
+    #TODO: implement this (iteration 3)
     raise NotImplementedError
   end
   
@@ -55,10 +57,19 @@ class House < ActiveRecord::Base
     #TODO: implement this
     raise NotImplementedError
   end
-  
-  def available_shifts
-    #TODO: implement this
-    raise NotImplementedError
+
+  def unassigned_shifts
+    unassigned = []
+    shifts.all.each do |shift|
+      if shift.assignments.where(:week => current_week).length == 0:
+        unassigned << shift
+      end
+    end
+    return unassigned
+  end
+
+  def unallocated_shifts
+    return shifts.where(:user_id => nil)
   end
 
 end

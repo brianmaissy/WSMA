@@ -13,8 +13,8 @@
 ActiveRecord::Schema.define(:version => 20111014223155) do
 
   create_table "assignments", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "shift_id"
+    t.integer  "user_id",         :null => false
+    t.integer  "shift_id",        :null => false
     t.integer  "week"
     t.integer  "status"
     t.string   "blow_off_job_id"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(:version => 20111014223155) do
   end
 
   create_table "chores", :force => true do |t|
+    t.integer  "house_id"
     t.string   "name"
     t.string   "description"
     t.decimal  "hours"
@@ -90,7 +91,8 @@ ActiveRecord::Schema.define(:version => 20111014223155) do
   end
 
   create_table "shifts", :force => true do |t|
-    t.integer  "chore_id"
+    t.integer  "chore_id",    :null => false
+    t.integer  "user_id"
     t.integer  "day_of_week"
     t.time     "time"
     t.integer  "temporary"

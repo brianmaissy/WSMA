@@ -3,6 +3,7 @@ require 'test_helper'
 class AssignmentsControllerTest < ActionController::TestCase
   setup do
     @assignment = assignments(:one)
+    @assignment.week = 10
   end
 
   test "should get index" do
