@@ -18,6 +18,10 @@ class HouseTest < ActiveSupport::TestCase
     test_attribute_must_be_unique House.new(houses(:one).attributes), :name
   end
 
+  test "current_week must not be null" do
+    test_attribute_may_not_be_null houses(:one), :current_week
+  end
+
   test "permanent chores start week must be null or nonnegative integer" do
     test_attribute_must_be_null_or_nonnegative_integer houses(:one), :permanent_chores_start_week
   end

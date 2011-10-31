@@ -57,4 +57,18 @@ class UserTest < ActiveSupport::TestCase
     test_attribute_must_be_nonnegative users(:one), :hours_per_week
   end
 
+  test "hours_required_for_week works" do
+    house = House.create(:name => "testHouse", :hours_per_week => 5)
+    user = User.new(:name => "testUser", :email => "testEmail", :house => house, :access_level => 3)
+    user.password = "testPassword"
+    user.save!
+    assert_equal(5, user.hours_required_for_week(0))
+    user.hours_per_week = 4
+    assert_equal(4, user.hours_required_for_week(0))
+    UserHourRequirement.create(:user => user, :week => 0, :hours => 3)
+    assert_equal(3, user.hours_required_for_week(0))
+    HouseHourRequirement.create(:house => house, :week => 0, :hours => 2)
+    assert_equal(2, user.hours_required_for_week(0))
+  end
+
 end

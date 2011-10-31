@@ -53,44 +53,56 @@ class User < ActiveRecord::Base
     #TODO: implement this
     raise NotImplementedError
   end
-  
+
   def total_allocated_hours
     #TODO: implement this
     raise NotImplementedError
   end
-  
+
   def assigned_hours_this_week
     #TODO: implement this
     raise NotImplementedError
   end
-  
+
   def completed_hours_this_week
     #TODO: implement this
     raise NotImplementedError
   end
-  
+
   def pending_hours_this_week
     #TODO: implement this
     raise NotImplementedError
   end
-  
+
   def hours_required_this_week
     return hours_required_for_week house.current_week
   end
-  
+
   def hours_required_for_week(week)
-    #TODO: implement this
-    raise NotImplementedError
+    week = week.to_i
+    raise ArgumentError if week < 0
+    uhr = UserHourRequirement.where(:user_id => id, :week => week).first
+    hhr = HouseHourRequirement.where(:house_id => house_id, :week => week).first
+    uhr_hours = uhr.hours if uhr
+    hhr_hours = hhr.hours if hhr
+    values = [uhr_hours, hhr_hours, hours_per_week, house.hours_per_week].collect do |a|
+      if a.nil?
+        1/0.0
+      else
+        a
+      end
+    end
+    return values.min
   end
-  
+
   def change_password(encrypted_new_password, public_key)
     #TODO: implement this
     raise NotImplementedError
   end
-  
+
   def send_reset_password_email
     #TODO: implement this
     raise NotImplementedError
   end
-  
+
 end

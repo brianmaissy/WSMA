@@ -7,8 +7,8 @@ class House < ActiveRecord::Base
   before_destroy :cancel_jobs
   
   validates_presence_of :name, :using_online_sign_off, :sign_off_verification_mode
-  validates_numericality_of :hours_per_week, :sign_off_by_hours_after, 
-                            :blow_off_penalty_factor, :greater_than_or_equal_to => 0 
+  validates_numericality_of :hours_per_week, :sign_off_by_hours_after, :current_week,
+                            :blow_off_penalty_factor, :greater_than_or_equal_to => 0
   validates_numericality_of :permanent_chores_start_week, :allow_nil => true, :only_integer => true, :greater_than_or_equal_to => 0 
   validates_numericality_of :using_online_sign_off, :sign_off_verification_mode, :only_integer => true
   #TODO: find a way to do date validation
@@ -33,6 +33,7 @@ class House < ActiveRecord::Base
       self.blow_off_penalty_factor = 0 if self.blow_off_penalty_factor.nil?
       self.using_online_sign_off = 1 if self.using_online_sign_off.nil?
       self.sign_off_verification_mode = 2 if self.sign_off_verification_mode.nil?
+      self.current_week = 0 if self.current_week.nil?
     end
   end
 
@@ -49,12 +50,7 @@ class House < ActiveRecord::Base
     super(week)
     #TODO: implement this
   end
-  
-  def current_week
-    #TODO: implement this
-    raise NotImplementedError
-  end
-  
+
   def start_new_week
     #TODO: implement this
     raise NotImplementedError

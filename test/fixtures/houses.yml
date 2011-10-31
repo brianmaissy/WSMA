@@ -4,6 +4,7 @@ one:
   name: MyString1
   semester_start_date: 2011-10-12
   semester_end_date: 2012-10-12
+  current_week: 0
   hours_per_week: 3.62
   sign_off_by_hours_after: 9.99
   using_online_sign_off: 1
@@ -16,6 +17,7 @@ two:
   name: MyString2
   semester_start_date: 2011-10-12
   semester_end_date: 2012-10-12
+  current_week: 0
   hours_per_week: 9.99
   sign_off_by_hours_after: 9.99
   using_online_sign_off: 1
