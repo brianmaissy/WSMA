@@ -21,4 +21,14 @@ class AssignmentTest < ActiveSupport::TestCase
     test_attribute_may_not_be_null assignments(:one), :blow_off_job_id
   end
 
+  test "cannot assign the same chore twice in a week" do
+    Assignment.create(:user => users(:one), :shift => shifts(:one), :week => 11, :status => 1, :blow_off_job_id => "a")
+    assignment = Assignment.new(:user => users(:one), :shift => shifts(:one), :week => 11, :status => 1, :blow_off_job_id => "a")
+    assert assignment.invalid?
+    assignment = Assignment.new(:user => users(:two), :shift => shifts(:one), :week => 11, :status => 1, :blow_off_job_id => "a")
+    assert assignment.invalid?
+    assignment = Assignment.new(:user => users(:one), :shift => shifts(:one), :week => 12, :status => 1, :blow_off_job_id => "a")
+    assert assignment.valid?
+  end
+
 end
