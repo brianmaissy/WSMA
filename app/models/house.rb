@@ -46,8 +46,8 @@ class House < ActiveRecord::Base
     raise NotImplementedError
   end
   
-  def permanent_chores_start_week=(week)
-    super(week)
+  def semester_start_date=(date)
+    super(date)
     #TODO: implement this
   end
 
