@@ -3,6 +3,8 @@ class Chore < ActiveRecord::Base
   belongs_to :house
   has_many :shifts
   
+  after_initialize :initialize_defaults
+  
   validates_presence_of :name, :hours, :sign_out_by_hours_before, :due_hours_after
   
   validates_numericality_of :hours, :sign_out_by_hours_before, :greater_than_or_equal_to => 0

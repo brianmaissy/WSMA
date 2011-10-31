@@ -1,7 +1,7 @@
 class Fine < ActiveRecord::Base
   
   belongs_to :user
-  belongs_to :finingperiod
+  belongs_to :fining_period
   
   validates_presence_of :amount, :paid, :hours_fined_for
   validates_numericality_of :amount, :greater_than => 0

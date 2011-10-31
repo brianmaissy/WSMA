@@ -2,8 +2,8 @@ class Assignment < ActiveRecord::Base
   
   belongs_to :user
   belongs_to :shift
-  belongs_to :house
-  belongs_to :chore
+  belongs_to :house, :through => :user
+  belongs_to :chore, :through => :shift
   
   validates_presence_of :week, :status, :blow_off_job_id
   validates_numericality_of :week, :greater_than_or_equal_to => 0
