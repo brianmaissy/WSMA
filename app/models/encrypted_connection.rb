@@ -7,14 +7,14 @@ class EncryptedConnection < ActiveRecord::Base
 
   def initialize_defaults
     if new_record? and self.public_key.nil?
-      #TODO: actually generate a pair
+      #TODO: actually generate a pair (iteration 3)
       self.public_key = rand
       self.private_key = rand
     end
   end
 
   def self.decrypt_password(encrypted_password, public_key)
-    #TODO: implement this
+    #TODO: implement this (iteration 3)
     raise NotImplementedError
   end
 
