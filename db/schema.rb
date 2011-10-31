@@ -13,6 +13,8 @@
 ActiveRecord::Schema.define(:version => 20111014223155) do
 
   create_table "assignments", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "shift_id"
     t.integer  "week"
     t.integer  "status"
     t.string   "blow_off_job_id"

@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
 
   belongs_to :house
   has_many :user_hour_requirements, :dependent => :destroy
+  has_many :assignments, :dependent => :destroy
 
   after_initialize :initialize_defaults
 

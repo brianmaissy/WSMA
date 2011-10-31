@@ -1,11 +1,15 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
+  user: one
+  shift: one
   week: 1
   status: 1
   blow_off_job_id: MyString
 
 two:
+  user: one
+  shift: two
   week: 1
   status: 1
   blow_off_job_id: MyString
