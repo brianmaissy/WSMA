@@ -81,8 +81,8 @@ class User < ActiveRecord::Base
   def hours_required_for_week(week)
     week = week.to_i
     raise ArgumentError if week < 0
-    uhr = UserHourRequirement.where(:user_id => id, :week => week).first
-    hhr = HouseHourRequirement.where(:house_id => house_id, :week => week).first
+    uhr = user_hour_requirements.where(:week => week).first
+    hhr = house.house_hour_requirements.where(:week => week).first
     uhr_hours = uhr.hours if uhr
     hhr_hours = hhr.hours if hhr
     values = [uhr_hours, hhr_hours, hours_per_week, house.hours_per_week].collect do |a|
