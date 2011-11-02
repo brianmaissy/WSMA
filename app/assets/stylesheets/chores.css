@@ -26,13 +26,6 @@
 	font-size:9px;
 	float: right;
 }
-#chore_creation_form #span_chk{
-	height:50px;
-
-}
-#chore_creation_form #check_boxes{
-	font-size:9px;
-}
 
 #chore_creation_form .input_text{
 	padding: 4px 4px;
@@ -44,11 +37,34 @@
 	padding:7px 7px;
 	position: relative;
 	
-	top: 10px;
-	left: 200px;
+	top: 50px;
+	left: 20px;
+
+}
+
+#chore_creation_form #newFieldBtn{
+
+	padding: 3px 3px;
+	position: relative;
+	
+	left: 110px;
+	top: -20px;
 	
 	
 }
+
+#chore_creation_form #deleteBtn{
+
+	padding: 3px 3px;
+	position: relative;
+	
+	left: 10px;
+	top: -60px;
+	
+	
+}
+
+
 #chore_creation_form .description{
 	padding: 7px 7px;
 	width: 250px;
