@@ -1,5 +1,88 @@
-<h1>New chore</h1>
+ <div id="content_header">
+        	<h2>Chores</h2>
+        </div>
 
-<%= render 'form' %>
+        <!-- Chore creation field -->
+        <div id="chore_creation_form">
+
+        <h3> Create a chore </h3>
+        <%= form_for(@chore) do |f| %>
+
+
+              <div class="field"><label>
+                <span>Name</span>
+                <%= f.text_field :name, :class=>"input_text"%>
+              </label></div>
+              <div class="field"><label>
+                <span>Description</span>
+                <%= f.text_area :description, :class=>"description"%>
+              </label></div>
+              <div class="field"><label>
+                <span>Number of hours</span>
+                <%= f.text_field :hours, :class=>"input_text"%>
+              </label></div>
+              <div class="field"><label>
+                <span>Sign out deadline</span>
+                <%= f.text_field :sign_out_by_hours_before, :class=>"input_text"%>
+              </label></div>
+              <div class="field"><label>
+                <span>Due hours after</span>
+                <%= f.text_field :due_hours_after, :class=>"input_text"%>
+              </label></div>
+
+
+                  <div class="shift_creation"><label>
+                      <span>Day</span>
+                        <select name="day_of_week">
+                            <option value=1 selected="selected">Sunday</option>
+                            <option value=2>Monday</option>
+                            <option value=3>Tuesday</option>
+                            <option value=4>Wednesday</option>
+                            <option value=5>Thursday</option>
+                            <option value=6>Friday</option>
+                            <option value=7>Saturday</option>
+
+                        </select>
+                        </label>
+
+                        <label><span>Time</span>
+                        <input type="text" name="start_time" class="input_text">
+                        </label>
+                  </div>
+
+			<input type="button" id="newFieldBtn" value="More Shifts">
+            <%= f.submit :class=>"button" %>
+
+            <!-- <input name="Submit" type="submit" class="button" value="Create Chore" /> -->
+
+
+
+
+    <% end %>
+
+        </div>
+
+        <div id="chore_list">
+        <h3> Created Chores </h3>
+        <div id="Accordion1" class="Accordion" tabindex="0">
+          <% @chores.each do |chore| %>
+              <div class="AccordionPanel">
+                <div class="AccordionPanelTab"><%= chore.name %></div>
+                <div class="AccordionPanelContent">
+                  Description: <%= chore.description %> <br />
+                  Hours: <%= chore.hours %> <br />
+                  Sign out deadline: <%= chore.sign_out_by_hours_before %> <br />
+                  Due hours after: <%= chore.due_hours_after %> <br /> <br />
+                  <%= button_to 'Edit', edit_chore_path(chore) %>
+                  <%= button_to 'Destroy', chore, :confirm => 'Are you sure?', :method => :delete %>
+                </div>
+              </div>
+          <% end %>
+        </div>
+        </div>
+      </div>
+ <script type="text/javascript">
+var Accordion1 = new Spry.Widget.Accordion("Accordion1");
+</script>
 
 <%= link_to 'Back', chores_path %>
