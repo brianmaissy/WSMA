@@ -1,0 +1,44 @@
+@charset "utf-8";
+/* CSS Document */
+#content
+{
+	height: 800px;
+}
+#content_header {
+	padding-left: 10px;
+}
+#calendar {
+	margin-left: 20px;
+	width: 600px;
+	height: 500px;
+}
+#daily
+{
+	width: 600px;
+	height: 500px;
+	background-color: white;
+}
+#namelist
+{
+	width: 300px;
+	float: right;
+	position: relative;
+	top: -520px;
+	left: 150px;
+}
+.day
+{
+	float: left;
+	margin-left: 15px;
+}
+.name
+{
+	width: 150px;
+	height: 60px;
+	margin: 2px;
+	background-color: #777777;
+}
+#makeMeDraggable.ui-draggable-dragging 
+{ 
+	background: green; 
+}
