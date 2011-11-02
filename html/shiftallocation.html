@@ -10,12 +10,30 @@
 <script type="text/javascript">
 
 	$( init );
- 
+	
+	$('#logo').click(function(event) {
+		alert("Yep, it was clicked.");
+	});
+	
 	function init() {
 		$('.resident').draggable({
-			containment: '#content'
+			containment: '#content',
+			snap: '.day'
+		});
+		$('.day').droppable({
+			drop: handleResidentDrop
 		});
 	}
+	
+	function handleResidentDrop(event, ui) {
+		var resident = ui.draggable;
+		var newDiv = $('<div></div>').addClass('assignedResident').append(resident.text());
+		var closeButton = $('<span></span>').addClass('closeButton');
+		closeButton.append('x');
+		newDiv.append(closeButton);
+		$(this).append(newDiv);
+		resident.remove();
+	};
 	
 </script>
 </head>
@@ -122,7 +140,7 @@
         </div>
 		
         <div id="namelist">
-			<div class="resident"> Residents </div>
+			<div id="namelisttitle"> Residents </div>
 			<div class="resident">
 				John Doe
 			</div>
