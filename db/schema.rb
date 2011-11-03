@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(:version => 20111014223155) do
   end
 
   create_table "chores", :force => true do |t|
-    t.integer  "house_id",        :null => false
+    t.integer  "house_id",                 :null => false
     t.string   "name"
     t.string   "description"
     t.decimal  "hours"
@@ -109,10 +109,9 @@ ActiveRecord::Schema.define(:version => 20111014223155) do
   end
 
   create_table "users", :force => true do |t|
-    t.integer  "house_id",        :null => false
+    t.integer  "house_id",       :null => false
     t.string   "email"
-    t.string   "hashed_password"
-    t.string   "salt"
+    t.string   "password_hash"
     t.string   "jom_social_id"
     t.integer  "access_level"
     t.string   "name"
