@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(:version => 20111014223155) do
   end
 
   create_table "chores", :force => true do |t|
-    t.integer  "house_id",        :null => false
+    t.integer  "house_id",                 :null => false
     t.string   "name"
     t.string   "description"
     t.decimal  "hours"
@@ -71,7 +71,6 @@ ActiveRecord::Schema.define(:version => 20111014223155) do
     t.string   "name"
     t.date     "semester_start_date"
     t.date     "semester_end_date"
-    t.integer  "current_week"
     t.integer  "permanent_chores_start_week"
     t.decimal  "hours_per_week"
     t.decimal  "sign_off_by_hours_after"

@@ -2,6 +2,7 @@
 
 <table>
   <tr>
+    <th>Chore</th>
     <th>Day of week</th>
     <th>Time</th>
     <th>Temporary</th>
@@ -12,6 +13,7 @@
 
 <% @shifts.each do |shift| %>
   <tr>
+    <td><%= shift.chore.name %></td>
     <td><%= shift.day_of_week %></td>
     <td><%= shift.time %></td>
     <td><%= shift.temporary %></td>

@@ -25,6 +25,16 @@
   <%= @chore.due_hours_after %>
 </p>
 
+<p>
+  <b>Shifts:</b>
+  <ul>
+    <% for shift in @chore.shifts %>
+      <li><%= link_to shift.name, shift%></li>
+    <% end %>
+  </ul>
+</p>
+
+<p>
 
 <%= link_to 'Edit', edit_chore_path(@chore) %> |
 <%= link_to 'Back', new_chore_path %>
