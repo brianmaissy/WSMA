@@ -5,7 +5,7 @@ class House < ActiveRecord::Base
   has_many :shifts, :through => :chores
   has_many :house_hour_requirements, :dependent => :destroy
   has_many :chores
-  has_many :shifts, :through => :chore
+  has_many :shifts, :through => :chores
   has_many :fining_periods
   has_many :house_hour_requirements
 
