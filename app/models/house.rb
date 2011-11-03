@@ -4,6 +4,10 @@ class House < ActiveRecord::Base
   has_many :chores, :dependent => :destroy
   has_many :shifts, :through => :chores
   has_many :house_hour_requirements, :dependent => :destroy
+  has_many :chores
+  has_many :shifts, :through => :chore
+  has_many :fining_periods
+  has_many :house_hour_requirements
 
   after_initialize :initialize_defaults
   before_destroy :cancel_jobs

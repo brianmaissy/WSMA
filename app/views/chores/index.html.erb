@@ -2,6 +2,7 @@
 
 <table>
   <tr>
+    <th>House</th>
     <th>Name</th>
     <th>Description</th>
     <th>Hours</th>
@@ -14,6 +15,7 @@
 
 <% @chores.each do |chore| %>
   <tr>
+    <td><%= chore.house.name %></td>
     <td><%= chore.name %></td>
     <td><%= chore.description %></td>
     <td><%= chore.hours %></td>

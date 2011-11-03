@@ -1,7 +1,7 @@
 class CreateChores < ActiveRecord::Migration
   def change
     create_table :chores do |t|
-      t.integer :house_id
+      t.integer :house_id, :null => false
       t.string :name
       t.string :description
       t.decimal :hours

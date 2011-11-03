@@ -13,6 +13,15 @@
 </p>
 
 <p>
+  <b>Chores:</b>
+  <ul>
+    <% for chore in @house.chores %>
+      <li><%= link_to chore.name, chore%></li>
+    <% end %>
+  </ul>
+</p>
+
+<p>
   <b>Semester start date:</b>
   <%= @house.semester_start_date %>
 </p>
