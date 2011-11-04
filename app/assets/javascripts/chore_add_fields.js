@@ -1,5 +1,6 @@
 // JavaScript Document
-var nFloor = "";	
+var nFloor = "";
+var form_num = 1;
 	
 	function removeField(nField){
 
@@ -9,12 +10,13 @@ var nFloor = "";
 	function insertField(){
 
 		var newFieldContainer = document.createElement('div');
+        newFieldContainer.className = "shift_creation";
 		
 		
 		var newSelectorLabel = document.createElement('label');
 		newSelectorLabel.innerHTML = "<span>Day</span>";
 		var selector = document.createElement('select');
-        selector.name = "day_of_week"
+        selector.name = "day_of_week_" + form_num ;
 		
 		var option = document.createElement('option');
 		option.value = 1;
@@ -63,7 +65,7 @@ var nFloor = "";
 		newFieldLabel.innerHTML = "<span>Time</span>"; 		
 		var newField = document.createElement('input');
 		newField.type = "text";
-		newField.name = "start_time";
+		newField.name = "start_time_" + form_num;
 		newField.className = "input_text";
 		newFieldContainer.appendChild(newFieldLabel);
 		newFieldLabel.appendChild(newField);
@@ -75,15 +77,16 @@ var nFloor = "";
 		deleteBtn.onclick = function(){removeField(this)};
 		newFieldContainer.appendChild(deleteBtn);
 		document.forms[0].insertBefore(newFieldContainer,nFloor);
+        form_num += 1;
 	}
 
 	function init(){
 
-		var insertBtn = document.getElementById('newFieldBtn')
+		var insertBtn = document.getElementById('newFieldBtn');
 		insertBtn.onclick = function()
 			{
 			 insertField();
-			}
+			};
 		nFloor = insertBtn;		
 	}
 
