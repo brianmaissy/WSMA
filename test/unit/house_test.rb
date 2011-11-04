@@ -4,6 +4,9 @@ class HouseTest < ActiveSupport::TestCase
 
   def setup
     @house = House.create(:name => "testHouse", :hours_per_week => 5)
+    @user = User.new(:name => "testUser", :email => "testEmail", :house => @house, :access_level => 3)
+    @user.password = "testPassword"
+    @user.save!
   end
 
   test "set defaults works" do
@@ -104,10 +107,10 @@ class HouseTest < ActiveSupport::TestCase
     c1 = Chore.create(:house => @house, :name => "a", :hours => 2, :sign_out_by_hours_before => 2, :due_hours_after => 4)
     c2 = Chore.create(:house => @house, :name => "b", :hours => 2, :sign_out_by_hours_before => 2, :due_hours_after => 4)
     assert_equal(0, @house.unassigned_shifts.length)
-    s1 = Shift.create(:day_of_week => 1, :chore => c1, :time => Time.now, :temporary => 0)
+    s1 = Shift.create(:day_of_week => 1, :chore => c1, :time => TimeProvider.now, :temporary => 0)
     assert_equal(1, @house.unassigned_shifts.length)
     assert_equal(s1, @house.unassigned_shifts[0])
-    s2 = Shift.create(:user => users(:one), :day_of_week => 1, :chore => c2, :time => Time.now, :temporary => 0)
+    s2 = Shift.create(:user => users(:one), :day_of_week => 1, :chore => c2, :time => TimeProvider.now, :temporary => 0)
     assert_equal(2, @house.unassigned_shifts.length)
     Assignment.create(:user => users(:one), :shift => s1, :week => 0, :status => 1, :blow_off_job_id => "a")
     assert_equal(1, @house.unassigned_shifts.length)
@@ -118,10 +121,49 @@ class HouseTest < ActiveSupport::TestCase
     c1 = Chore.create(:house => @house, :name => "a", :hours => 2, :sign_out_by_hours_before => 2, :due_hours_after => 4)
     c2 = Chore.create(:house => @house, :name => "b", :hours => 2, :sign_out_by_hours_before => 2, :due_hours_after => 4)
     assert_equal(0, @house.unallocated_shifts.length)
-    s1 = Shift.create(:day_of_week => 1, :chore => c1, :time => Time.now, :temporary => 0)
-    Shift.create(:user => users(:one), :day_of_week => 1, :chore => c2, :time => Time.now, :temporary => 0)
+    s1 = Shift.create(:day_of_week => 1, :chore => c1, :time => TimeProvider.now, :temporary => 0)
+    # temporary shift should be ignored
+    s2 = Shift.create(:day_of_week => 2, :chore => c1, :time => TimeProvider.now, :temporary => 1)
+    Shift.create(:user => users(:one), :day_of_week => 1, :chore => c2, :time => TimeProvider.now, :temporary => 0)
     assert_equal(1, @house.unallocated_shifts.length)
     assert_equal(s1, @house.unallocated_shifts[0])
+  end
+
+  test "start new week increments current_week" do
+    @house.current_week= 3
+    TimeProvider.set_mock_time
+    @house.semester_end_date = TimeProvider.now
+    TimeProvider.advance_mock_time_by_hours -1
+    @house.start_new_week
+    assert_equal(4, @house.current_week)
+  end
+
+  test "start new week assigns chores without online sign off" do
+    c1 = Chore.create(:house => @house, :name => "a", :hours => 2, :sign_out_by_hours_before => 2, :due_hours_after => 4)
+    s1 = Shift.create(:user => @user, :day_of_week => 1, :chore => c1, :time => TimeProvider.now, :temporary => 0)
+    @house.using_online_sign_off = 0
+    @house.current_week = 1
+    @house.permanent_chores_start_week = 1
+    @house.save
+    assert_equal(0, @user.assigned_hours_this_week)
+    @house.start_new_week
+    assert_equal(c1.hours, @user.assigned_hours_this_week)
+    assert_equal(c1.hours, @user.completed_hours_this_week)
+    assert_equal(0, @user.pending_hours_this_week)
+  end
+
+  test "start new week assigns chores using online sign off" do
+    c1 = Chore.create(:house => @house, :name => "a", :hours => 2, :sign_out_by_hours_before => 2, :due_hours_after => 4)
+    s1 = Shift.create(:user => @user, :day_of_week => 1, :chore => c1, :time => TimeProvider.now, :temporary => 0)
+    @house.using_online_sign_off = 1
+    @house.current_week = 1
+    @house.permanent_chores_start_week = 1
+    @house.save
+    assert_equal(0, @user.assigned_hours_this_week)
+    @house.start_new_week
+    assert_equal(c1.hours, @user.assigned_hours_this_week)
+    assert_equal(c1.hours, @user.pending_hours_this_week)
+    assert_equal(0, @user.completed_hours_this_week)
   end
 
 end

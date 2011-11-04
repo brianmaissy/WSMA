@@ -41,6 +41,8 @@ ActiveRecord::Schema.define(:version => 20111014223155) do
   end
 
   create_table "fines", :force => true do |t|
+    t.integer  "user_id",          :null => false
+    t.integer  "fining_period_id"
     t.decimal  "amount"
     t.integer  "paid"
     t.date     "paid_date"
@@ -50,6 +52,7 @@ ActiveRecord::Schema.define(:version => 20111014223155) do
   end
 
   create_table "fining_periods", :force => true do |t|
+    t.integer  "house_id",                          :null => false
     t.integer  "fining_week"
     t.decimal  "fine_for_hours_below"
     t.decimal  "fine_per_hour_below"

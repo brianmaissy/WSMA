@@ -34,12 +34,12 @@ class House < ActiveRecord::Base
 
   def initialize_defaults
     if new_record?
-      self.hours_per_week = 0 if self.hours_per_week.nil?
-      self.sign_off_by_hours_after = 0 if self.sign_off_by_hours_after.nil?
-      self.blow_off_penalty_factor = 0 if self.blow_off_penalty_factor.nil?
-      self.using_online_sign_off = 1 if self.using_online_sign_off.nil?
-      self.sign_off_verification_mode = 2 if self.sign_off_verification_mode.nil?
-      self.current_week = 0 if self.current_week.nil?
+      self.hours_per_week = 0 if hours_per_week.nil?
+      self.sign_off_by_hours_after = 0 if sign_off_by_hours_after.nil?
+      self.blow_off_penalty_factor = 0 if blow_off_penalty_factor.nil?
+      self.using_online_sign_off = 1 if using_online_sign_off.nil?
+      self.sign_off_verification_mode = 2 if sign_off_verification_mode.nil?
+      self.current_week = 0 if current_week.nil?
     end
   end
 
@@ -57,9 +57,33 @@ class House < ActiveRecord::Base
     #TODO: implement this
   end
 
+  def new_week_job
+    if semester_end_date and TimeProvider.now < semester_end_date
+      start_new_week
+      if TimeProvider.now + 7.days < semester_end_date
+        #TODO: schedule next week's start_new_week job'
+      end
+    end
+  end
+
   def start_new_week
-    #TODO: implement this
-    raise NotImplementedError
+    self.current_week += 1
+    if permanent_chores_start_week and current_week >= permanent_chores_start_week
+      shifts.all.each do |shift|
+        if shift.user
+          assignment = Assignment.new(:shift => shift, :user => shift.user, :week => current_week)
+          if using_online_sign_off == 1
+            assignment.status= 1
+            #TODO: implement blow off scheduling here
+            blowofftime = shift.time + shift.chore.due_hours_after + shift.user.house.sign_off_by_hours_after
+            assignment.blow_off_job_id= "fillmein"
+          else
+            assignment.status= 2
+          end
+          assignment.save
+        end
+      end
+    end
   end
 
   def unassigned_shifts
@@ -73,7 +97,7 @@ class House < ActiveRecord::Base
   end
 
   def unallocated_shifts
-    return shifts.where(:user_id => nil)
+    return shifts.where(:user_id => nil, :temporary => 0)
   end
 
 end

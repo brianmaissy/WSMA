@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many :user_hour_requirements, :dependent => :destroy
   has_many :shifts
   has_many :assignments, :dependent => :destroy
+  has_many :fines, :dependent => :destroy
 
   after_initialize :initialize_defaults
 
@@ -28,7 +29,7 @@ class User < ActiveRecord::Base
 
   def initialize_defaults
     if new_record? and not house.nil?
-      self.hours_per_week = house.hours_per_week if self.hours_per_week.nil?
+      self.hours_per_week = house.hours_per_week if hours_per_week.nil?
     end
   end
 
@@ -56,7 +57,11 @@ class User < ActiveRecord::Base
     assignments.where(:status => 2).each { |a| balance += a.chore.hours }
     assignments.where(:status => 3).each { |a| balance -= a.chore.hours * house.blow_off_penalty_factor }
     (0...house.current_week).each { |week| balance -= hours_required_for_week(week) }
-    #TODO: include fines in calculation
+    fines.all.each do |fine|
+      if fine.fining_period
+        balance += fine.hours_fined_for * fine.fining_period.forgive_percentage_of_fined_hours
+      end
+    end
     return balance
   end
 

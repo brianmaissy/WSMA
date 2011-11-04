@@ -1,6 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
+  house: one
   fining_week: 1
   fine_for_hours_below: -9.99
   fine_per_hour_below: 9.99
@@ -8,6 +9,7 @@ one:
   fine_job_id: MyString
 
 two:
+  house: one
   fining_week: 4
   fine_for_hours_below: -1.23
   fine_per_hour_below: 2.99

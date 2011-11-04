@@ -1,5 +1,5 @@
 require File.expand_path('../boot', __FILE__)
-
+require File.join(File.dirname(__FILE__), '../time_provider')
 require 'rails/all'
 
 if defined?(Bundler)

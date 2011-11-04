@@ -1,12 +1,16 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
+  fining_period: one
+  user: one
   amount: 9.99
   paid: 1
   paid_date: 2011-10-14
   hours_fined_for: 9.99
 
 two:
+  fining_period: one
+  user: one
   amount: 9.99
   paid: 1
   paid_date: 2011-10-14
