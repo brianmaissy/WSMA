@@ -9,7 +9,7 @@ class Chore < ActiveRecord::Base
   
   validates_numericality_of :hours, :greater_than_or_equal_to => 0, :unless => Proc.new{self.hours.nil?}
   
-  validates_numericality_of :sign_out_by_hours_before, :greater_than_or_equal_to => 0, :unless => Proc.new{self.sign_out_by_hours_before.nil?}
+  validates_numericality_of :sign_out_by_hours_before, :greater_than_or_equal_to => 0, :unless => Proc.new{sign_out_by_hours_before.nil?}
   
   validates_numericality_of :due_hours_after, :greater_than_or_equal_to => :hours, :less_than_or_equal_to => 168, :unless => Proc.new{self.hours.nil? or self.due_hours_after.nil?}
   
