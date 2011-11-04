@@ -89,7 +89,7 @@ class House < ActiveRecord::Base
   def unassigned_shifts
     unassigned = []
     shifts.all.each do |shift|
-      if shift.assignments.where(:week => current_week).length == 0:
+      if shift.assignments.where(:week => current_week).length == 0
         unassigned << shift
       end
     end
