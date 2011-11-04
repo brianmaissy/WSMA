@@ -5,7 +5,8 @@ class Assignment < ActiveRecord::Base
   has_one :house, :through => :user
   has_one :chore, :through => :shift
   
-  validates_presence_of :week, :status, :blow_off_job_id
+  validates_presence_of :week, :status
+  validates_presence_of :blow_off_job_id, :unless => Proc.new{Shift.find(self.shift_id).chore.house.using_online_sign_off == 0}
   validates_numericality_of :week, :greater_than_or_equal_to => 0
   validates_numericality_of :status, :greater_than_or_equal_to => 1, :less_than_or_equal_to => 3
   validates_uniqueness_of :shift_id, :scope => [:week]
