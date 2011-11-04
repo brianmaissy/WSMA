@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
 
   def initialize_defaults
     if new_record? and not house.nil?
-      self.hours_per_week = house.hours_per_week if self.hours_per_week.nil?
+      self.hours_per_week = house.hours_per_week if hours_per_week.nil?
     end
   end
 
