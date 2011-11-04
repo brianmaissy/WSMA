@@ -9,7 +9,7 @@ class TimeProvider
     @@in_mock_mode = mode
   end
 
-  def self.get_current_server_time
+  def self.now
     if @@in_mock_mode
       if not @@current_mock_time
         set_mock_time
