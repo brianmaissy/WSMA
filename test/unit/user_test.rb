@@ -90,10 +90,10 @@ class UserTest < ActiveSupport::TestCase
 
   test "total allocated hours calculation" do
     assert_equal(0, @user.total_allocated_hours)
-    s1 = Shift.create(:user => @user, :day_of_week => 1, :chore => chores(:one), :time => Time.now, :temporary => 0)
+    s1 = Shift.create(:user => @user, :day_of_week => 1, :chore => chores(:one), :time => TimeProvider.now, :temporary => 0)
     assert s1.valid?
     assert_equal(chores(:one).hours, @user.total_allocated_hours)
-    s2 = Shift.create(:user => @user, :day_of_week => 1, :chore => chores(:two), :time => Time.now, :temporary => 0)
+    s2 = Shift.create(:user => @user, :day_of_week => 1, :chore => chores(:two), :time => TimeProvider.now, :temporary => 0)
     assert s2.valid?
     assert_equal(chores(:one).hours + chores(:two).hours, @user.total_allocated_hours)
   end
@@ -118,7 +118,5 @@ class UserTest < ActiveSupport::TestCase
     Assignment.create(:user => @user, :shift => shifts(:one), :week => 1, :status => 2, :blow_off_job_id => "a")
     assert_equal(shifts(:two).chore.hours, @user.completed_hours_this_week)
   end
-
-
 
 end
