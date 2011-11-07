@@ -9,7 +9,7 @@ one:
   hours_per_week: 3.62
   sign_off_by_hours_after: 9.99
   using_online_sign_off: 1
-  sign_off_verification_mode: 1
+  sign_off_verification_mode: 0
   blow_off_penalty_factor: 9.99
   wsm_email: MyString
 
