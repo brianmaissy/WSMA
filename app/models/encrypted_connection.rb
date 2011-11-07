@@ -1,3 +1,5 @@
+require 'openssl'
+
 class EncryptedConnection < ActiveRecord::Base
 
   after_initialize :initialize_defaults
@@ -7,15 +9,24 @@ class EncryptedConnection < ActiveRecord::Base
 
   def initialize_defaults
     if new_record? and self.public_key.nil?
-      #TODO: actually generate a pair (iteration 3)
-      self.public_key = rand
-      self.private_key = rand
+      while invalid?
+        key = OpenSSL::PKey::RSA.generate( 1024 )
+        self.public_key = key.public_key.to_pem
+        self.private_key = key.to_pem
+      end
     end
   end
 
-  def self.decrypt_password(encrypted_password, public_key)
-    #TODO: implement this (iteration 3)
-    raise NotImplementedError
+  def decrypt(encrypted_password)
+    private = OpenSSL::PKey::RSA.new(private_key)
+    return private.private_decrypt hex2bin(encrypted_password)
+  end
+
+  def hex2bin(hex)
+    s = hex
+    raise "Not a valid hex string" unless(s =~ /^[\da-fA-F]+$/)
+    s = '0' + s if((s.length & 1) != 0)
+    return s.scan(/../).map{ |b| b.to_i(16) }.pack('C*')
   end
 
 end

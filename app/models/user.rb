@@ -34,8 +34,17 @@ class User < ActiveRecord::Base
   end
 
   def authenticate(encrypted_password, public_key)
-    #TODO: implement this (iteration 3)
-    raise NotImplementedError
+    #not sure why this is necessary, but don't take it out
+    #somehow the encoding of the public key changes during transit, and it can't find the encrypted connection
+    #so we parse it with OpenSSL and then spit it back out as a pem before searching the table
+    public = OpenSSL::PKey::RSA.new(public_key)
+    ec = EncryptedConnection.find_by_public_key(public.public_key.to_pem)
+    if ec
+      plainTextPassword = ec.decrypt(encrypted_password)
+      return plainTextPassword == password
+    else
+      return false
+    end
   end
 
   def self.create_random_password

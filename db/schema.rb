@@ -34,8 +34,8 @@ ActiveRecord::Schema.define(:version => 20111014223155) do
   end
 
   create_table "encrypted_connections", :force => true do |t|
-    t.string   "public_key"
-    t.string   "private_key"
+    t.text     "public_key"
+    t.text     "private_key"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

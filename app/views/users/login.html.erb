@@ -10,7 +10,9 @@
         <%= label_tag :password %>:
         <%= password_field_tag :password %><br />
 
-        <%= submit_tag "Login" %>
+        <%= hidden_field_tag 'public_key', params[:public_key] %>
+
+        <%= submit_tag "Login", :onclick => 'encryptPassword()' %>
     <% end %>
 
     <p> <a class="navlistitem" href="">Forgot Password?</a> </p>

@@ -97,14 +97,23 @@ class UsersController < ApplicationController
   def login
     if request.post?
       @user = User.find_by_email(params[:email])
-      if @user and @user.password == params[:password]
+      if @user and @user.authenticate(params[:password], params[:public_key])
+        EncryptedConnection.find_by_public_key(params[:public_key]).destroy
+        reset_session
         session[:user_id] = @user.id
         uri = session[:original_uri]
         session[:original_uri] = nil
         redirect_to(uri || { :action => "show", :id => @user.id })
       else
+        EncryptedConnection.find_by_public_key(params[:public_key]).destroy
+        ec = EncryptedConnection.create
+        params[:public_key] = ec.public_key
         flash.now[:notice] = "Invalid email/password combination"
       end
+    else
+      # TODO: clean up old EncryptedConnections
+      ec = EncryptedConnection.create
+      params[:public_key] = ec.public_key
     end
   end
 
