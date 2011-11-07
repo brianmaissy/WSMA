@@ -1,28 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-
-<link href="Roster.css" rel="stylesheet" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>BSC Workshift Manager</title>
+<link href="constant.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 <!--
-.STYLE1 {
-	color: #000000;
-	background-color: #999999;
+#Layer1 {
+	position:absolute;
+	width:788px;
+	height:53px;
+	z-index:1;
+	left: -1px;
+	top: -66px;
+	background-color: #D8EFAD;
 }
-.STYLE2 {color: #000000; font-size: 24px; }
-body,td,th {
-	color: #000000;
+#Layer2 {
+	position:absolute;
+	width:190px;
+	height:74px;
+	z-index:1;
+	left: 18px;
+	top: 319px;
+	background-color: #7F7F7F;
 }
-body {
-	background-color: #FFFFFF;
-}
-.STYLE3 {
-	color: #666666;
-	font-weight: bold;
-	font-size: large;
-	width: 220px;
-	height: 50px;
-}
-.STYLE8 {font-size: large}
 -->
 </style>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312" /></head>
+</head>
 
+<body>
+<div id="wrap">
+	<div id="main">
+      <div id="header">
+      	<span id="headertitle">
+    		Berkeley Student Cooperative Workshift Manager
+   		</span>
+    	<span id="headerlist">
+			<a class="headerlistitem" href="">Home</a>
+        	<a class="headerlistitem" href="">Profile</a>
+        	<a class="headerlistitem" href="">Logout</a>
+   		</span>
+      </div>
+      <div id="logobar"><img src="http://cs169-wsma.wikispaces.com/file/view/cooplogo.jpg/262869214/cooplogo.jpg" width="204" height="191" id="logo" /><span id="logotext">Workshift Manager</span>      </div>
+      <div id="navbar">
+		<ul id="navlist">
+			<li><a class="navlistitem" href="">My Shifts</a><li>
+        	<li><a class="navlistitem" href="">My Fines</a></li>
+        	<li><a class="navlistitem" href="">Shift Preferences</a></li>
+   		</ul>
+      </div>
+      <div id="content">
+	  
+		<!-- 
+		
+			Put content for different pages in this div! 
+			
+		-->
+		<div id="Layer1"><strong>House Roster </strong>
+		  <form id="form1" name="form1" method="post" action="">
+		    <label></label>
+	        <label>Upload a roster file: 
+	        <input type="text" name="textfield" />
+	        <input type="reset" name="Submit" value="Browse" />
+	        </label>
+		    <label>
+		    <input type="submit" name="Submit2" value="Upload" />
+		    </label>
+		  </form>
+	    </div>
+      </div>
+      <div id="footer">
+		<span id="footertext">(c) 2011 Team WSMA!!</span>
+      </div>
+	  <div id="spacer">
+      </div>
+	</div>
+</div>
+<div id="Layer2">
+  <div align="center">Stebbins</div>
+</div>
+</body>
+</html>

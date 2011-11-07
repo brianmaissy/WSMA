@@ -30,10 +30,11 @@
                 <%= f.text_field :due_hours_after, :class=>"input_text"%>
               </label></div>
 
-
                   <div class="shift_creation"><label>
+
+
                       <span>Day</span>
-                        <select name="day_of_week">
+                        <select name="day_of_week_0">
                             <option value=1 selected="selected">Sunday</option>
                             <option value=2>Monday</option>
                             <option value=3>Tuesday</option>
@@ -46,9 +47,10 @@
                         </label>
 
                         <label><span>Time</span>
-                        <input type="text" name="start_time" class="input_text">
+                        <input type="text" name="start_time_0" class="input_text">
                         </label>
                   </div>
+
 
 			<input type="button" id="newFieldBtn" value="More Shifts">
             <%= f.submit :class=>"button" %>
@@ -73,7 +75,7 @@
                   Hours: <%= chore.hours %> <br />
                   Sign out deadline: <%= chore.sign_out_by_hours_before %> <br />
                   Due hours after: <%= chore.due_hours_after %> <br /> <br />
-                  <%= button_to 'Edit', edit_chore_path(chore) %>
+                  <%= link_to 'Edit', edit_chore_path(chore) %>
                   <%= button_to 'Destroy', chore, :confirm => 'Are you sure?', :method => :delete %>
                 </div>
               </div>

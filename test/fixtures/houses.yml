@@ -2,26 +2,26 @@
 
 one:
   name: MyString1
-  semester_start_date: 2011-10-12
-  semester_end_date: 2012-10-12
+  semester_start_date: 2010-10-12
+  semester_end_date: 2015-10-12
+  permanent_chores_start_week: 1
   current_week: 0
   hours_per_week: 3.62
   sign_off_by_hours_after: 9.99
   using_online_sign_off: 1
   sign_off_verification_mode: 1
   blow_off_penalty_factor: 9.99
-  new_week_job_id: MyString
   wsm_email: MyString
 
 two:
   name: MyString2
-  semester_start_date: 2011-10-12
-  semester_end_date: 2012-10-12
+  semester_start_date: 2010-10-12
+  semester_end_date: 2015-10-12
+  permanent_chores_start_week: 1
   current_week: 0
   hours_per_week: 9.99
   sign_off_by_hours_after: 9.99
   using_online_sign_off: 1
   sign_off_verification_mode: 1
   blow_off_penalty_factor: 9.99
-  new_week_job_id: MyString
   wsm_email: MyString

@@ -42,8 +42,10 @@ class ChoresController < ApplicationController
   # POST /chores
   # POST /chores.json
   def create
-    @chore = Chore.new(params[:chore])
-
+    chore_params = params[:chore]
+    @user = User.find(session[:user_id])
+    chore_params[:house_id] = @user.house_id
+    @chore = Chore.new(chore_params)
     respond_to do |format|
       if @chore.save
 

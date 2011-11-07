@@ -2,6 +2,7 @@
 
 one:
   name: MyString
+  house: one
   description: MyString
   hours: 3.23
   sign_out_by_hours_before: 2.85
@@ -9,6 +10,7 @@ one:
 
 two:
   name: MyString
+  house: one
   description: MyString
   hours: 9.99
   sign_out_by_hours_before: 9.99

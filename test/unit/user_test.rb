@@ -85,15 +85,18 @@ class UserTest < ActiveSupport::TestCase
     assert_equal(shifts(:one).chore.hours * 3 - 2*@house.hours_per_week, @user.hour_balance)
     Assignment.create(:user => @user, :shift => shifts(:one), :week => 3, :status => 3, :blow_off_job_id => "a")
     assert_equal(shifts(:one).chore.hours * (3 - 1.2) - 2*@house.hours_per_week, @user.hour_balance)
-    #TODO: test fines
+    fp = FiningPeriod.new(:house => @house, :fining_week => 1, :fine_for_hours_below => -1, :fine_per_hour_below => 1, :forgive_percentage_of_fined_hours => 0.4, :fine_job_id => 'a')
+    f1 = Fine.create(:user => @user, :fining_period => fp, :paid => 0, :amount => 42, :hours_fined_for => 3)
+    f2 = Fine.create(:user => @user, :paid => 0, :amount => 42, :hours_fined_for => 7)
+    assert_float_equal(shifts(:one).chore.hours * (3 - 1.2) - 2*@house.hours_per_week + 0.4*3, @user.hour_balance, 0.01)
   end
 
   test "total allocated hours calculation" do
     assert_equal(0, @user.total_allocated_hours)
-    s1 = Shift.create(:user => @user, :day_of_week => 1, :chore => chores(:one), :time => Time.now, :temporary => 0)
+    s1 = Shift.create(:user => @user, :day_of_week => 1, :chore => chores(:one), :time => TimeProvider.now, :temporary => 0)
     assert s1.valid?
     assert_equal(chores(:one).hours, @user.total_allocated_hours)
-    s2 = Shift.create(:user => @user, :day_of_week => 1, :chore => chores(:two), :time => Time.now, :temporary => 0)
+    s2 = Shift.create(:user => @user, :day_of_week => 1, :chore => chores(:two), :time => TimeProvider.now, :temporary => 0)
     assert s2.valid?
     assert_equal(chores(:one).hours + chores(:two).hours, @user.total_allocated_hours)
   end
@@ -118,7 +121,5 @@ class UserTest < ActiveSupport::TestCase
     Assignment.create(:user => @user, :shift => shifts(:one), :week => 1, :status => 2, :blow_off_job_id => "a")
     assert_equal(shifts(:two).chore.hours, @user.completed_hours_this_week)
   end
-
-
 
 end
