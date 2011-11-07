@@ -31,4 +31,10 @@ class AssignmentTest < ActiveSupport::TestCase
     assert assignment.valid?
   end
 
+  test "sign_off changes status of assignment from pending to completed" do
+    assignment = Assignment.new(:user => users(:one), :shift => shifts(:one), :week => 11, :status => 1, :blow_off_job_id => "a")
+    assignment.sign_off
+    assert_equal(2, assignment.status)
+  end
+
 end
