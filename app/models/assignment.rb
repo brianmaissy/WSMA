@@ -19,16 +19,35 @@ class Assignment < ActiveRecord::Base
     #TODO: implement this
   end
   
-  def sign_off
-    #TODO: implement this
-  end
+  def sign_off(*a)
+    case a.length
+    when 0
+      if house.using_online_sign_off == 1 and house.sign_off_verification_mode == 0 and self.status == 1
+        self.status = 2
+      else
+        raise ArgumentError
+      end
   
-  def sign_off(user)
-    #TODO: implement this
-  end
-  
-  def sign_off(user, encrypted_password, public_key)
-    #TODO: implement this
+    when 1
+      if house.using_online_sign_off == 1 and house.sign_off_verification_mode == 1 and self.status == 1
+        self.status = 2
+        #TODO: send email to user
+      else
+        raise ArgumentError
+      end
+    
+    when 3
+      if house.using_online_sign_off == 1 and house.sign_off_verification_mode == 2 and self.status == 1
+        self.status = 2
+      else
+        raise ArgumentError
+      end
+      
+    else
+      puts 'im here'
+      raise ArgumentError
+    end
+    
   end
   
   def sign_out
