@@ -12,6 +12,11 @@
   <% end %>
 
   <div class="field">
+    <%= f.label :chore_id %><br />
+    <%= f.collection_select(:chore_id, Chore.all, :id, :name) %>
+  </div>
+
+  <div class="field">
     <%= f.label :day_of_week %><br />
     <%= f.number_field :day_of_week %>
   </div>

@@ -30,6 +30,14 @@ class ActiveSupport::TestCase
     assert model.valid?
   end
   
+  def test_attributes_must_be_unique(model, *attributes)
+    for attribute in attributes
+      assert model.invalid?
+      model[attribute] = "unique"
+    end
+    assert model.valid?
+  end
+  
   def test_attribute_must_be_nonnegative(model, attribute)
     assert model.valid?
     for number in MANY_NEGATIVE_INTEGERS
