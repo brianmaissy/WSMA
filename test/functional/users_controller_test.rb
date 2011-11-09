@@ -72,6 +72,16 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to :action => "show", :id => user.to_param
   end
 
+  test "should not be able to access admin area when logged in as user" do
+    get :logout
+    user = User.new(:name => "testUser2", :email => "testEmail2", :house => @house, :access_level => 1)
+    user.password = "testPassword"
+    user.save!
+    post :login, :email => "testEmail2", :password => "testPassword"
+    get :index
+    assert_redirected_to :action => "login"
+  end
+
   test "logout should redirect to login" do
     get :logout
     assert_redirected_to :action => "login"
