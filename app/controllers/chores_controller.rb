@@ -1,5 +1,8 @@
 class ChoresController < ApplicationController
 
+  before_filter :authenticate, :except => [:login, :logout]
+  before_filter :authorize_admin, :except => [:login, :logout, :show]
+
   # GET /chores
   # GET /chores.json
   def index
@@ -27,6 +30,7 @@ class ChoresController < ApplicationController
   def new
     @chore = Chore.new
     @chores = Chore.all
+    @shift = Shift.new
 
     respond_to do |format|
       format.html # new.html.erb
