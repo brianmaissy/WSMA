@@ -18,8 +18,6 @@ If asked to login, please login with email: admin and password: admin.
 To use the scaffolding to examine the working aspects of the backend (model skeletons, validation, associations between some models), navigate to:
 localhost:3000/scaffold.html
 
-(houses and users have preloaded data)
-
 To run the tests:
 rake test
 
