@@ -34,3 +34,6 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 
 # Code coverage tool
 gem 'rcov'
+
+# Job scheduling
+gem 'rufus-scheduler'

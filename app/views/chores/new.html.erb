@@ -6,7 +6,7 @@
         <div id="chore_creation_form">
 
         <h3> Create a chore </h3>
-        <%= nested_form_for @chore do |f| %>
+        <%= form_for @chore do |f| %>
 
 
               <div class="field"><label>
@@ -52,14 +52,14 @@
                   Hours: <%= chore.hours %> <br />
                   Sign out deadline: <%= chore.sign_out_by_hours_before %> <br />
                   Due hours after: <%= chore.due_hours_after %> <br /> <br />
-                  <% @shifts.each do |shift| %>
+                  <% for shift in chore.shifts %>
                     <% days_array = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] %>
-                    <% if shift.chore_id == chore.id %>
+
                         Day: <%= days_array[shift.day_of_week-1] %> <br />
                         Start Time: <%= shift.time %> <br />
                           <%= link_to 'Edit Shift', edit_shift_path(shift) %>
                     <%= button_to 'Delete Shift', shift, :confirm => 'Are you sure?', :method => :delete %> <br />
-                    <% end %>
+
 
                   <% end %>
 

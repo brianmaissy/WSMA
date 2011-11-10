@@ -31,7 +31,6 @@ class ChoresController < ApplicationController
     @chore = Chore.new
     @chores = Chore.all
     @shift = Shift.new
-    @shifts = Shift.all
 
     respond_to do |format|
       format.html # new.html.erb
