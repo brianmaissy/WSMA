@@ -45,4 +45,8 @@ class AssignmentTest < ActiveSupport::TestCase
     assert_equal(2, assignment.status)
   end
 
+  test "blow off works" do
+    #TODO: write this test
+  end
+
 end

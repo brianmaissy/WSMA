@@ -24,36 +24,27 @@ class TimeProvider
       end
       return @@current_mock_time
     else
-      return Time.now
+      return DateTime.now
     end
   end
 
-  def self.schedule_task_at task_time, &task_block
+  def self.schedule_task_at task_time, tag, &task_block
     if @@in_mock_mode
-      @@task_table << [task_time, task_block]
+      @@task_table << [task_time, tag, task_block]
     else
-      @@scheduler.at task_time, &task_block
+      if task_time.is_a? DateTime
+        task_time = Time.gm(task_time.year, task_time.month, task_time.day, task_time.hour, task_time.min, task_time.sec, task_time.zone)
+      end
+      @@scheduler.at task_time, :tags => tag, &task_block
     end
   end
 
-  def self.set_mock_time(time = Time.now)
+  def self.set_mock_time(time = DateTime.now)
     @@current_mock_time = time
     run_tasks
   end
-  def self.advance_mock_time_by_seconds(seconds)
-    @@current_mock_time += seconds
-    run_tasks
-  end
-  def self.advance_mock_time_by_minutes(minutes)
-    @@current_mock_time += minutes * 60
-    run_tasks
-  end
-  def self.advance_mock_time_by_hours(hours)
-    @@current_mock_time += hours * 3600
-    run_tasks
-  end
-  def self.advance_mock_time_by_days(days)
-    @@current_mock_time += days * 24 * 3600
+  def self.advance_mock_time(duration)
+    @@current_mock_time += duration
     run_tasks
   end
 
@@ -66,11 +57,14 @@ class TimeProvider
         end
       end
       for task in tasks_to_run
-        task[1].call()
+        task[2].call()
         @@task_table.delete(task)
-        a = 1
       end
     end
+  end
+
+  def self.generate_job_tag(model_instance)
+    return model_instance.class.to_s + model_instance.id.to_s
   end
 
 end

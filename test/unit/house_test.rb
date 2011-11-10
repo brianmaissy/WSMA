@@ -133,7 +133,7 @@ class HouseTest < ActiveSupport::TestCase
     @house.current_week= 3
     TimeProvider.set_mock_time
     @house.semester_end_date = TimeProvider.now
-    TimeProvider.advance_mock_time_by_hours -1
+    TimeProvider.advance_mock_time -1.hours
     @house.start_new_week
     assert_equal(4, @house.current_week)
   end
@@ -158,9 +158,37 @@ class HouseTest < ActiveSupport::TestCase
     @house.using_online_sign_off = 1
     @house.current_week = 1
     @house.permanent_chores_start_week = 1
+    @house.semester_end_date = TimeProvider.now + 1.month
     @house.save
     assert_equal(0, @user.assigned_hours_this_week)
     @house.start_new_week
+    assert_equal(c1.hours, @user.assigned_hours_this_week)
+    assert_equal(c1.hours, @user.pending_hours_this_week)
+    assert_equal(0, @user.completed_hours_this_week)
+  end
+
+  test "next Sunday at midnight works properly" do
+    TimeProvider.set_mock_time
+    sunday = @house.next_sunday_at_midnight TimeProvider.now
+    assert_equal(0, sunday.wday)
+    assert_equal(0, sunday.hour)
+    monday_afternoon = sunday + 30.hours + 12.minutes + 3.seconds
+    assert_equal(1, monday_afternoon.wday)
+    assert_equal(6, monday_afternoon.hour)
+    assert_equal(sunday + 7.days, @house.next_sunday_at_midnight(sunday))
+  end
+
+  test "job scheduling works" do
+    c1 = Chore.create(:house => @house, :name => "a", :hours => 2, :sign_out_by_hours_before => 2, :due_hours_after => 4)
+    s1 = Shift.create(:user => @user, :day_of_week => 1, :chore => c1, :time => TimeProvider.now, :temporary => 0)
+    @house.using_online_sign_off = 1
+    @house.current_week = 1
+    @house.permanent_chores_start_week = 1
+    @house.semester_end_date = TimeProvider.now + 1.month
+    @house.save
+    assert_equal(0, @user.assigned_hours_this_week)
+    @house.schedule_new_week_job @house.next_sunday_at_midnight(TimeProvider.now)
+    TimeProvider.advance_mock_time(7.days)
     assert_equal(c1.hours, @user.assigned_hours_this_week)
     assert_equal(c1.hours, @user.pending_hours_this_week)
     assert_equal(0, @user.completed_hours_this_week)

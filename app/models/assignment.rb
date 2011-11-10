@@ -14,11 +14,21 @@ class Assignment < ActiveRecord::Base
   def initialize_defaults
     #TODO: implement this
   end
-  
+
+  def schedule_blow_off_job blow_off_time
+    tag = TimeProvider.generate_job_tag(self)
+    TimeProvider.schedule_task_at(blow_off_time, tag) {blow_off_job}
+    blow_off_job_id= tag
+  end
+
   def cancel_jobs
     #TODO: implement this
   end
-  
+
+  def blow_off_job
+    #TODO: implement this
+  end
+
   def sign_off(*a)
     case a.length
     when 0
