@@ -11,10 +11,6 @@
 
 	$( init );
 	
-	$('#logo').click(function(event) {
-		alert("Yep, it was clicked.");
-	});
-	
 	function init() {
 		$('.resident').draggable({
 			containment: '#content',
@@ -27,12 +23,26 @@
 	
 	function handleResidentDrop(event, ui) {
 		var resident = ui.draggable;
-		var newDiv = $('<div></div>').addClass('assignedResident').append(resident.text());
+		var username = resident.text();
+		//var shift = ui.attr('id');
+		var newDiv = $('<div></div>').addClass('assignedResident').append(username);
 		var closeButton = $('<span></span>').addClass('closeButton');
+		
+		//make new assignment using username and shift
+		
 		closeButton.append('x');
 		newDiv.append(closeButton);
 		$(this).append(newDiv);
 		resident.remove();
+		
+		$(closeButton).click(function(event) {
+			var replaceDiv = $('<div></div>').addClass('resident').append(username);
+			newDiv.remove();
+			$('#namelist').append(replaceDiv);
+			$(init);
+			//find the assignment corresponding to username and shift and delete it
+			
+		}); 
 	};
 	
 </script>
