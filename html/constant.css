@@ -5,7 +5,7 @@
 
 #wrap{
 	margin: auto;
-	width: 1100px;
+	width: 1000px;
 }
 
 #main
@@ -31,7 +31,7 @@
 	background-image: none;
 	background-repeat: no-repeat;
 	height: 35px;
-	width: 1100px;
+	width: 1000px;
 	vertical-align: middle;
 	border: thin solid #666;
 	position: absolute;
@@ -71,7 +71,7 @@
 	text-align: center;
 }
 #navbar {
-	background-color: #7092BE;
+	background-color: #999;
 	height: 400px;
 	width: 190px;
 	position: absolute;
@@ -94,11 +94,11 @@
 }
 #content {
 	height: 800px;
-	width: 890px;
+	width: 790px;
 	position: absolute;
 	top: 45px;
 	left: 210px;
-	background-color: #DAEBF8;
+	background-color: #CCC;
 	float: right;
 }
 #footer {
@@ -110,7 +110,7 @@
 	color: #000;
 	background-color: #FFF;
 	height: 30px;
-	width: 1100px;
+	width: 1000px;
 	vertical-align: middle;
 	border: thin solid #666;
 	position: absolute;
@@ -125,7 +125,7 @@
 #spacer {
 	background-color: #FFF;
 	height: 10px;
-	width: 1100px;
+	width: 1000px;
 	position: absolute;
 	top: 895px;
 }

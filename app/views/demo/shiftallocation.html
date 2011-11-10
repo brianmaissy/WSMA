@@ -9,12 +9,15 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 <script type="text/javascript">
 
+	
+
 	$( init );
 	
 	function init() {
 		$('.resident').draggable({
 			containment: '#content',
-			snap: '.day'
+			snap: '.day',
+			revert: true
 		});
 		$('.day').droppable({
 			drop: handleResidentDrop
@@ -23,27 +26,22 @@
 	
 	function handleResidentDrop(event, ui) {
 		var resident = ui.draggable;
-		var username = resident.text();
-		//var shift = ui.attr('id');
-		var newDiv = $('<div></div>').addClass('assignedResident').append(username);
+		var residentName = resident.text();
+		var newDiv = $('<div></div>').addClass('assignedResident').append(residentName);
 		var closeButton = $('<span></span>').addClass('closeButton');
-		
-		//make new assignment using username and shift
-		
 		closeButton.append('x');
 		newDiv.append(closeButton);
 		$(this).append(newDiv);
 		resident.remove();
-		
-		$(closeButton).click(function(event) {
-			var replaceDiv = $('<div></div>').addClass('resident').append(username);
+		$(closeButton).click(function() {
+			var replaceResident = $('<div></div>').addClass('resident').append(residentName);
+			$('#namelist').append(replaceResident);
 			newDiv.remove();
-			$('#namelist').append(replaceDiv);
 			$(init);
-			//find the assignment corresponding to username and shift and delete it			
-		}); 
+		});
 	};
-	
+
+
 </script>
 </head>
 
@@ -66,9 +64,6 @@
       </div>
       <div id="navbar">
 		<ul id="navlist">
-			<li><a class="navlistitem" href="">My Shifts</a><li>
-        	<li><a class="navlistitem" href="">My Fines</a></li>
-        	<li><a class="navlistitem" href="">Shift Preferences</a></li>
    		</ul>
       </div>
       <div id="content">
