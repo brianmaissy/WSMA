@@ -14,6 +14,7 @@ gem 'json'
 group :assets do
   gem 'sass-rails',   '~> 3.1.4'
   gem 'coffee-rails', '~> 3.1.1'
+  gem 'execjs'
   gem 'therubyracer'
   gem 'uglifier', '>= 1.0.3'
 end

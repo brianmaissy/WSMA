@@ -61,9 +61,19 @@ class House < ActiveRecord::Base
     if semester_end_date and TimeProvider.now < semester_end_date
       start_new_week
       if TimeProvider.now + 7.days < semester_end_date
-        #TODO: schedule next week's start_new_week job'
+        schedule_new_week_job next_sunday_at_midnight(TimeProvider.now)
       end
     end
+  end
+
+  def schedule_new_week_job new_week_time
+    tag = TimeProvider.generate_job_tag(self)
+    TimeProvider.schedule_task_at(new_week_time, tag) {new_week_job}
+    new_week_job_id= tag
+  end
+
+  def next_sunday_at_midnight current
+    return DateTime.new(current.year, current.month, current.day + (7-current.wday), 0, 0, 0, 0)
   end
 
   def start_new_week
@@ -74,13 +84,14 @@ class House < ActiveRecord::Base
           assignment = Assignment.new(:shift => shift, :user => shift.user, :week => current_week)
           if using_online_sign_off == 1
             assignment.status= 1
-            #TODO: implement blow off scheduling here
-            blowofftime = shift.time + shift.chore.due_hours_after + shift.user.house.sign_off_by_hours_after
-            assignment.blow_off_job_id= "fillmein"
+            assignment.blow_off_job_id="placeholder"
+            assignment.save
+            blow_off_time = shift.time + shift.chore.due_hours_after + shift.user.house.sign_off_by_hours_after
+            assignment.schedule_blow_off_job blow_off_time
           else
             assignment.status= 2
+            assignment.save
           end
-          assignment.save
         end
       end
     end
