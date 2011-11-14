@@ -148,6 +148,13 @@ class HouseTest < ActiveSupport::TestCase
     assert_equal(next_sunday, beginning + 7.days)
   end
 
+  test "cancel jobs" do
+    @house.schedule_new_week_job TimeProvider.now + 1.hour
+    count = TimeProvider.task_count
+    @house.destroy
+    assert_equal(count-1, TimeProvider.task_count)
+  end
+
   test "start new week increments current_week" do
     @house.current_week= 3
     TimeProvider.set_mock_time

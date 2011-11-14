@@ -44,7 +44,8 @@ class House < ActiveRecord::Base
   end
 
   def cancel_jobs
-    #TODO: implement this
+    tag = TimeProvider.generate_job_tag(self)
+    TimeProvider.unschedule_task tag
   end
 
   def import(roster_csv)
