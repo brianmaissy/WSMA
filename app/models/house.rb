@@ -17,9 +17,6 @@ class House < ActiveRecord::Base
                             :blow_off_penalty_factor, :greater_than_or_equal_to => 0
   validates_numericality_of :permanent_chores_start_week, :allow_nil => true, :only_integer => true, :greater_than_or_equal_to => 0 
   validates_numericality_of :using_online_sign_off, :sign_off_verification_mode, :only_integer => true
-  #TODO: find a way to do date validation
-  #validates_datetime :semester_start_date, :semester_end_date
-  #validate end date is after start date
   validates_uniqueness_of :name
   validate :using_online_sign_off_has_legal_value
   validate :sign_off_verification_mode_has_legal_value
@@ -55,7 +52,7 @@ class House < ActiveRecord::Base
   
   def semester_start_date=(date)
     super(date)
-    #TODO: implement this
+    #TODO: implement this (iteration 3)
   end
 
   def new_week_job
