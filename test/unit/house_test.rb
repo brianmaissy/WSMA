@@ -112,7 +112,7 @@ class HouseTest < ActiveSupport::TestCase
     assert_equal(s1, @house.unassigned_shifts[0])
     s2 = Shift.create(:user => users(:one), :day_of_week => 1, :chore => c2, :time => TimeProvider.now, :temporary => 0)
     assert_equal(2, @house.unassigned_shifts.length)
-    Assignment.create(:user => users(:one), :shift => s1, :week => 0, :status => 1, :blow_off_job_id => "a")
+    Assignment.create(:user => users(:one), :shift => s1, :week => 0, :status => 1)
     assert_equal(1, @house.unassigned_shifts.length)
     assert_equal(s2, @house.unassigned_shifts[0])
   end

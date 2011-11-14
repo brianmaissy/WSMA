@@ -69,7 +69,6 @@ class House < ActiveRecord::Base
   def schedule_new_week_job new_week_time
     tag = TimeProvider.generate_job_tag(self)
     TimeProvider.schedule_task_at(new_week_time, tag) {new_week_job}
-    new_week_job_id= tag
   end
 
   def beginning_of_this_week current
