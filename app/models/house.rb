@@ -17,9 +17,6 @@ class House < ActiveRecord::Base
                             :blow_off_penalty_factor, :greater_than_or_equal_to => 0
   validates_numericality_of :permanent_chores_start_week, :allow_nil => true, :only_integer => true, :greater_than_or_equal_to => 0 
   validates_numericality_of :using_online_sign_off, :sign_off_verification_mode, :only_integer => true
-  #TODO: find a way to do date validation
-  #validates_datetime :semester_start_date, :semester_end_date
-  #validate end date is after start date
   validates_uniqueness_of :name
   validate :using_online_sign_off_has_legal_value
   validate :sign_off_verification_mode_has_legal_value
@@ -44,7 +41,8 @@ class House < ActiveRecord::Base
   end
 
   def cancel_jobs
-    #TODO: implement this
+    tag = TimeProvider.generate_job_tag(self)
+    TimeProvider.unschedule_task tag
   end
 
   def import(roster_csv)
@@ -54,7 +52,7 @@ class House < ActiveRecord::Base
   
   def semester_start_date=(date)
     super(date)
-    #TODO: implement this
+    #TODO: implement this (iteration 3)
   end
 
   def new_week_job
@@ -69,9 +67,12 @@ class House < ActiveRecord::Base
   def schedule_new_week_job new_week_time
     tag = TimeProvider.generate_job_tag(self)
     TimeProvider.schedule_task_at(new_week_time, tag) {new_week_job}
-    new_week_job_id= tag
   end
 
+  def beginning_of_this_week current
+    return DateTime.new(current.year, current.month, current.day - current.wday, 0, 0, 0, 0)
+  end
+  
   def next_sunday_at_midnight current
     return DateTime.new(current.year, current.month, current.day + (7-current.wday), 0, 0, 0, 0)
   end
@@ -81,17 +82,7 @@ class House < ActiveRecord::Base
     if permanent_chores_start_week and current_week >= permanent_chores_start_week
       shifts.all.each do |shift|
         if shift.user
-          assignment = Assignment.new(:shift => shift, :user => shift.user, :week => current_week)
-          if using_online_sign_off == 1
-            assignment.status= 1
-            assignment.blow_off_job_id="placeholder"
-            assignment.save
-            blow_off_time = shift.time + shift.chore.due_hours_after + shift.user.house.sign_off_by_hours_after
-            assignment.schedule_blow_off_job blow_off_time
-          else
-            assignment.status= 2
-            assignment.save
-          end
+          assignment = Assignment.create(:shift => shift, :user => shift.user, :week => current_week)
         end
       end
     end

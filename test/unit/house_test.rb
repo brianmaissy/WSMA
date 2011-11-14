@@ -112,7 +112,7 @@ class HouseTest < ActiveSupport::TestCase
     assert_equal(s1, @house.unassigned_shifts[0])
     s2 = Shift.create(:user => users(:one), :day_of_week => 1, :chore => c2, :time => TimeProvider.now, :temporary => 0)
     assert_equal(2, @house.unassigned_shifts.length)
-    Assignment.create(:user => users(:one), :shift => s1, :week => 0, :status => 1, :blow_off_job_id => "a")
+    Assignment.create(:user => users(:one), :shift => s1, :week => 0, :status => 1)
     assert_equal(1, @house.unassigned_shifts.length)
     assert_equal(s2, @house.unassigned_shifts[0])
   end
@@ -127,6 +127,32 @@ class HouseTest < ActiveSupport::TestCase
     Shift.create(:user => users(:one), :day_of_week => 1, :chore => c2, :time => TimeProvider.now, :temporary => 0)
     assert_equal(1, @house.unallocated_shifts.length)
     assert_equal(s1, @house.unallocated_shifts[0])
+  end
+
+  test "beginning of this week" do
+    beginning = @house.beginning_of_this_week TimeProvider.now
+    assert_equal(0, beginning.wday)
+    assert_equal(0, beginning.hour)
+    assert_equal(0, beginning.min)
+    assert(beginning < TimeProvider.now)
+    assert_equal(beginning, @house.beginning_of_this_week(beginning))
+  end
+
+  test "next sunday at midnight" do
+    next_sunday = @house.next_sunday_at_midnight TimeProvider.now
+    assert_equal(0, next_sunday.wday)
+    assert_equal(0, next_sunday.hour)
+    assert_equal(0, next_sunday.min)
+    assert(next_sunday > TimeProvider.now)
+    beginning = @house.beginning_of_this_week TimeProvider.now
+    assert_equal(next_sunday, beginning + 7.days)
+  end
+
+  test "cancel jobs" do
+    @house.schedule_new_week_job TimeProvider.now + 1.hour
+    count = TimeProvider.task_count
+    @house.destroy
+    assert_equal(count-1, TimeProvider.task_count)
   end
 
   test "start new week increments current_week" do

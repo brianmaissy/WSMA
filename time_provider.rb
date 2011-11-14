@@ -39,6 +39,25 @@ class TimeProvider
     end
   end
 
+  def self.unschedule_task tag
+    if @@in_mock_mode
+      tasks_to_delete = []
+      for task in @@task_table
+        if task[1] == tag
+          tasks_to_delete << task
+        end
+      end
+      for task in tasks_to_delete
+        @@task_table.delete(task)
+      end
+    else
+      tasks_to_delete = @@scheduler.find_by_tag(tag)
+      for task in tasks_to_delete
+        task.unschedule
+      end
+    end
+  end
+
   def self.set_mock_time(time = DateTime.now)
     @@current_mock_time = time
     run_tasks
@@ -61,6 +80,14 @@ class TimeProvider
         @@task_table.delete(task)
       end
     end
+  end
+
+  def self.task_count
+    return @@task_table.size
+  end
+
+  def self.drop_all_tasks
+    @@task_table = []
   end
 
   def self.generate_job_tag(model_instance)

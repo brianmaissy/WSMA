@@ -76,16 +76,16 @@ class UserTest < ActiveSupport::TestCase
 
   test "hour balance calculation" do
     @house.blow_off_penalty_factor = 1.2
-    Assignment.create(:user => @user, :shift => shifts(:one), :week => 2, :status => 2, :blow_off_job_id => "a")
-    Assignment.create(:user => @user, :shift => shifts(:one), :week => 4, :status => 2, :blow_off_job_id => "a")
-    Assignment.create(:user => @user, :shift => shifts(:one), :week => 5, :status => 2, :blow_off_job_id => "a")
-    Assignment.create(:user => @user, :shift => shifts(:one), :week => 6, :status => 1, :blow_off_job_id => "a")
+    Assignment.create(:user => @user, :shift => shifts(:one), :week => 2, :status => 2)
+    Assignment.create(:user => @user, :shift => shifts(:one), :week => 4, :status => 2)
+    Assignment.create(:user => @user, :shift => shifts(:one), :week => 5, :status => 2)
+    Assignment.create(:user => @user, :shift => shifts(:one), :week => 6, :status => 1)
     assert_equal(shifts(:one).chore.hours * 3, @user.hour_balance)
     @house.current_week = 2
     assert_equal(shifts(:one).chore.hours * 3 - 2*@house.hours_per_week, @user.hour_balance)
-    Assignment.create(:user => @user, :shift => shifts(:one), :week => 3, :status => 3, :blow_off_job_id => "a")
+    Assignment.create(:user => @user, :shift => shifts(:one), :week => 3, :status => 3)
     assert_equal(shifts(:one).chore.hours * (3 - 1.2) - 2*@house.hours_per_week, @user.hour_balance)
-    fp = FiningPeriod.new(:house => @house, :fining_week => 1, :fine_for_hours_below => -1, :fine_per_hour_below => 1, :forgive_percentage_of_fined_hours => 0.4, :fine_job_id => 'a')
+    fp = FiningPeriod.new(:house => @house, :fining_week => 1, :fine_for_hours_below => -1, :fine_per_hour_below => 1, :forgive_percentage_of_fined_hours => 0.4)
     f1 = Fine.create(:user => @user, :fining_period => fp, :paid => 0, :amount => 42, :hours_fined_for => 3)
     f2 = Fine.create(:user => @user, :paid => 0, :amount => 42, :hours_fined_for => 7)
     assert_float_equal(shifts(:one).chore.hours * (3 - 1.2) - 2*@house.hours_per_week + 0.4*3, @user.hour_balance, 0.01)
@@ -102,23 +102,23 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "assigned hours this week calculation" do
-    Assignment.create(:user => @user, :shift => shifts(:one), :week => 0, :status => 1, :blow_off_job_id => "a")
-    Assignment.create(:user => @user, :shift => shifts(:two), :week => 0, :status => 2, :blow_off_job_id => "a")
-    Assignment.create(:user => @user, :shift => shifts(:one), :week => 1, :status => 2, :blow_off_job_id => "a")
+    Assignment.create(:user => @user, :shift => shifts(:one), :week => 0, :status => 1)
+    Assignment.create(:user => @user, :shift => shifts(:two), :week => 0, :status => 2)
+    Assignment.create(:user => @user, :shift => shifts(:one), :week => 1, :status => 2)
     assert_equal(shifts(:one).chore.hours + shifts(:two).chore.hours, @user.assigned_hours_this_week)
   end
 
   test "pending hours this week calculation" do
-    Assignment.create(:user => @user, :shift => shifts(:one), :week => 0, :status => 1, :blow_off_job_id => "a")
-    Assignment.create(:user => @user, :shift => shifts(:two), :week => 0, :status => 2, :blow_off_job_id => "a")
-    Assignment.create(:user => @user, :shift => shifts(:one), :week => 1, :status => 2, :blow_off_job_id => "a")
+    Assignment.create(:user => @user, :shift => shifts(:one), :week => 0, :status => 1)
+    Assignment.create(:user => @user, :shift => shifts(:two), :week => 0, :status => 2)
+    Assignment.create(:user => @user, :shift => shifts(:one), :week => 1, :status => 2)
     assert_equal(shifts(:one).chore.hours, @user.pending_hours_this_week)
   end
 
   test "completed hours this week calculation" do
-    Assignment.create(:user => @user, :shift => shifts(:one), :week => 0, :status => 1, :blow_off_job_id => "a")
-    Assignment.create(:user => @user, :shift => shifts(:two), :week => 0, :status => 2, :blow_off_job_id => "a")
-    Assignment.create(:user => @user, :shift => shifts(:one), :week => 1, :status => 2, :blow_off_job_id => "a")
+    Assignment.create(:user => @user, :shift => shifts(:one), :week => 0, :status => 1)
+    Assignment.create(:user => @user, :shift => shifts(:two), :week => 0, :status => 2)
+    Assignment.create(:user => @user, :shift => shifts(:one), :week => 1, :status => 2)
     assert_equal(shifts(:two).chore.hours, @user.completed_hours_this_week)
   end
 

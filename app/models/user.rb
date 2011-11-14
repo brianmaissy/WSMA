@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
   end
 
   def authenticate(encrypted_password, public_key)
-    #TODO: implement this (iteration 3)
+    #TODO: implement this (iteration z)
     raise NotImplementedError
   end
 
@@ -111,7 +111,7 @@ class User < ActiveRecord::Base
   end
 
   def change_password(encrypted_new_password, public_key)
-    #TODO: implement this (iteration 3)
+    #TODO: implement this (iteration z)
     raise NotImplementedError
   end
 

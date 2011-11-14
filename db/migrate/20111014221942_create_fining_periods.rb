@@ -6,7 +6,6 @@ class CreateFiningPeriods < ActiveRecord::Migration
       t.decimal :fine_for_hours_below
       t.decimal :fine_per_hour_below
       t.decimal :forgive_percentage_of_fined_hours
-      t.string :fine_job_id
 
       t.timestamps
     end

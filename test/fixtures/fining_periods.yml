@@ -6,7 +6,6 @@ one:
   fine_for_hours_below: -9.99
   fine_per_hour_below: 9.99
   forgive_percentage_of_fined_hours: .99
-  fine_job_id: MyString
 
 two:
   house: one
@@ -14,4 +13,3 @@ two:
   fine_for_hours_below: -1.23
   fine_per_hour_below: 2.99
   forgive_percentage_of_fined_hours: .38
-  fine_job_id: MyString
