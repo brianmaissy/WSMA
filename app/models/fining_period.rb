@@ -1,7 +1,7 @@
 class FiningPeriod < ActiveRecord::Base
   
   belongs_to :house
-  has_many :fines
+  has_many :fines, :dependent => :destroy
   
   validates_presence_of :fining_week, :fine_for_hours_below, :fine_per_hour_below, :forgive_percentage_of_fined_hours
   
