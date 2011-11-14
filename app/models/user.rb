@@ -33,16 +33,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  def authenticate(encrypted_password, public_key)
-    #TODO: implement this (iteration z)
-    raise NotImplementedError
-  end
-
-  def self.create_random_password
-    chars = [('a'..'z'),(0..9)].map{|i| i.to_a}.flatten
-    return (0..12).map{ chars[rand(chars.length)] }.join
-  end
-
   def password
     @password ||= Password.new(password_hash)
   end
@@ -50,6 +40,26 @@ class User < ActiveRecord::Base
   def password=(new_password)
     @password = Password.create(new_password)
     self.password_hash = @password
+  end
+
+  def self.create_random_password
+    chars = [('a'..'z'),(0..9)].map{|i| i.to_a}.flatten
+    return (0..12).map{ chars[rand(chars.length)] }.join
+  end
+
+  def authenticate(encrypted_password, public_key)
+    #TODO: implement this (iteration z)
+    raise NotImplementedError
+  end
+
+  def change_password(encrypted_new_password, public_key)
+    #TODO: implement this (iteration z)
+    raise NotImplementedError
+  end
+
+  def send_reset_password_email
+    #TODO: implement this (iteration 3)
+    raise NotImplementedError
   end
 
   def hour_balance
@@ -108,16 +118,6 @@ class User < ActiveRecord::Base
       end
     end
     return values.min
-  end
-
-  def change_password(encrypted_new_password, public_key)
-    #TODO: implement this (iteration z)
-    raise NotImplementedError
-  end
-
-  def send_reset_password_email
-    #TODO: implement this (iteration 3)
-    raise NotImplementedError
   end
 
 end

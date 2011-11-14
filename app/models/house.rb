@@ -15,7 +15,7 @@ class House < ActiveRecord::Base
   validates_presence_of :name, :using_online_sign_off, :sign_off_verification_mode
   validates_numericality_of :hours_per_week, :sign_off_by_hours_after, :current_week,
                             :blow_off_penalty_factor, :greater_than_or_equal_to => 0
-  validates_numericality_of :permanent_chores_start_week, :allow_nil => true, :only_integer => true, :greater_than_or_equal_to => 0 
+  validates_numericality_of :permanent_chores_start_week, :allow_nil => true, :only_integer => true, :greater_than_or_equal_to => 0
   validates_numericality_of :using_online_sign_off, :sign_off_verification_mode, :only_integer => true
   validates_uniqueness_of :name
   validate :using_online_sign_off_has_legal_value
@@ -40,19 +40,14 @@ class House < ActiveRecord::Base
     end
   end
 
+  def schedule_new_week_job new_week_time
+    tag = TimeProvider.generate_job_tag(self)
+    TimeProvider.schedule_task_at(new_week_time, tag) {new_week_job}
+  end
+
   def cancel_jobs
     tag = TimeProvider.generate_job_tag(self)
     TimeProvider.unschedule_task tag
-  end
-
-  def import(roster_csv)
-    #TODO: implement this (iteration 3)
-    raise NotImplementedError
-  end
-  
-  def semester_start_date=(date)
-    super(date)
-    #TODO: implement this (iteration 3)
   end
 
   def new_week_job
@@ -64,19 +59,6 @@ class House < ActiveRecord::Base
     end
   end
 
-  def schedule_new_week_job new_week_time
-    tag = TimeProvider.generate_job_tag(self)
-    TimeProvider.schedule_task_at(new_week_time, tag) {new_week_job}
-  end
-
-  def beginning_of_this_week current
-    return DateTime.new(current.year, current.month, current.day - current.wday, 0, 0, 0, 0)
-  end
-  
-  def next_sunday_at_midnight current
-    return DateTime.new(current.year, current.month, current.day + (7-current.wday), 0, 0, 0, 0)
-  end
-
   def start_new_week
     self.current_week += 1
     if permanent_chores_start_week and current_week >= permanent_chores_start_week
@@ -86,6 +68,14 @@ class House < ActiveRecord::Base
         end
       end
     end
+  end
+
+  def beginning_of_this_week current
+    return DateTime.new(current.year, current.month, current.day - current.wday, 0, 0, 0, 0)
+  end
+
+  def next_sunday_at_midnight current
+    return DateTime.new(current.year, current.month, current.day + (7-current.wday), 0, 0, 0, 0)
   end
 
   def unassigned_shifts
@@ -100,6 +90,11 @@ class House < ActiveRecord::Base
 
   def unallocated_shifts
     return shifts.where(:user_id => nil, :temporary => 0)
+  end
+
+  def import(roster_csv)
+    #TODO: implement this (iteration 3)
+    raise NotImplementedError
   end
 
 end
