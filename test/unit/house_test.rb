@@ -31,8 +31,8 @@ class HouseTest < ActiveSupport::TestCase
     test_attribute_may_not_be_null @house, :current_week
   end
 
-  test "permanent chores start week must be null or nonnegative integer" do
-    test_attribute_must_be_null_or_nonnegative_integer @house, :permanent_chores_start_week
+  test "permanent chores start week must be null or positive integer" do
+    test_attribute_must_be_null_or_positive_integer @house, :permanent_chores_start_week
   end
   
   test "hours per week must not be null" do
