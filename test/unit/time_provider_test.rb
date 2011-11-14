@@ -53,6 +53,39 @@ class TimeProviderTest < ActiveSupport::TestCase
     assert task_called
   end
 
+  test "in normal mode canceling a task works" do
+    TimeProvider.set_mock_mode false
+    task_called = false
+    TimeProvider.schedule_task_at TimeProvider.now+0.5.seconds, "test" do
+      task_called = true
+    end
+    TimeProvider.unschedule_task "test"
+    sleep(0.5)
+    assert !task_called
+    TimeProvider.schedule_task_at TimeProvider.now+0.5.seconds, "test1" do
+      task_called = true
+    end
+    TimeProvider.unschedule_task "test"
+    sleep(0.5)
+    assert task_called
+  end
+
+  test "in mock mode canceling a task works" do
+    task_called = false
+    TimeProvider.schedule_task_at TimeProvider.now+0.2.seconds, "test" do
+      task_called = true
+    end
+    TimeProvider.unschedule_task "test"
+    TimeProvider.advance_mock_time 1.second
+    assert !task_called
+    TimeProvider.schedule_task_at TimeProvider.now+0.2.seconds, "test1" do
+      task_called = true
+    end
+    TimeProvider.unschedule_task "test"
+    TimeProvider.advance_mock_time 1.second
+    assert task_called
+  end
+
   test "generate job tags" do
     house = houses(:one)
     assignment = assignments(:one)
@@ -65,6 +98,7 @@ class TimeProviderTest < ActiveSupport::TestCase
   def teardown
     # return to mock mode when we're done
     TimeProvider.set_mock_mode
+    TimeProvider.drop_all_tasks
   end
 
 end
