@@ -129,6 +129,25 @@ class HouseTest < ActiveSupport::TestCase
     assert_equal(s1, @house.unallocated_shifts[0])
   end
 
+  test "beginning of this week" do
+    beginning = @house.beginning_of_this_week TimeProvider.now
+    assert_equal(0, beginning.wday)
+    assert_equal(0, beginning.hour)
+    assert_equal(0, beginning.min)
+    assert(beginning < TimeProvider.now)
+    assert_equal(beginning, @house.beginning_of_this_week(beginning))
+  end
+
+  test "next sunday at midnight" do
+    next_sunday = @house.next_sunday_at_midnight TimeProvider.now
+    assert_equal(0, next_sunday.wday)
+    assert_equal(0, next_sunday.hour)
+    assert_equal(0, next_sunday.min)
+    assert(next_sunday > TimeProvider.now)
+    beginning = @house.beginning_of_this_week TimeProvider.now
+    assert_equal(next_sunday, beginning + 7.days)
+  end
+
   test "start new week increments current_week" do
     @house.current_week= 3
     TimeProvider.set_mock_time

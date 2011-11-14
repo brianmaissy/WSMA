@@ -63,6 +63,10 @@ class TimeProvider
     end
   end
 
+  def self.drop_all_tasks
+    @@task_table = []
+  end
+
   def self.generate_job_tag(model_instance)
     return model_instance.class.to_s + model_instance.id.to_s
   end
