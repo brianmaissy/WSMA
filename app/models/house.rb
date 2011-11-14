@@ -4,10 +4,7 @@ class House < ActiveRecord::Base
   has_many :chores, :dependent => :destroy
   has_many :shifts, :through => :chores
   has_many :house_hour_requirements, :dependent => :destroy
-  has_many :chores
-  has_many :shifts, :through => :chores
-  has_many :fining_periods
-  has_many :house_hour_requirements
+  has_many :fining_periods, :dependent => :destroy
 
   after_initialize :initialize_defaults
   before_destroy :cancel_jobs
@@ -37,6 +34,51 @@ class House < ActiveRecord::Base
       self.using_online_sign_off = 1 if using_online_sign_off.nil?
       self.sign_off_verification_mode = 2 if sign_off_verification_mode.nil?
       self.current_week = 0 if current_week.nil?
+    end
+  end
+
+  def semester_start_date=(date)
+    if not date.nil?
+      if TimeProvider.now < date and (semester_start_date.nil? or TimeProvider.now < semester_start_date)
+        super(date)
+        cancel_jobs
+        schedule_new_week_job next_sunday_at_midnight date
+      else
+        raise ArgumentError, "Date has already passed!"
+      end
+    end
+  end
+  def semester_end_date=(date)
+    if not date.nil?
+      if TimeProvider.now < date and (semester_end_date.nil? or TimeProvider.now < semester_end_date)
+        super(date)
+      else
+        raise ArgumentError, "Date has already passed!"
+      end
+    end
+  end
+  def permanent_chores_start_week=(week)
+    if week.class == String
+      week = week.to_i
+    end
+    if not week.nil?
+      if current_week.nil? or week > current_week
+        super(week)
+      else
+        raise ArgumentError, "Week has already passed!"
+      end
+    end
+  end
+  def current_week=(week)
+    if week.class == String
+      week = week.to_i
+    end
+    if not week.nil?
+      if current_week.nil? or week >= current_week
+        super(week)
+      else
+        raise ArgumentError, "Current week cannot decrease"
+      end
     end
   end
 
@@ -71,11 +113,19 @@ class House < ActiveRecord::Base
   end
 
   def beginning_of_this_week current
-    return DateTime.new(current.year, current.month, current.day - current.wday, 0, 0, 0, 0)
+    if current.class != DateTime
+      current = DateTime.parse(current)
+    end
+    beginning = DateTime.new(current.year, current.month, current.day, 0, 0, 0, 0)
+    return beginning.advance(:days => -current.wday)
   end
 
   def next_sunday_at_midnight current
-    return DateTime.new(current.year, current.month, current.day + (7-current.wday), 0, 0, 0, 0)
+    if current.class != DateTime
+      current = DateTime.parse(current)
+    end
+    beginning = beginning_of_this_week current
+    return beginning.advance(:days => 7)
   end
 
   def unassigned_shifts

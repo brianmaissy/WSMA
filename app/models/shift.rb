@@ -2,7 +2,7 @@ class Shift < ActiveRecord::Base
   
   belongs_to :chore
   belongs_to :user
-  has_many :assignments
+  has_many :assignments, :dependent => :destroy
   has_one :house, :through => :chore
   
   validates_presence_of :day_of_week, :time, :temporary
