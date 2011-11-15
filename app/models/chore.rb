@@ -1,7 +1,7 @@
 class Chore < ActiveRecord::Base
   
   belongs_to :house
-  has_many :shifts
+  has_many :shifts, :dependent => :destroy
   
   after_initialize :initialize_defaults
   

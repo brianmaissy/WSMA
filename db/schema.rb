@@ -13,11 +13,10 @@
 ActiveRecord::Schema.define(:version => 20111014223155) do
 
   create_table "assignments", :force => true do |t|
-    t.integer  "user_id",         :null => false
-    t.integer  "shift_id",        :null => false
+    t.integer  "user_id",    :null => false
+    t.integer  "shift_id",   :null => false
     t.integer  "week"
     t.integer  "status"
-    t.string   "blow_off_job_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -57,7 +56,6 @@ ActiveRecord::Schema.define(:version => 20111014223155) do
     t.decimal  "fine_for_hours_below"
     t.decimal  "fine_per_hour_below"
     t.decimal  "forgive_percentage_of_fined_hours"
-    t.string   "fine_job_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -81,7 +79,6 @@ ActiveRecord::Schema.define(:version => 20111014223155) do
     t.integer  "using_online_sign_off"
     t.integer  "sign_off_verification_mode"
     t.decimal  "blow_off_penalty_factor"
-    t.string   "new_week_job_id"
     t.string   "wsm_email"
     t.datetime "created_at"
     t.datetime "updated_at"

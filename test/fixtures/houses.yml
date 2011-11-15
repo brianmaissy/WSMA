@@ -2,7 +2,7 @@
 
 one:
   name: MyString1
-  semester_start_date: 2010-10-12
+  semester_start_date: 2014-10-12
   semester_end_date: 2015-10-12
   permanent_chores_start_week: 1
   current_week: 0
@@ -15,7 +15,7 @@ one:
 
 two:
   name: MyString2
-  semester_start_date: 2010-10-12
+  semester_start_date: 2014-10-12
   semester_end_date: 2015-10-12
   permanent_chores_start_week: 1
   current_week: 0

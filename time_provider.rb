@@ -28,6 +28,15 @@ class TimeProvider
     end
   end
 
+  def self.set_mock_time(time = DateTime.now)
+    @@current_mock_time = time
+    run_tasks
+  end
+  def self.advance_mock_time(duration)
+    @@current_mock_time += duration
+    run_tasks
+  end
+
   def self.schedule_task_at task_time, tag, &task_block
     if @@in_mock_mode
       @@task_table << [task_time, tag, task_block]
@@ -39,13 +48,41 @@ class TimeProvider
     end
   end
 
-  def self.set_mock_time(time = DateTime.now)
-    @@current_mock_time = time
-    run_tasks
+  def self.unschedule_task tag
+    if @@in_mock_mode
+      tasks_to_delete = []
+      for task in @@task_table
+        if task[1] == tag
+          tasks_to_delete << task
+        end
+      end
+      for task in tasks_to_delete
+        @@task_table.delete(task)
+      end
+    else
+      tasks_to_delete = @@scheduler.find_by_tag(tag)
+      for task in tasks_to_delete
+        task.unschedule
+      end
+    end
   end
-  def self.advance_mock_time(duration)
-    @@current_mock_time += duration
-    run_tasks
+
+  def self.task_count
+    if @@in_mock_mode
+      return @@task_table.size
+    else
+      @@scheduler.all_jobs.size
+    end
+  end
+
+  def self.unschedule_all_tasks
+    if @@in_mock_mode
+      @@task_table = []
+    else
+      for job in @@scheduler.all_jobs.values
+        job.unschedule
+      end
+    end
   end
 
   def self.run_tasks
