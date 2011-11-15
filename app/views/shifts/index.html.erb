@@ -1,4 +1,4 @@
-<h1>Listing shifts</h1>
+<h2>Listing shifts</h2>
 
 <table>
   <tr>
@@ -27,3 +27,80 @@
 <br />
 
 <%= link_to 'New Shift', new_shift_path %>
+
+
+<div id="content_header">
+    <h2>Shift Allocation</h2>
+</div>
+<!-- Chore creation field -->
+        <div id="calendar">
+       
+			<div>
+				<span class="tab" id="dailytab"><a class="buttonwrapper" href=#>Daily</a></span>
+				<span class="tab" id="weeklytab"><a class="buttonwrapper" href=#>Weekly</a></span>
+			</div>
+			<div id="daily">
+              <span class="dayname">Monday</span>
+			  <span class="dayname">Tuesday</span>
+			  <span class="dayname">Wednesday</span>
+			  <span class="dayname">Thursday</span>
+			  <span class="dayname">Friday</span>
+			  <span class="dayname">Saturday</span>
+			  <span class="dayname">Sunday</span>
+			</div>
+			<% @shifts.each do |shift| %>				
+				<div class="chore">
+					<div class="chorename"><%= shift.chore.name %></div>
+					<%= tag("div", {:class => "day monday", :id => "m"+shift.chore.name.gsub(/ /,'')}, true) =%></div>
+					<%= tag("div", {:class => "day tuesday", :id => "t"+shift.chore.name.gsub(/ /,'')}, true) =%></div>
+					<%= tag("div", {:class => "day wednesday", :id => "w"+shift.chore.name.gsub(/ /,'')}, true) =%></div>
+					<%= tag("div", {:class => "day thursday", :id => "th"+shift.chore.name.gsub(/ /,'')}, true) =%></div>
+					<%= tag("div", {:class => "day friday", :id => "f"+shift.chore.name.gsub(/ /,'')}, true) =%></div>
+					<%= tag("div", {:class => "day saturday", :id => "sa"+shift.chore.name.gsub(/ /,'')}, true) =%></div>
+					<%= tag("div", {:class => "day sunday", :id => "su"+shift.chore.name.gsub(/ /,'')}, true) =%></div>
+				</div>
+			<% end %>
+			<div class="chore">
+				<div class="chorename">Permanent Chore</div>
+				<div class="day monday" id="mbreakfastdishes"></div>
+				<div class="day tuesday" id="tbreakfastdishes"></div>
+				<div class="day wednesday" id="wbreakfastdishes"></div>
+				<div class="day thursday" id="thbreakfastdishes"></div>
+				<div class="day friday" id="fbreakfastdishes"></div>
+				<div class="day saturday" id="sabreakfastdishes"></div>
+				<div class="day sunday" id="subreakfastdishes"></div>
+			</div>		
+    
+        </div>
+		
+        <div id="namelist">
+			<div id="namelisttitle"> Residents </div>
+			<div class="resident">
+				John Doe
+			</div>
+			<div class="resident">
+				Jane Doe
+			</div>
+			<div class="resident">
+				Harry Potter
+			</div>
+			<div class="resident">
+				Hermione Granger
+			</div>
+			<div class="resident">
+				Ron Weasley
+			</div>
+			<div class="resident">
+				Ginny Weasley
+			</div>
+			<div class="resident">
+				Draco Malfoy
+			</div>
+			<div class="resident">
+				Dumbledore
+			</div>
+		</div>
+
+	  
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
