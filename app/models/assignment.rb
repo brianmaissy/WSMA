@@ -38,20 +38,24 @@ class Assignment < ActiveRecord::Base
     
     when 3
       if house.using_online_sign_off == 1 and house.sign_off_verification_mode == 2 and self.status == 1
+        #TODO: call User.authenticate(encrypted_password, public_key)
         self.status = 2
       else
         raise ArgumentError
       end
       
     else
-      puts 'im here'
       raise ArgumentError
     end
     
   end
   
   def sign_out
-    #TODO: implement this
+    if self.status == 1
+      self.destroy
+    else
+      raise ArgumentError
+    end
   end
   
 end
