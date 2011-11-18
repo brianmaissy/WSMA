@@ -12,13 +12,14 @@ gem 'json'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.1.4'
-  gem 'coffee-rails', '~> 3.1.1'
-  gem 'execjs'
-
+  gem 'coffee-rails'
+  gem 'sass-rails'
+  gem 'therubyracer'
+  gem 'uglifier', '>= 1.0.3'
+  gem 'jquery-rails'
 end
 
-gem 'jquery-rails'
+
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
@@ -32,3 +33,8 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 # To use debugger
 # gem 'ruby-debug'
 
+# Code coverage tool
+gem 'rcov'
+
+# Job scheduling
+gem 'rufus-scheduler'
