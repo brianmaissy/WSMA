@@ -31,13 +31,11 @@ class TimeProviderTest < ActiveSupport::TestCase
   test "in normal mode, scheduling a task soon works" do
     TimeProvider.set_mock_mode false
     task_called = false
-    TimeProvider.schedule_task_at TimeProvider.now+0.7.seconds, "test" do
+    TimeProvider.schedule_task_at TimeProvider.now+0.5.seconds, "test" do
       task_called = true
     end
     assert !task_called
-    sleep(0.1)
-    assert !task_called
-    sleep(0.7)
+    sleep(0.5)
     assert task_called
   end
 
