@@ -9,11 +9,6 @@
 </p>
 
 <p>
-  <b>Jom social:</b>
-  <%= @user.jom_social_id %>
-</p>
-
-<p>
   <b>Access level:</b>
   <%= @user.access_level %>
 </p>
@@ -51,7 +46,6 @@
     <% end %>
   </ul>
 </p>
-
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
