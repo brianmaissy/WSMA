@@ -1,6 +1,6 @@
 WSMA::Application.routes.draw do
 
-  get "admin/index"
+  resources :admin
 
   resources :houses
 
