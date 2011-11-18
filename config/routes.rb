@@ -1,5 +1,7 @@
 WSMA::Application.routes.draw do
 
+  get "admin/index"
+
   resources :houses
 
   resources :encrypted_connections

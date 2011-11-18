@@ -1,7 +1,7 @@
 class ChoresController < ApplicationController
 
   before_filter :authenticate, :except => [:login, :logout]
-  before_filter :authorize_admin, :except => [:login, :logout, :show]
+  before_filter :authorize_wsm, :except => [:login, :logout, :show]
 
   # GET /chores
   # GET /chores.json

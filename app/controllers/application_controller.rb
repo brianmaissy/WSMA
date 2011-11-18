@@ -23,8 +23,16 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def authorize_admin
+  def authorize_wsm
     unless @logged_user.access_level >= 2
+      session[:original_uri] = request.url
+      flash[:notice] = "Please log in to access workshift manager area"
+      redirect_to :controller => :users, :action => :login
+    end
+  end
+
+  def authorize_admin
+    unless @logged_user.access_level == 3
       session[:original_uri] = request.url
       flash[:notice] = "Please log in to access administrative area"
       redirect_to :controller => :users, :action => :login
