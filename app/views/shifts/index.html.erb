@@ -50,14 +50,14 @@
 			</div>
 			<% @shifts.each do |shift| %>				
 				<div class="chore">
-					<div class="chorename"><%= shift.chore.name %></div>
-					<%= tag("div", {:class => "day monday", :id => "m"+shift.chore.name.gsub(/ /,'')}, true) =%></div>
-					<%= tag("div", {:class => "day tuesday", :id => "t"+shift.chore.name.gsub(/ /,'')}, true) =%></div>
-					<%= tag("div", {:class => "day wednesday", :id => "w"+shift.chore.name.gsub(/ /,'')}, true) =%></div>
-					<%= tag("div", {:class => "day thursday", :id => "th"+shift.chore.name.gsub(/ /,'')}, true) =%></div>
-					<%= tag("div", {:class => "day friday", :id => "f"+shift.chore.name.gsub(/ /,'')}, true) =%></div>
-					<%= tag("div", {:class => "day saturday", :id => "sa"+shift.chore.name.gsub(/ /,'')}, true) =%></div>
-					<%= tag("div", {:class => "day sunday", :id => "su"+shift.chore.name.gsub(/ /,'')}, true) =%></div>
+					<%= tag("div", {:class => "chorename", :id => shift.chore.id.to_s}, true) =%><%= shift.chore.name %> <%= shift.time %></div>
+					<%= tag("div", {:class => "day monday", :id => "m"+shift.chore.id.to_s}, true) =%></div>
+					<%= tag("div", {:class => "day tuesday", :id => "t"+shift.chore.id.to_s}, true) =%></div>
+					<%= tag("div", {:class => "day wednesday", :id => "w"+shift.chore.id.to_s}, true) =%></div>
+					<%= tag("div", {:class => "day thursday", :id => "th"+shift.chore.id.to_s}, true) =%></div>
+					<%= tag("div", {:class => "day friday", :id => "f"+shift.chore.id.to_s}, true) =%></div>
+					<%= tag("div", {:class => "day saturday", :id => "sa"+shift.chore.id.to_s}, true) =%></div>
+					<%= tag("div", {:class => "day sunday", :id => "su"+shift.chore.id.to_s}, true) =%></div>
 				</div>
 			<% end %>
 			<div class="chore">
