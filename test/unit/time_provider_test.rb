@@ -35,8 +35,6 @@ class TimeProviderTest < ActiveSupport::TestCase
       task_called = true
     end
     assert !task_called
-    sleep(0.1)
-    assert !task_called
     sleep(0.5)
     assert task_called
   end

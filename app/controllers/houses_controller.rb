@@ -1,5 +1,8 @@
 class HousesController < ApplicationController
 
+  before_filter :authenticate
+  before_filter :authorize_admin
+
   # GET /houses
   # GET /houses.json
   def index
