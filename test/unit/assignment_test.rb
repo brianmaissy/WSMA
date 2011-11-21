@@ -38,7 +38,7 @@ class AssignmentTest < ActiveSupport::TestCase
     assignment.save!
     assignment.sign_out
     assert_nil(assignment)
-    
+  
   test "blow off works" do
     #TODO: write this test
   end
