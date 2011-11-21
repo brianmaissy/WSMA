@@ -52,7 +52,7 @@ class Assignment < ActiveRecord::Base
   
   def sign_out
     if self.status == 1
-      self.destroy
+      Assignment.destroy(self)
     else
       raise ArgumentError
     end
