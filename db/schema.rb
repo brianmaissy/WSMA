@@ -127,4 +127,8 @@ ActiveRecord::Schema.define(:version => 20111014223155) do
     t.datetime "updated_at"
   end
 
+<<<<<<< HEAD
 end
+=======
+end
+>>>>>>> b9fa5b1400dd5c20cd8112f53e2e48b7ae980d77

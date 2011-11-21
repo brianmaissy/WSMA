@@ -48,6 +48,15 @@ class ActiveSupport::TestCase
     end
   end
   
+  def test_attribute_must_be_nonpositive(model, attribute)
+    assert model.valid?
+    for number in MANY_POSITIVE_INTEGERS
+      model[attribute] = number
+      assert model.invalid?
+      assert model.errors[attribute].include? "must be less than or equal to 0"
+    end
+  end
+  
   def test_attribute_must_be_null_or_nonnegative_integer(model, attribute)
     assert model.valid?
     model[attribute] = nil
