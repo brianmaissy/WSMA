@@ -1,0 +1,54 @@
+# The copy of the original show
+
+
+<p>
+  <b>House:</b>
+  <%= link_to @user.house.name, @user.house %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%= @user.email %>
+</p>
+
+<p>
+  <b>Access level:</b>
+  <%= @user.access_level %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @user.name %>
+</p>
+
+<p>
+  <b>Phone number:</b>
+  <%= @user.phone_number %>
+</p>
+
+<p>
+  <b>Room number:</b>
+  <%= @user.room_number %>
+</p>
+
+<p>
+  <b>Hours per week:</b>
+  <%= @user.hours_per_week %>
+</p>
+
+<p>
+  <b>Notes:</b>
+  <%= @user.notes %>
+</p>
+
+<p>
+  <b>User hour requirements:</b>
+  <ul>
+    <% for req in @user.user_hour_requirements %>
+      <li><%= link_to (req.week.to_s + ': ' + req.hours.to_s), req%></li>
+    <% end %>
+  </ul>
+</p>
+
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', users_path %>
