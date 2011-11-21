@@ -32,7 +32,7 @@ class FiningPeriodTest < ActiveSupport::TestCase
   test "forgive_percentage_of_fined_hours must be between 0 and 1" do
     #TODO: implement this
   end
-    
+
   test "fine_job_id must not be null" do
     test_attribute_may_not_be_null fining_periods(:one), :fine_job_id
   end
