@@ -1,5 +1,7 @@
 WSMA::Application.routes.draw do
 
+  resources :admin
+
   resources :houses
 
   resources :encrypted_connections
@@ -28,10 +30,13 @@ WSMA::Application.routes.draw do
   
   resources :demo
   
-  match "/demo/login" => "demo#login"
+  match "/demo/login" => "users#login"
+  match "/demo/chores" => "chores#new"
 
   match "/login" => "users#login"
   match "/logout" => "users#logout"
+  match "/manageShifts" => "shifts#manageShifts"
+  match "/createChore" => "chores#createChore"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

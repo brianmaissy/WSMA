@@ -86,7 +86,8 @@ var form_num = 1;
 		insertBtn.onclick = function()
 			{
 			 insertField();
-			};
+             // $('#content').height($('#content').height() + 200);
+            };
 		nFloor = insertBtn;		
 	}
 

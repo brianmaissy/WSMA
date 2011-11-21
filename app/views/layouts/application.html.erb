@@ -3,15 +3,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>BSC Workshift Manager</title>
-
-<!-- Style sheet stuff
-
-<link href="constant.css" rel="stylesheet" type="text/css" />
-<link href="login.css" rel="stylesheet" type="text/css" />
--->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 <%= stylesheet_link_tag "constant", "application" %>
 <%= javascript_include_tag :application %>
+<%= javascript_include_tag 'rails' %>
 <%= csrf_meta_tags %>
+<script type="text/javascript"><%= yield :jquery %></script>
 </head>
 
 <body>
@@ -37,9 +35,13 @@
       </div>
       <div id="navbar">
 		<ul id="navlist">
-			<li><a class="navlistitem" href="">My Shifts</a><li>
-        	<li><a class="navlistitem" href="">My Fines</a></li>
-        	<li><a class="navlistitem" href="">Shift Preferences</a></li>
+			<% if @logged_user %>
+				<li><a class="navlistitem" href="">My Shifts</a><li>
+				<li><a class="navlistitem" href="">My Fines</a></li>
+				<li><a class="navlistitem" href="">Shift Preferences</a></li>
+            <% else %>
+				<li><a class="navlistitem" href="/login">Login</a></li>
+            <% end %>			
    		</ul>
       </div>
       <div id="content">
@@ -50,5 +52,6 @@
 	  </div>
 
 </div>
+    </div>
 </body>
 </html>

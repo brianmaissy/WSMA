@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   before_filter :authenticate, :except => [:login, :logout]
-  before_filter :authorize_admin, :except => [:login, :logout, :show]
+  before_filter :authorize_wsm, :except => [:login, :logout, :show]
   before_filter :authorize_user, :only => :show
 
   # GET /users
@@ -118,7 +118,7 @@ class UsersController < ApplicationController
 
   # GET /forgot_password
   def forgot_password
-    #TODO implement this
+    #TODO implement this (iteration 3)
   end
 
 end

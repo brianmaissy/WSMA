@@ -73,6 +73,22 @@ class ActiveSupport::TestCase
     end
   end
 
+  def test_attribute_must_be_null_or_positive_integer(model, attribute)
+    assert model.valid?
+    model[attribute] = nil
+    assert model.valid?
+    for number in MANY_NONINTEGERS
+      model[attribute] = number
+      assert model.invalid?
+      assert model.errors[attribute].include? "must be an integer"
+    end
+    for number in MANY_NEGATIVE_INTEGERS
+      model[attribute] = number
+      assert model.invalid?
+      assert model.errors[attribute].include? "must be greater than or equal to 1"
+    end
+  end
+
   def assert_float_equal(float1, float2, tolerance)
     assert (float1 - float2).abs < tolerance, "Expected the difference between #{float1} and #{float2} to be less than #{tolerance}"
   end

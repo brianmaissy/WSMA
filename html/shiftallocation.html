@@ -9,31 +9,95 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 <script type="text/javascript">
 
+	var shiftIsHighlighted = false;
+	var highlightedShiftID = '';
+
+
 	$( init );
-	
-	$('#logo').click(function(event) {
-		alert("Yep, it was clicked.");
-	});
-	
+
 	function init() {
 		$('.resident').draggable({
 			containment: '#content',
-			snap: '.day'
+			snap: '.day',
+			revert: true
 		});
+		
 		$('.day').droppable({
 			drop: handleResidentDrop
+		});
+		
+		$('.resident').click(function() {
+			if(shiftIsHighlighted) {
+				var username = $(this).text();
+				var newDiv = $('<div></div>').addClass('assignedResident').append(username);
+				var closeButton = $('<span></span>').addClass('closeButton');
+		
+				closeButton.append('x');
+				newDiv.append(closeButton);
+				$('#'+highlightedShiftID).append(newDiv);
+				$(this).remove();
+		
+				$(closeButton).click(function(event) {
+					var replaceDiv = $('<div></div>').addClass('resident').append(username);
+					newDiv.remove();
+					$('#namelist').append(replaceDiv);
+					$('.resident').draggable({
+						containment: '#content',
+						snap: '.day'
+					});		
+				});
+			}
+		});
+		
+		$('.day').click(function() {
+			if ($(event.target).attr('class') == 'closeButton') {
+				;
+			} else if($(this).hasClass('highlighted')) {
+				$(this).css('border', '1px solid #000000');
+				$(this).css('background-color', '#FFBB99');
+				$(this).removeClass('highlighted');
+				shiftIsHighlighted = false;
+			} else {
+				if(shiftIsHighlighted) {
+					$('#' + highlightedShiftID).removeClass('highlighted');
+					$('#' + highlightedShiftID).css('border', '1px solid #000000');
+					$('#' + highlightedShiftID).css('background-color', '#FFBB99');
+				}
+				$(this).css('border', '1px solid #0000DD');
+				$(this).css('background-color', '#FFFFFF');
+				$(this).addClass('highlighted');
+				shiftIsHighlighted = true;
+				highlightedShiftID = $(this).attr('id');
+			}		
 		});
 	}
 	
 	function handleResidentDrop(event, ui) {
 		var resident = ui.draggable;
-		var newDiv = $('<div></div>').addClass('assignedResident').append(resident.text());
+		var username = resident.text();
+		//var shift = ui.attr('id');
+		var newDiv = $('<div></div>').addClass('assignedResident').append(username);
 		var closeButton = $('<span></span>').addClass('closeButton');
+		
+		//make new assignment using username and shift
+		
 		closeButton.append('x');
 		newDiv.append(closeButton);
 		$(this).append(newDiv);
 		resident.remove();
-	};
+		
+		$(closeButton).click(function(event) {
+			var replaceDiv = $('<div></div>').addClass('resident').append(username);
+			newDiv.remove();
+			$('#namelist').append(replaceDiv);
+			$('.resident').draggable({
+				containment: '#content',
+				snap: '.day',
+				revert: true
+			});
+			//find the assignment corresponding to username and shift and delete it			
+		}); 
+	}	
 	
 </script>
 </head>
@@ -88,7 +152,7 @@
 			</div>
 			<div class="chore">
 				<div class="chorename">Cook Breakfast</div>
-				<div class="day monday"></div>
+				<div class="day monday" id="cookbreakfast"></div>
 				<div class="day tuesday"></div>
 				<div class="day wednesday"></div>
 				<div class="day thursday"></div>
@@ -97,8 +161,8 @@
 				<div class="day sunday"></div>
 			</div>
 			<div class="chore">
-				<div class="chorename">Cook Breakfast</div>
-				<div class="day monday"></div>
+				<div class="chorename">Breakfast Dishes</div>
+				<div class="day monday"  id="breakfastdishes"></div>
 				<div class="day tuesday"></div>
 				<div class="day wednesday"></div>
 				<div class="day thursday"></div>
@@ -107,8 +171,8 @@
 				<div class="day sunday"></div>
 			</div>
 			<div class="chore">
-				<div class="chorename">Cook Breakfast</div>
-				<div class="day monday"></div>
+				<div class="chorename">Mop Kitchen Floor</div>
+				<div class="day monday" id="mopkitchenfloor"></div>
 				<div class="day tuesday"></div>
 				<div class="day wednesday"></div>
 				<div class="day thursday"></div>
@@ -117,8 +181,8 @@
 				<div class="day sunday"></div>
 			</div>
 			<div class="chore">
-				<div class="chorename">Cook Breakfast</div>
-				<div class="day monday"></div>
+				<div class="chorename">Cook Lunch</div>
+				<div class="day monday" id="cooklunch"></div>
 				<div class="day tuesday"></div>
 				<div class="day wednesday"></div>
 				<div class="day thursday"></div>
@@ -127,8 +191,8 @@
 				<div class="day sunday"></div>
 			</div>
 			<div class="chore">
-				<div class="chorename">Cook Breakfast</div>
-				<div class="day monday"></div>
+				<div class="chorename">Lunch Dishes</div>
+				<div class="day monday" id="lunchdishes"></div>
 				<div class="day tuesday"></div>
 				<div class="day wednesday"></div>
 				<div class="day thursday"></div>
@@ -145,25 +209,25 @@
 				John Doe
 			</div>
 			<div class="resident">
-				John Doe
+				Jane Doe
 			</div>
 			<div class="resident">
-				John Doe
+				Harry Potter
 			</div>
 			<div class="resident">
-				John Doe
+				Hermione Granger
 			</div>
 			<div class="resident">
-				John Doe
+				Ron Weasley
 			</div>
 			<div class="resident">
-				John Doe
+				Ginny Weasley
 			</div>
 			<div class="resident">
-				John Doe
+				Draco Malfoy
 			</div>
 			<div class="resident">
-				John Doe
+				Dumbledore
 			</div>
 		</div>
       </div>

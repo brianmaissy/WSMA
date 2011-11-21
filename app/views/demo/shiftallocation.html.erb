@@ -1,0 +1,133 @@
+        <script type="text/javascript">	
+
+	$( init );
+	
+	function init() {
+		$('.resident').draggable({
+			containment: '#content',
+			snap: '.day',
+			revert: true
+		});
+		$('.day').droppable({
+			drop: handleResidentDrop
+		});
+	}
+	
+	function handleResidentDrop(event, ui) {
+		var resident = ui.draggable;
+		var residentName = resident.text();
+		var newDiv = $('<div></div>').addClass('assignedResident').append(residentName);
+		var closeButton = $('<span></span>').addClass('closeButton');
+		closeButton.append('x');
+		newDiv.append(closeButton);
+		$(this).append(newDiv);
+		resident.remove();
+		$(closeButton).click(function() {
+			var replaceResident = $('<div></div>').addClass('resident').append(residentName);
+			$('#namelist').append(replaceResident);
+			newDiv.remove();
+		});
+	};
+
+
+</script>
+		<div id="content_header">
+        	<h2>Shift Allocation</h2>
+        </div>
+        
+        <!-- Chore creation field -->
+        <div id="calendar">
+       
+			<div> Daily </div>
+			<div id="daily">
+              <span class="dayname">Monday</span>
+			  <span class="dayname">Tuesday</span>
+			  <span class="dayname">Wednesday</span>
+			  <span class="dayname">Thursday</span>
+			  <span class="dayname">Friday</span>
+			  <span class="dayname">Saturday</span>
+			  <span class="dayname">Sunday</span>
+			</div>
+			<div class="chore">
+				<div class="chorename">Cook Breakfast</div>
+				<div class="day monday"></div>
+				<div class="day tuesday"></div>
+				<div class="day wednesday"></div>
+				<div class="day thursday"></div>
+				<div class="day friday"></div>
+				<div class="day saturday"></div>
+				<div class="day sunday"></div>
+			</div>
+			<div class="chore">
+				<div class="chorename">Cook Breakfast</div>
+				<div class="day monday"></div>
+				<div class="day tuesday"></div>
+				<div class="day wednesday"></div>
+				<div class="day thursday"></div>
+				<div class="day friday"></div>
+				<div class="day saturday"></div>
+				<div class="day sunday"></div>
+			</div>
+			<div class="chore">
+				<div class="chorename">Cook Breakfast</div>
+				<div class="day monday"></div>
+				<div class="day tuesday"></div>
+				<div class="day wednesday"></div>
+				<div class="day thursday"></div>
+				<div class="day friday"></div>
+				<div class="day saturday"></div>
+				<div class="day sunday"></div>
+			</div>
+			<div class="chore">
+				<div class="chorename">Cook Breakfast</div>
+				<div class="day monday"></div>
+				<div class="day tuesday"></div>
+				<div class="day wednesday"></div>
+				<div class="day thursday"></div>
+				<div class="day friday"></div>
+				<div class="day saturday"></div>
+				<div class="day sunday"></div>
+			</div>
+			<div class="chore">
+				<div class="chorename">Cook Breakfast</div>
+				<div class="day monday"></div>
+				<div class="day tuesday"></div>
+				<div class="day wednesday"></div>
+				<div class="day thursday"></div>
+				<div class="day friday"></div>
+				<div class="day saturday"></div>
+				<div class="day sunday"></div>
+			</div>
+    
+        </div>
+		
+        <div id="namelist">
+			<div id="namelisttitle"> Residents </div>
+			<div class="resident">
+				John Doe
+			</div>
+			<div class="resident">
+				John Doe
+			</div>
+			<div class="resident">
+				John Doe
+			</div>
+			<div class="resident">
+				John Doe
+			</div>
+			<div class="resident">
+				John Doe
+			</div>
+			<div class="resident">
+				John Doe
+			</div>
+			<div class="resident">
+				John Doe
+			</div>
+			<div class="resident">
+				John Doe
+			</div>
+		</div>
+      </div>
+    
+    <!-- End Main Content -->      

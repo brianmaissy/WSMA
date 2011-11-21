@@ -1,0 +1,32 @@
+<h3>Profile Page</h3>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Phone number</th>
+    <th>Room number</th>
+    <th>Hours per week</th>
+    <th>About Me</th>
+    <th>House</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @users.each do |user| %>
+  <tr>
+    <td><%= house.name %></td>
+    <td><%= house.email %></td>
+    <td><%= house.phone_number %></td>
+    <td><%= house.room_number %></td>
+    <td><%= house.hours_per_week %></td>
+    <td><%= house.notes %></td>
+    <td><%= house.house_id %></td>
+
+    <td><%= link_to 'Show', user %></td>
+    <td><%= link_to 'Edit', edit_user_path(user) %></td>
+    <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>

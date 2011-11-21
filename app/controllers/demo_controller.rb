@@ -11,8 +11,10 @@ class DemoController < ApplicationController
   end
   
   def show
-	@page = params[:id]
-	render @page
+    @page = params[:id]
+
+    render @page
+
   end
   
 end

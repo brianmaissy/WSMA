@@ -45,7 +45,7 @@ class ShiftsController < ApplicationController
 
     respond_to do |format|
       if @shift.save
-        format.html { redirect_to @shift, :notice => 'Shift was successfully created.' }
+        format.html { redirect_to :back, :notice => 'Shift was successfully created.' }
         format.json { render :json => @shift, :status => :created, :location => @shift }
       else
         format.html { render :action => "new" }
@@ -61,7 +61,7 @@ class ShiftsController < ApplicationController
 
     respond_to do |format|
       if @shift.update_attributes(params[:shift])
-        format.html { redirect_to @shift, :notice => 'Shift was successfully updated.' }
+        format.html { redirect_to '/createChore', :notice => 'Shift was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render :action => "edit" }
@@ -77,8 +77,20 @@ class ShiftsController < ApplicationController
     @shift.destroy
 
     respond_to do |format|
-      format.html { redirect_to shifts_url }
+      format.html { redirect_to :back }
       format.json { head :ok }
     end
+  end
+
+  def manageShifts
+    @user = User.find(session[:user_id])
+    @chores = Chore.find_all_by_house_id(@user.house_id)
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @shifts }
+
+    end
+
   end
 end

@@ -1,24 +1,45 @@
-WSMA
-Workshift Manager's Assistant
+========================================
+Workshift Manager's Assistant (WSMA)
+========================================
+
 CS169 Fall 2011
 Professor George Necula
+GSI Sharada Prasad
 UC Berkeley
+
+Brian Maissy (brianmaissy@berkeley.edu)
+Ben Lui
+Travis Cheng
+Tai Schuller
+Cat Callaghan
+
+========================================
+Running the application on the EC2
+========================================
+
+Navigate to:
+http://107.20.135.212:8092
+
+========================================
+Running the application locally
+========================================
+
+Clone the git repository from:
+https://github.com/brianmaissy/WSMA
 
 To run the server:
 bundle install
 rake bootstrap
 rails server
 
-(The rake bookstrap task sets up the database and loads it with some sample data)
+(The rake bootstrap task sets up the database and loads it with some sample data)
 
 To see a demo of the existing parts of the frontend, navigate to:
 localhost:3000/
+If asked to login, please login with email: admin and password: admin.
 
 To use the scaffolding to examine the working aspects of the backend (model skeletons, validation, associations between some models), navigate to:
 localhost:3000/scaffold.html
 
-(houses and users have preloaded data)
-
 To run the tests:
 rake test
-

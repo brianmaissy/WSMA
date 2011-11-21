@@ -31,8 +31,8 @@ class HouseTest < ActiveSupport::TestCase
     test_attribute_may_not_be_null @house, :current_week
   end
 
-  test "permanent chores start week must be null or nonnegative integer" do
-    test_attribute_must_be_null_or_nonnegative_integer @house, :permanent_chores_start_week
+  test "permanent chores start week must be null or positive integer" do
+    test_attribute_must_be_null_or_positive_integer @house, :permanent_chores_start_week
   end
   
   test "hours per week must not be null" do
@@ -112,7 +112,7 @@ class HouseTest < ActiveSupport::TestCase
     assert_equal(s1, @house.unassigned_shifts[0])
     s2 = Shift.create(:user => users(:one), :day_of_week => 1, :chore => c2, :time => TimeProvider.now, :temporary => 0)
     assert_equal(2, @house.unassigned_shifts.length)
-    Assignment.create(:user => users(:one), :shift => s1, :week => 0, :status => 1, :blow_off_job_id => "a")
+    Assignment.create(:user => users(:one), :shift => s1, :week => 0, :status => 1)
     assert_equal(1, @house.unassigned_shifts.length)
     assert_equal(s2, @house.unassigned_shifts[0])
   end
@@ -129,11 +129,88 @@ class HouseTest < ActiveSupport::TestCase
     assert_equal(s1, @house.unallocated_shifts[0])
   end
 
+  test "beginning of this week" do
+    beginning = @house.beginning_of_this_week TimeProvider.now
+    assert_equal(0, beginning.wday)
+    assert_equal(0, beginning.hour)
+    assert_equal(0, beginning.min)
+    assert(beginning < TimeProvider.now)
+    assert_equal(beginning, @house.beginning_of_this_week(beginning))
+  end
+
+  test "next sunday at midnight" do
+    next_sunday = @house.next_sunday_at_midnight TimeProvider.now
+    assert_equal(0, next_sunday.wday)
+    assert_equal(0, next_sunday.hour)
+    assert_equal(0, next_sunday.min)
+    assert(next_sunday > TimeProvider.now)
+    beginning = @house.beginning_of_this_week TimeProvider.now
+    assert_equal(next_sunday, beginning + 7.days)
+  end
+
+  test "cannot decrease current week" do
+    @house.current_week = 2
+    assert_raise ArgumentError do
+      @house.current_week = 1
+    end
+  end
+
+  test "cannot set permanent chores start week to week that has passed" do
+    @house.current_week = 3
+    assert_raise ArgumentError do
+      @house.permanent_chores_start_week = 2
+    end
+    assert_raise ArgumentError do
+      @house.permanent_chores_start_week = 3
+    end
+  end
+
+  test "cannot set semester start date to date that has passed, or when old start date has passed" do
+    assert_raise ArgumentError do
+      @house.semester_start_date = TimeProvider.now - 2.weeks
+    end
+    @house.semester_start_date = TimeProvider.now + 1.minute
+    TimeProvider.advance_mock_time 2.weeks
+    assert_raise ArgumentError do
+      @house.semester_start_date = TimeProvider.now + 2.weeks
+    end
+  end
+
+  test "changing semester start date changes scheduled task" do
+    @house.semester_end_date = TimeProvider.now + 1.month
+    @house.semester_start_date = TimeProvider.now + 1.minute
+    @house.semester_start_date = TimeProvider.now + 1.week
+    week = @house.current_week
+    TimeProvider.set_mock_time @house.next_sunday_at_midnight TimeProvider.now + 1.minute
+    TimeProvider.advance_mock_time 1.minute
+    assert_equal(week, @house.current_week)
+    TimeProvider.advance_mock_time 1.week
+    TimeProvider.advance_mock_time 1.minute
+    assert_equal(week+1, @house.current_week)
+  end
+
+  test "cannot set semester end date to date that has passed, or when old end date has passed" do
+    assert_raise ArgumentError do
+      @house.semester_end_date = TimeProvider.now - 2.weeks
+    end
+    @house.semester_end_date = TimeProvider.now + 1.minute
+    TimeProvider.advance_mock_time 2.weeks
+    assert_raise ArgumentError do
+      @house.semester_end_date = TimeProvider.now + 2.weeks
+    end
+  end
+
+  test "cancel jobs" do
+    @house.schedule_new_week_job TimeProvider.now + 1.hour
+    count = TimeProvider.task_count
+    @house.destroy
+    assert_equal(count-1, TimeProvider.task_count)
+  end
+
   test "start new week increments current_week" do
     @house.current_week= 3
     TimeProvider.set_mock_time
-    @house.semester_end_date = TimeProvider.now
-    TimeProvider.advance_mock_time_by_hours -1
+    @house.semester_end_date = TimeProvider.now + 1.minute
     @house.start_new_week
     assert_equal(4, @house.current_week)
   end
@@ -143,7 +220,7 @@ class HouseTest < ActiveSupport::TestCase
     s1 = Shift.create(:user => @user, :day_of_week => 1, :chore => c1, :time => TimeProvider.now, :temporary => 0)
     @house.using_online_sign_off = 0
     @house.current_week = 1
-    @house.permanent_chores_start_week = 1
+    @house.permanent_chores_start_week = 2
     @house.save
     assert_equal(0, @user.assigned_hours_this_week)
     @house.start_new_week
@@ -157,10 +234,38 @@ class HouseTest < ActiveSupport::TestCase
     s1 = Shift.create(:user => @user, :day_of_week => 1, :chore => c1, :time => TimeProvider.now, :temporary => 0)
     @house.using_online_sign_off = 1
     @house.current_week = 1
-    @house.permanent_chores_start_week = 1
+    @house.permanent_chores_start_week = 2
+    @house.semester_end_date = TimeProvider.now + 1.month
     @house.save
     assert_equal(0, @user.assigned_hours_this_week)
     @house.start_new_week
+    assert_equal(c1.hours, @user.assigned_hours_this_week)
+    assert_equal(c1.hours, @user.pending_hours_this_week)
+    assert_equal(0, @user.completed_hours_this_week)
+  end
+
+  test "next Sunday at midnight works properly" do
+    TimeProvider.set_mock_time
+    sunday = @house.next_sunday_at_midnight TimeProvider.now
+    assert_equal(0, sunday.wday)
+    assert_equal(0, sunday.hour)
+    monday_afternoon = sunday + 30.hours + 12.minutes + 3.seconds
+    assert_equal(1, monday_afternoon.wday)
+    assert_equal(6, monday_afternoon.hour)
+    assert_equal(sunday + 7.days, @house.next_sunday_at_midnight(sunday))
+  end
+
+  test "job scheduling works" do
+    c1 = Chore.create(:house => @house, :name => "a", :hours => 2, :sign_out_by_hours_before => 2, :due_hours_after => 4)
+    s1 = Shift.create(:user => @user, :day_of_week => 1, :chore => c1, :time => TimeProvider.now, :temporary => 0)
+    @house.using_online_sign_off = 1
+    @house.current_week = 1
+    @house.permanent_chores_start_week = 2
+    @house.semester_end_date = TimeProvider.now + 1.month
+    @house.save
+    assert_equal(0, @user.assigned_hours_this_week)
+    @house.schedule_new_week_job @house.next_sunday_at_midnight(TimeProvider.now)
+    TimeProvider.advance_mock_time(7.days)
     assert_equal(c1.hours, @user.assigned_hours_this_week)
     assert_equal(c1.hours, @user.pending_hours_this_week)
     assert_equal(0, @user.completed_hours_this_week)

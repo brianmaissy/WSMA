@@ -1,14 +1,17 @@
 class ChoresController < ApplicationController
 
+  before_filter :authenticate, :except => [:login, :logout]
+  before_filter :authorize_wsm, :except => [:login, :logout, :show]
+
   # GET /chores
   # GET /chores.json
   def index
-    #@chores = Chore.all
-    redirect_to new_chore_path
-    #respond_to do |format|
-      #format.html # index.html.erb
-      #format.json { render :json => @chores }
-    #end
+    @chores = Chore.all
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @chores }
+    end
   end
 
   # GET /chores/1
@@ -27,6 +30,7 @@ class ChoresController < ApplicationController
   def new
     @chore = Chore.new
     @chores = Chore.all
+    @shift = Shift.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -49,7 +53,7 @@ class ChoresController < ApplicationController
     respond_to do |format|
       if @chore.save
 
-        format.html { redirect_to @chore, :notice => 'Chore was successfully created.' }
+        format.html { redirect_to :back, :notice => 'Chore was successfully created.' }
         format.json { render :json => @chore, :status => :created, :location => @chore }
 
       else
@@ -66,7 +70,7 @@ class ChoresController < ApplicationController
 
     respond_to do |format|
       if @chore.update_attributes(params[:chore])
-        format.html { redirect_to @chore, :notice => 'Chore was successfully updated.' }
+        format.html { redirect_to '/createChore', :notice => 'Chore was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render :action => "edit" }
@@ -82,8 +86,20 @@ class ChoresController < ApplicationController
     @chore.destroy
 
     respond_to do |format|
-      format.html { redirect_to chores_url }
+      format.html { redirect_to :back }
       format.json { head :ok }
+    end
+  end
+
+  def createChore
+    @chore = Chore.new
+    @user = User.find(session[:user_id])
+    @chores = Chore.find_all_by_house_id(@user.house_id)
+    @shift = Shift.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render :json => @chore }
     end
   end
 end

@@ -1,0 +1,89 @@
+@charset "utf-8";
+/* CSS Document */
+#content_header {
+	padding-left: 10px;
+}
+#calendar {
+	position: absolute;
+	margin-left: 20px;
+	margin-right: 0px;
+	width: 715px;
+	height: 700px;
+}
+#daily
+{
+	width: 625px;
+	height: 30px;
+	background-color: #DFDFDF;
+	font-size: 10pt;
+	padding-left: 89px;
+}
+#namelist
+{
+	width: 200px;
+	position: absolute;
+	top: 50px;
+	left: 740px;
+}
+#namelisttitle
+{
+	width: 150px;
+	height: 30px;
+}
+.dayname
+{
+	float: left;
+	width: 84px;
+	border: 1px solid #777777;
+	padding-left: 3px;
+}
+.chore
+{
+	width: 715px;
+	height: 102px;
+	background-color: #FFDFC0;
+}
+.chorename
+{
+	float: left;
+	width: 87px;
+	height: 100px;
+	border: 1px solid black;
+}
+.day
+{
+	float: left;
+	width: 87px;
+	height: 100px;
+	font-size: 10pt;
+	border: 1px solid black;
+}
+.resident
+{
+	width: 80px;
+	height: 50px;
+	margin: 2px;
+	margin-right: 0px;
+	background-color: #777777;
+	font-size: 10pt;
+	z-index: 1;
+}
+.resident.ui-draggable-dragging 
+{ 
+	border: 2px solid blue; 
+}
+.assignedResident
+{
+	border: 1px dashed brown;
+	margin: 2px;
+}
+.closeButton
+{
+	height: 13px;
+	width: 11px;
+	float: right;
+	background-color: #BBBBBB;
+	padding-left: 3px;
+	padding-bottom: 2px;
+	font-size: 8pt;
+}

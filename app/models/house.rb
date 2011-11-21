@@ -4,10 +4,7 @@ class House < ActiveRecord::Base
   has_many :chores, :dependent => :destroy
   has_many :shifts, :through => :chores
   has_many :house_hour_requirements, :dependent => :destroy
-  has_many :chores
-  has_many :shifts, :through => :chores
-  has_many :fining_periods
-  has_many :house_hour_requirements
+  has_many :fining_periods, :dependent => :destroy
 
   after_initialize :initialize_defaults
   before_destroy :cancel_jobs
@@ -15,11 +12,8 @@ class House < ActiveRecord::Base
   validates_presence_of :name, :using_online_sign_off, :sign_off_verification_mode
   validates_numericality_of :hours_per_week, :sign_off_by_hours_after, :current_week,
                             :blow_off_penalty_factor, :greater_than_or_equal_to => 0
-  validates_numericality_of :permanent_chores_start_week, :allow_nil => true, :only_integer => true, :greater_than_or_equal_to => 0 
+  validates_numericality_of :permanent_chores_start_week, :allow_nil => true, :only_integer => true, :greater_than_or_equal_to => 1
   validates_numericality_of :using_online_sign_off, :sign_off_verification_mode, :only_integer => true
-  #TODO: find a way to do date validation
-  #validates_datetime :semester_start_date, :semester_end_date
-  #validate end date is after start date
   validates_uniqueness_of :name
   validate :using_online_sign_off_has_legal_value
   validate :sign_off_verification_mode_has_legal_value
@@ -43,25 +37,66 @@ class House < ActiveRecord::Base
     end
   end
 
-  def cancel_jobs
-    #TODO: implement this
+  def semester_start_date=(date)
+    if not date.nil?
+      if TimeProvider.now < date and (semester_start_date.nil? or TimeProvider.now < semester_start_date)
+        super(date)
+        cancel_jobs
+        schedule_new_week_job next_sunday_at_midnight date
+      else
+        raise ArgumentError, "Date has already passed!"
+      end
+    end
+  end
+  def semester_end_date=(date)
+    if not date.nil?
+      if TimeProvider.now < date and (semester_end_date.nil? or TimeProvider.now < semester_end_date)
+        super(date)
+      else
+        raise ArgumentError, "Date has already passed!"
+      end
+    end
+  end
+  def permanent_chores_start_week=(week)
+    if week.class == String
+      week = week.to_i
+    end
+    if not week.nil?
+      if current_week.nil? or week > current_week
+        super(week)
+      else
+        raise ArgumentError, "Week has already passed!"
+      end
+    end
+  end
+  def current_week=(week)
+    if week.class == String
+      week = week.to_i
+    end
+    if not week.nil?
+      if current_week.nil? or week >= current_week
+        super(week)
+      else
+        raise ArgumentError, "Current week cannot decrease"
+      end
+    end
   end
 
-  def import(roster_csv)
-    #TODO: implement this (iteration 3)
-    raise NotImplementedError
+  def schedule_new_week_job new_week_time
+    tag = TimeProvider.generate_job_tag(self)
+    TimeProvider.schedule_task_at(new_week_time, tag) {new_week_job}
   end
-  
-  def semester_start_date=(date)
-    super(date)
-    #TODO: implement this
+
+  def cancel_jobs
+    tag = TimeProvider.generate_job_tag(self)
+    TimeProvider.unschedule_task tag
   end
 
   def new_week_job
     if semester_end_date and TimeProvider.now < semester_end_date
       start_new_week
       if TimeProvider.now + 7.days < semester_end_date
-        #TODO: schedule next week's start_new_week job'
+        schedule_new_week_job next_sunday_at_midnight(TimeProvider.now)
       end
     end
   end
@@ -71,19 +106,26 @@ class House < ActiveRecord::Base
     if permanent_chores_start_week and current_week >= permanent_chores_start_week
       shifts.all.each do |shift|
         if shift.user
-          assignment = Assignment.new(:shift => shift, :user => shift.user, :week => current_week)
-          if using_online_sign_off == 1
-            assignment.status= 1
-            #TODO: implement blow off scheduling here
-            blowofftime = shift.time + shift.chore.due_hours_after + shift.user.house.sign_off_by_hours_after
-            assignment.blow_off_job_id= "fillmein"
-          else
-            assignment.status= 2
-          end
-          assignment.save
+          assignment = Assignment.create(:shift => shift, :user => shift.user, :week => current_week)
         end
       end
     end
+  end
+
+  def beginning_of_this_week current
+    if current.class != DateTime
+      current = DateTime.parse(current)
+    end
+    beginning = DateTime.new(current.year, current.month, current.day, 0, 0, 0, 0)
+    return beginning.advance(:days => -current.wday)
+  end
+
+  def next_sunday_at_midnight current
+    if current.class != DateTime
+      current = DateTime.parse(current)
+    end
+    beginning = beginning_of_this_week current
+    return beginning.advance(:days => 7)
   end
 
   def unassigned_shifts
@@ -98,6 +140,11 @@ class House < ActiveRecord::Base
 
   def unallocated_shifts
     return shifts.where(:user_id => nil, :temporary => 0)
+  end
+
+  def import(roster_csv)
+    #TODO: implement this (iteration 3)
+    raise NotImplementedError
   end
 
 end
