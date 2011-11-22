@@ -1108,11 +1108,11 @@ function editFailed(t, obj){
 
 		<div id="Layer1"><strong>My Profile </strong></div>
         <a>Name: </a><a id="desc"><%= @user.name %></a><br /><br />
-		<a>Room Number: </a><a id="desc2">#211</a><br /><br />
-        <a>Email: </a><a id="desc3"> JohnSmith@coop.org</a><br /><br />
-        <a>Phone Number: </a><a id="desc4">123-456-7890</a><br /><br />
+		<a>Room Number: </a><a id="desc2"><%= @user.room_number%></a><br /><br />
+        <a>Email: </a><a id="desc3"><%= @user.email%></a><br /><br />
+        <a>Phone Number: </a><a id="desc4"><%= @user.phone_number%></a><br /><br />
 
-        <a>About me:</a><p id="desc5">Please say something about yourself</p>
+        <a>About me:</a><p id="desc5"><%= @user.notes%></p>
         <p>&nbsp; </p>
         <p>&nbsp;</p>
         <p>&nbsp;</p>

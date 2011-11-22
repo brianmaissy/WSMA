@@ -119,6 +119,7 @@ class UsersController < ApplicationController
   # GET /profile
   # PUT /profile
   def profile
+
     @user = User.find(params[:id])
 
     respond_to do |format|
