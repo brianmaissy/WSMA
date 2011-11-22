@@ -2,27 +2,9 @@
         	<h2>Login</h2>
         </div>
         <div id="login_area">
-		<!-- Non ruby form stuff
-      <form id="form1" name="form1" method="post" action="">
-        
-          <label for="username">Username: </label>
-          <input type="text" name="username" id="username" />
-        
-        	<br />
-
-        
-          <label for="password">Password:  </label>
-          <input type="password" name="password" id="password" />
-        
-        <br />
-
-          <input type="submit" name="login_button" id="login_button" value="Submit" />
-        
-      </form>
-	  -->
 	  <%= form_tag :method => "login" do %>
 		<%= label_tag :username, "Username" %>:
-		<%= text_field_tag :username, params[:username]%><br />
+		<%= text_field_tag :email%><br />
 		
 		<%= label_tag :password, "Password" %>:
 		<%= password_field_tag :password, params[:password] %><br />

@@ -15,3 +15,36 @@
 
     <p> <a class="navlistitem" href="">Forgot Password?</a> </p>
 </div>
+<div id="twitter_feed">
+      <script src="http://widgets.twimg.com/j/2/widget.js"></script>
+      <script>
+new TWTR.Widget({
+  version: 2,
+  type: 'profile',
+  rpp: 6,
+  interval: 30000,
+  width: 250,
+  height: 300,
+  theme: {
+    shell: {
+      background: '#ffffff',
+      color: '#000000'
+    },
+    tweets: {
+      background: '#ffffff',
+      color: '#000000',
+      links: '#0735eb'
+    }
+  },
+  features: {
+    scrollbar: true,
+    loop: false,
+    live: true,
+    hashtags: true,
+    timestamp: true,
+    avatars: false,
+    behavior: 'all'
+  }
+}).render().setUser('bscannounce').start();
+</script>
+    </div>
