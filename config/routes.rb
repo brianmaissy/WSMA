@@ -30,7 +30,7 @@ WSMA::Application.routes.draw do
   
   resources :demo
   
-  match "/demo/login" => "users#login"
+  #match "/demo/login" => "users#login"
   match "/demo/chores" => "chores#new"
   match "/demo/profile" => "users#profile"
   match "/user/managefines" => "users#manage"

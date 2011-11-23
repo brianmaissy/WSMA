@@ -20,6 +20,15 @@ Testing Instructions
 Connect to the application as explained in the 'Running the application on the EC2' section below.
 
 [*put instructions here about what to test*]
+Chore and Shift creation:
+1. Are chores and shifts properly created.
+2. Do they get shown on other relevant pages (Shift allocation, Manage shifts)
+
+Manage Shifts:
+1. Do all shifts get displayed correctly?
+2. Are colors correct?
+
+
 
 File issues as explained in the 'Issue Tracker' section below.
 

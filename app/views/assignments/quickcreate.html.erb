@@ -1,0 +1,56 @@
+
+
+<h1>Create a quick assignment</h1>
+
+<%= form_for(@assignment) do |f| %>
+  <% if @assignment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@assignment.errors.count, "error") %> prohibited this assignment from being saved:</h2>
+
+      <ul>
+      <% @assignment.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+    <!--
+  <%= select :search, :house, House.all.collect { |m| [m.name, m.id] }.sort %>
+    -->
+
+
+  <%= f.hidden_field :week, :value => 1 %><br />
+   <div class="field">
+     Shift: <br />
+     <% options = [] %>
+     <%for chore in @chores%>
+         <%for shift in chore.shifts%>
+            <%options << [shift.chore.name + " - " + shift.time.strftime("%I:%M%p"), shift.id]%>
+         <%end%>
+     <%end%>
+     <%= f.select(:shift_id, options)%>
+   </div>
+
+   <div class="field">
+     User: <br />
+     <% options = [] %>
+     <%for user in @users%>
+        <%if user.access_level < 3%>
+            <% options << [user.name, user.id] %>
+        <%end%>
+     <%end%>
+     <%= f.select(:user_id, options)%>
+
+   </div>
+
+  <div class="field">
+    <%= f.label :status, "Status:" %><br />
+    <%= f.select(:status, [['pending', 1],
+                           ['completed', 2],
+                           ['blown off', 3]]) %><br />
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

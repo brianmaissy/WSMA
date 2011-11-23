@@ -17,7 +17,7 @@
     		Berkeley Student Cooperative Workshift Manager
    		</span>
     	<span id="headerlist">
-			<a class="headerlistitem" href="">Home</a>
+			<a class="headerlistitem" href="/">Home</a>
         	<a class="headerlistitem" href="">Profile</a>
             <% if @logged_user %>
         	    <a class="headerlistitem" href="/logout">Logout</a>
@@ -33,9 +33,23 @@
       <div id="navbar">
 		<ul id="navlist">
 			<% if @logged_user %>
-				<li><a class="navlistitem" href="">My Shifts</a><li>
+              <%if @logged_user.access_level == 1 %>
+                <li><a class="navlistitem" href="">My Shifts</a><li>
 				<li><a class="navlistitem" href="">My Fines</a></li>
 				<li><a class="navlistitem" href="">Shift Preferences</a></li>
+
+              <%elsif @logged_user.access_level == 2 %>
+                <li><a class="navlistitem" href="/manageshifts">Manage Shifts</a><li>
+				<li><a class="navlistitem" href="">Allocate Shifts</a></li>
+				<li><a class="navlistitem" href="/createChore">Create Chores and Shifts</a></li>
+
+              <%elsif @logged_user.access_level == 3%>
+                <li><a class="navlistitem" href="/manageshifts">Manage Shifts</a><li>
+				<li><a class="navlistitem" href="">Allocate Shifts</a></li>
+				<li><a class="navlistitem" href="/createChore">Create Chores and Shifts</a></li>
+
+              <%end%>
+
             <% else %>
 				<li><a class="navlistitem" href="/login">Login</a></li>
             <% end %>			

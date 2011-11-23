@@ -1,0 +1,106 @@
+<h1>Shifts for this week</h1>
+<p>Grey = Unassigned</p>
+<p>Green = Completed (the person has signed off)</p>
+<p>Yellow = Pending (Not completed, but not yet due)</p>
+<p>Red = Blown Off (Shift not completed, past due time)</p>
+
+
+<script type="text/javascript">
+
+
+
+$(document).ready(function() {
+
+    // page is now ready, initialize the calendar...
+    var date = new Date();
+    var m = date.getMonth();
+    var y = date.getFullYear();
+    var d = date.getDate();
+    var dayOfWeek = date.getDay();
+    var base = d-dayOfWeek;
+
+
+
+    $('#calendar').fullCalendar({
+        defaultView: 'agendaWeek',
+        slotMinutes: 15,
+        eventClick: function(calEvent, jsEvent, view) {
+
+
+            $('div.event_name').replaceWith('<div class="inner event_name">'+calEvent.name+'</div>');
+            $('div.event_description').replaceWith('<div class="inner event_description">'+calEvent.description+'</div>');
+            $('div.event_assignedto').replaceWith('<div class="inner event_assignedto">'+calEvent.assigned_to+'</div>');
+            $('div.event_status').replaceWith('<div class="inner event_status">'+calEvent.status+'</div>');
+
+
+
+
+
+
+            $("#popupContact").modal({overlayClose: true});
+
+        },
+        // put your options and callbacks here
+         events: function (start, end, callback){
+             var events = [];
+             var colors = ["olive", "green", "red"];
+             var statie = ["pending", "completed", "blown off"];
+             <% @chores.each do |chore| %>
+                <% for shift in chore.shifts %>
+                    <% if shift.assignments.length == 0 %>
+                      events.push({
+                          shift_id: '<%=shift.id%>',
+                          title: '<%=chore.name%>' + ': Unassigned',
+                          name: '<%=chore.name%>',
+                          description: '<%=chore.description%>',
+                          assigned_to: 'Unassigned',
+                          color: "#808080",
+                          isAssigned: 0,
+                          status: "Unassigned",
+                          start: new Date(y,m,base-1+<%=shift.day_of_week%>, <%=shift.time.hour%>, <%=shift.time.min%>),
+                          end: new Date (y,m,base-1+<%=shift.day_of_week%>, <%=shift.time.hour%> + <%=chore.hours%>, <%=shift.time.min%> ),
+                          allDay: false
+                      })
+                    <% end %>
+                    <% for assignment in shift.assignments %>
+
+                       events.push({
+                           assignment_id: '<%=assignment.id%>',
+                           title: '<%=chore.name%>'+': '+ '<%=assignment.user.name%>',
+                           name: '<%=chore.name%>',
+                           assigned_to: '<%=assignment.user.name%>',
+                           description: '<%=chore.description%>',
+                           start: new Date(y,m,base-1+<%=shift.day_of_week%>, <%=shift.time.hour%>, <%=shift.time.min%>),
+                           end: new Date (y,m,base-1+<%=shift.day_of_week%>, <%=shift.time.hour%> + <%=chore.hours%>, <%=shift.time.min%> ),
+                           allDay: false,
+                           isAssigned: 1,
+                           status: statie[<%= assignment.status%>-1],
+                           color: colors[<%=assignment.status%>-1]
+                       })
+                   <% end %>
+                <% end %>
+             <%end%>
+             callback(events);
+         }
+    })
+
+});
+
+</script>
+<div id='popupContact'>
+  <a id="popupContactClose" class="simplemodal-close">x</a>
+
+    Chore: <div class="inner event_name"></div> <br />
+    Description: <div class="inner event_description"></div> <br />
+    Assigned to: <div class="inner event_assignedto"></div> <br />
+    Status: <div class="inner event_status"></div> <br />
+
+
+
+</div>
+<div id="backgroundPopup"></div>
+
+
+<div id='calendar'></div>
+
+
