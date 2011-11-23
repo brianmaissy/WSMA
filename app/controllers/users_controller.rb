@@ -25,7 +25,7 @@ class UsersController < ApplicationController
       format.json { render :json => @user }
     end
   end
-
+  
   # GET /users/find_by_name/a
   # GET /users/find_by_name/a.json
   def find_by_name
@@ -35,7 +35,7 @@ class UsersController < ApplicationController
       format.json { render :json => @user }
     end
   end
-  
+
   # GET /users/new
   # GET /users/new.json
   def new
@@ -126,9 +126,30 @@ class UsersController < ApplicationController
     redirect_to(:action => "login" )
   end
 
+  # GET /profile
+  # PUT /profile
+  def profile
+
+    @user = User.find(session[:user_id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render :json => @user }
+    end
+  end
+
   # GET /forgot_password
   def forgot_password
     #TODO implement this (iteration 3)
   end
 
+  # Get /manage
+  def manage
+    @user = User.find(session[:user_id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render :json => @user }
+    end
+  end
 end

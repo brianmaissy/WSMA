@@ -61,9 +61,163 @@
 }
 
 </style>
+
+<script type="text/javascript">
+
+var dragbox;
+var deltaX, deltaY;
+var client;
+createClient();
+
+
+function createClient() {
+try {
+client = window.XMLHttpRequest ? new XMLHttpRequest() :
+new ActiveXObject("Microsoft.XMLHTTP");
+} catch (e) {
+alert("Sorry, your browser is not Ajax-enabled!");
+}
+}
+
+function setOpacity(node,val) {
+if (node.filters) {
+try {
+node.filters["alpha"].opacity = val*100;
+} catch (e) { }
+} else if (node.style.opacity) {
+node.style.opacity = val;
+}
+}
+
+function getX(node) {
+return parseInt(node.style.left);
+}
+
+function getY(node) {
+return parseInt(node.style.top);
+}
+
+function getWidth(node) {
+return parseInt(node.style.width);
+}
+
+function getHeight(node) {
+return parseInt(node.style.height);
+}
+
+function setX(node,x) {
+node.style.left = x + "px";
+}
+
+function setY(node,y) {
+node.style.top = y + "px";
+}
+
+function Evt(evt) {
+this.evt = evt ? evt : window.event;
+this.source = evt.target ? evt.target : evt.srcElement;
+this.x = evt.pageX ? evt.pageX : evt.clientX;
+this.y = evt.pageY ? evt.pageY : evt.clientY;
+}
+
+Evt.prototype.toString = function () {
+return "Evt [ x = " + this.x + ", y = " + this.y + " ]";
+};
+
+Evt.prototype.consume = function () {
+if (this.evt.stopPropagation) {
+this.evt.stopPropagation();
+this.evt.preventDefault();
+} else if (this.evt.cancelBubble) {
+this.evt.cancelBubble = true;
+this.evt.returnValue = false;
+}
+};
+
+Evt.addEventListener = function (target,type,func,bubbles) {
+if (document.addEventListener) {
+target.addEventListener(type,func,bubbles);
+} else if (document.attachEvent) {
+target.attachEvent("on"+type,func,bubbles);
+} else {
+target["on"+type] = func;
+}
+};
+
+Evt.removeEventListener = function (target,type,func,bubbles) {
+if (document.removeEventListener) {
+target.removeEventListener(type,func,bubbles);
+} else if (document.detachEvent) {
+target.detachEvent("on"+type,func,bubbles);
+} else {
+target["on"+type] = null;
+}
+};
+
+function dragPress(evt) {
+evt = new Evt(evt);
+dragbox = evt.source;
+setOpacity(dragbox,.7);
+deltaX = evt.x - getX(dragbox);
+deltaY = evt.y - getY(dragbox);
+Evt.addEventListener(document,"mousemove",dragMove,false);
+Evt.addEventListener(document,"mouseup",dragRelease,false);
+}
+
+function dragMove(evt) {
+evt = new Evt(evt);
+setX(dragbox,evt.x - deltaX);
+setY(dragbox,evt.y - deltaY);
+evt.consume();
+}
+
+function dragRelease(evt) {
+evt = new Evt(evt);
+setOpacity(box,1);
+Evt.removeEventListener(document,"mousemove",dragMove,false);
+Evt.removeEventListener(document,"mouseup",dragRelease,false);
+if (droppedOnDropBox(evt)) {
+dragBoxDropped(evt);
+}
+}
+
+function droppedOnDropBox(evt) {
+var dropbox = document.getElementById("dropbox ");
+var x = getX(dropbox);
+var y = getY(dropbox);
+var width = getWidth(dropbox);
+var height = getHeight(dropbox);
+return evt.x > x &&
+evt.y > y &&
+evt.x < x + width &&
+evt.y < y + height;
+}
+
+function dragBoxDropped(evt) {
+client.onreadystatechange = callback;
+client.open("get","server.php",true);
+client.send(null);
+}
+
+function callback() {
+if (client.readyState == 4) {
+if (client.status == 200) {
+alert(client.responseText);
+createClient();
+} else {
+alert("Sorry, there seems to be a problem retrieving the response:\n" +
+client.statusText);
+createClient();
+}
+}
+}
+
+</script>
+
+
 </head>
 
-<body>
+<body onload="windowLoaded(event);">
 <div id="wrap">
 	<div id="main">
       <div id="header">
@@ -105,85 +259,40 @@
               <td width="105" class="STYLE9"><div align="center">Sunday</div></td>
             </tr>
             <tr>
-              <td height="110" class="STYLE11"><form id="form1" name="form1" method="post" action="">
-                <label></label>
-                <p>
-                  <input type="submit" name="Submit" value="Sign off" />
-                </p>
-                <p>
-                  <label>
-                  <input type="submit" name="Submit2" value="Sign out" />
-                  </label>
-</p>
-              </form>              </td>
-              <td class="STYLE12"><form id="form1" name="form1" method="post" action="">
-                <label></label>
-                <p>
-                  <input type="submit" name="Submit3" value="Sign off" />
-                </p>
-                <p>
-                  <label>
-                  <input type="submit" name="Submit22" value="Sign out" />
-                  </label>
-                </p>
-              </form></td>
-              <td class="STYLE13"><form id="form1" name="form1" method="post" action="">
-                <label></label>
-                <p>
-                  <input type="submit" name="Submit4" value="Sign off" />
-                </p>
-                <p>
-                  <label>
-                  <input type="submit" name="Submit23" value="Sign out" />
-                  </label>
-                </p>
-              </form></td>
-              <td class="STYLE14"><form id="form1" name="form1" method="post" action="">
-                <label></label>
-                <p>
-                  <input type="submit" name="Submit5" value="Sign off" />
-                </p>
-                <p>
-                  <label>
-                  <input type="submit" name="Submit24" value="Sign out" />
-                  </label>
-                </p>
-              </form></td>
-              <td class="STYLE15"><form id="form1" name="form1" method="post" action="">
-                <label></label>
-                <p>
-                  <input type="submit" name="Submit6" value="Sign off" />
-                </p>
-                <p>
-                  <label>
-                  <input type="submit" name="Submit25" value="Sign out" />
-                  </label>
-                </p>
-              </form></td>
-              <td class="STYLE16"><form id="form1" name="form1" method="post" action="">
-                <label></label>
-                <p>
-                  <input type="submit" name="Submit7" value="Sign off" />
-                </p>
-                <p>
-                  <label>
-                  <input type="submit" name="Submit26" value="Sign out" />
-                  </label>
-                </p>
-              </form></td>
-              <td class="STYLE17"><form id="form1" name="form1" method="post" action="">
-                <label></label>
-                <p>
-                  <input type="submit" name="Submit8" value="Sign off" />
-                </p>
-                <p>
-                  <label>
-                  <input type="submit" name="Submit27" value="Sign out" />
-                  </label>
-                </p>
-              </form></td>
+              <td id="dragbox" height="110" class="STYLE11">Late night dishes</td>
+              <td class="STYLE12">Morning pots</td>
+              <td class="STYLE13">Diner shift</td>
+              <td class="STYLE14">&nbsp;</td>
+              <td class="STYLE15">&nbsp;</td>
+              <td class="STYLE16">&nbsp;</td>
+              <td class="STYLE17">&nbsp;</td>
             </tr>
           </table>
+          <p>&nbsp;</p>
+          <table width="200" border="1">
+            <tr>
+              <td id="dropbox"><strong>Shifts signing out</strong></td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+            </tr>
+          </table> 
+          <form id="form1" name="form1" method="post" action="">
+            <input type="submit" name="button" id="button" value="Sign out!" />
+          </form>
+          <p>&nbsp;</p>
+          <table width="200" border="1">
+            <tr>
+              <td><strong>Shifts signing off</strong></td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+            </tr>
+          </table>
+          <form id="form2" name="form2" method="post" action="">
+            <input type="submit" name="button2" id="button2" value="Sign off!" />
+          </form>
+<p>&nbsp;</p>
           <p>&nbsp;</p>
           <form id="form3" name="form3" method="post" action="">
             <label>
@@ -195,11 +304,6 @@
                 <td>&nbsp;</td>
               </tr>
             </table>
-            <div id="Layer4">
-              <label>
-              <input type="submit" name="Submit9" value="Sign in" />
-              </label>
-            </div>
             <p>&nbsp;</p>
           </form>
           <p>&nbsp;</p>

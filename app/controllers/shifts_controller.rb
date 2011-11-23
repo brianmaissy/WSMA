@@ -1,5 +1,8 @@
 class ShiftsController < ApplicationController
 
+  before_filter :authenticate, :except => [:login, :logout]
+  before_filter :authorize_wsm, :except => [:login, :logout, :show]
+
   # GET /shifts
   # GET /shifts.json
   def index
@@ -83,7 +86,7 @@ class ShiftsController < ApplicationController
     end
   end
 
-  def manageShifts
+  def manageShiftstable
     @user = User.find(session[:user_id])
     @chores = Chore.find_all_by_house_id(@user.house_id)
 
@@ -93,5 +96,15 @@ class ShiftsController < ApplicationController
 
     end
 
+  end
+
+  def manageshifts
+    @user = User.find(session[:user_id])
+    @chores = Chore.find_all_by_house_id(@user.house_id)
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @shifts }
+    end
   end
 end

@@ -2,7 +2,7 @@
 {
 	font-family: Verdana, Geneva, sans-serif;
 }
-
+ 
 #wrap{
 	margin: auto;
 	width: 1100px;
@@ -71,6 +71,7 @@
 	text-align: center;
 }
 #navbar {
+	color: #FFFFFF;
 	background-color: #7092BE;
 	height: 400px;
 	width: 190px;

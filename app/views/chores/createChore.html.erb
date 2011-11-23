@@ -19,15 +19,15 @@
               </label></div>
               <div class="field"><label>
                 <span id=>Number of hours <a id="num_hours" class="qbox">[?]</a></span>
-                <%= f.number_field :hours, :class=>"input_text"%>
+                <%= f.number_field :hours, :class=>"input_text", :min=>0%>
               </label></div>
               <div class="field"><label>
                 <span>Sign out deadline <a id="sign_out_deadline" class="qbox">[?]</a></span>
-                <%= f.number_field :sign_out_by_hours_before, :class=>"input_text"%>
+                <%= f.number_field :sign_out_by_hours_before, :class=>"input_text", :min=>0%>
               </label></div>
               <div class="field"><label>
                 <span>Due hours after <a id="due_hours" class="qbox">[?]</a></span>
-                <%= f.number_field :due_hours_after, :class=>"input_text"%>
+                <%= f.number_field :due_hours_after, :class=>"input_text", :min=>0%>
               </label></div>
 
             <%= f.submit :class=>"button" %>
@@ -56,7 +56,7 @@
                     <% days_array = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] %>
 
                         Day: <%= days_array[shift.day_of_week-1] %> <br />
-                        Start Time: <%= shift.time %> <br />
+                        Start Time: <%= shift.time.strftime("%I:%M%p") %> <br />
                           <%= link_to 'Edit Shift', edit_shift_path(shift) %>
                     <%= button_to 'Delete Shift', shift, :confirm => 'Are you sure?', :method => :delete %> <br />
 
@@ -93,7 +93,6 @@
       </div>
  <script type="text/javascript">
 var Accordion1 = new Spry.Widget.Accordion("Accordion1");
-
 $("#num_hours").attr('title', 'Number of hours the chore takes to complete');
 $("#sign_out_deadline").attr('title', 'Number of hours before the chore’s assignment time a resident must sign out of the chore to be considered exempt from it.');
 $("#due_hours").attr('title', 'How many hours after the chore’s start time the chore is due.');
