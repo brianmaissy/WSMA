@@ -14,11 +14,38 @@ Tai Schuller
 Cat Callaghan
 
 ========================================
+Testing Instructions
+========================================
+
+Connect to the application as explained in the 'Running the application on the EC2' section below.
+
+[*put instructions here about what to test*]
+
+File issues as explained in the 'Issue Tracker' section below.
+
+If you want to see the source for some reason, it is accessible at https://github.com/brianmaissy/WSMA.
+
+If you have any problems accessing or using the application or filing issues, please contact Brian (contact info above).
+
+========================================
 Running the application on the EC2
 ========================================
 
 Navigate to:
 http://107.20.135.212:8092
+
+To login with admin privileges: admin//169testers
+To login with workshift manager privileges: wsm//169testers
+To login with user privileges: user//169testers
+
+========================================
+Issue Tracker
+========================================
+
+Issues can be opened here:
+https://github.com/brianmaissy/WSMA/issues
+
+Anyone can create issues, but you need a github account.
 
 ========================================
 Running the application locally

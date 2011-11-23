@@ -119,7 +119,8 @@ class UsersController < ApplicationController
   # GET /profile
   # PUT /profile
   def profile
-    @user = User.find(params[:id])
+
+    @user = User.find(session[:user_id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -130,6 +131,16 @@ class UsersController < ApplicationController
   # GET /forgot_password
   def forgot_password
     #TODO implement this (iteration 3)
+  end
+
+  # Get /manage
+  def manage
+    @user = User.find(session[:user_id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render :json => @user }
+    end
   end
 
 end
