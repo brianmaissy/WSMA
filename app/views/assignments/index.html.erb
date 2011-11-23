@@ -1,4 +1,4 @@
-<h1>My Shifts</h1>
+<h1>Assignments</h1>
 
 <table>
   <tr>
@@ -10,7 +10,6 @@
   </tr>
 
 <% @assignments.each do |assignment| %>
-	<% if assignment.user_id == session[:user_id] %>
 		<tr>
 			<td><%= assignment.week %></td>
 			<td><%= assignment.status %></td>
@@ -18,7 +17,6 @@
 			<td><%= link_to 'Edit', edit_assignment_path(assignment) %></td>
 			<td><%= link_to 'Destroy', assignment, :confirm => 'Are you sure?', :method => :delete %></td>
 		</tr>
-	<% end %>
 <% end %>
 </table>
 

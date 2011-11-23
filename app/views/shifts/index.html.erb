@@ -60,47 +60,35 @@
 					<%= tag("div", {:class => "day sunday", :id => "su"+shift.chore.id.to_s}, true) =%></div>
 				</div>
 			<% end %>
-			<div class="chore">
-				<div class="chorename">Permanent Chore</div>
-				<div class="day monday" id="mbreakfastdishes"></div>
-				<div class="day tuesday" id="tbreakfastdishes"></div>
-				<div class="day wednesday" id="wbreakfastdishes"></div>
-				<div class="day thursday" id="thbreakfastdishes"></div>
-				<div class="day friday" id="fbreakfastdishes"></div>
-				<div class="day saturday" id="sabreakfastdishes"></div>
-				<div class="day sunday" id="subreakfastdishes"></div>
-			</div>		
-    
+
         </div>
 		
-        <div id="namelist">
-			<div id="namelisttitle"> Residents </div>
-			<div class="resident">
-				John Doe
-			</div>
-			<div class="resident">
-				Jane Doe
-			</div>
-			<div class="resident">
-				Harry Potter
-			</div>
-			<div class="resident">
-				Hermione Granger
-			</div>
-			<div class="resident">
-				Ron Weasley
-			</div>
-			<div class="resident">
-				Ginny Weasley
-			</div>
-			<div class="resident">
-				Draco Malfoy
-			</div>
-			<div class="resident">
-				Dumbledore
-			</div>
+		<div id="namelist">
+			<% @users.each do |user| %>				
+				<%= tag("div", {:class => "resident"}, true) =%><%= user.name %></div>
+			<% end %>
 		</div>
 
-	  
-<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+		<%= form_for(@assignment) do |f| %>
+			<div class="field" id="form_userid">
+				<%= f.number_field :user_id %>
+			</div>
+			<div class="field" id="form_shiftid">
+				<%= f.number_field :shift_id %>
+			</div>
+			<div class="field" id="form_week">
+				<%= f.number_field :week %>
+			</div>
+			<div class="field" id="form_status">
+				<%= f.number_field :status %>
+			</div>
+			<div class="field" id="form_blowoffjobid">
+				<%= f.number_field :blow_off_job_id %>
+			</div>	
+			<div class="actions">
+				<%= f.submit %>
+			</div>
+			
+		<% end %>
+
 
