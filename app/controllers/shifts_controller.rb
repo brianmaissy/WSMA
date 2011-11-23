@@ -4,7 +4,8 @@ class ShiftsController < ApplicationController
   # GET /shifts.json
   def index
     @shifts = Shift.all
-
+	@users = User.all
+	
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @shifts }
