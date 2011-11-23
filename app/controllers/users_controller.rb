@@ -25,6 +25,16 @@ class UsersController < ApplicationController
       format.json { render :json => @user }
     end
   end
+  
+  # GET /users/find_by_name/a
+  # GET /users/find_by_name/a.json
+  def find_by_name
+    @user = User.find_by_name(params[:name])
+
+    respond_to do |format|
+      format.json { render :json => @user }
+    end
+  end
 
   # GET /users/new
   # GET /users/new.json
@@ -140,5 +150,4 @@ class UsersController < ApplicationController
       format.json { render :json => @user }
     end
   end
-
 end
