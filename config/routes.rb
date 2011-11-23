@@ -41,6 +41,7 @@ WSMA::Application.routes.draw do
   match "/logout" => "users#logout"
   match "/manageshifts" => "shifts#manageshifts"
   match "/createChore" => "chores#createChore"
+  match "/quickassign" => "assignments#quickcreate"
 
 
   # The priority is based upon order of creation:

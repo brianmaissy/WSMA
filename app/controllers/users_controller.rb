@@ -119,9 +119,7 @@ class UsersController < ApplicationController
   # GET /profile
   # PUT /profile
   def profile
-
     @user = User.find(session[:user_id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @user }
