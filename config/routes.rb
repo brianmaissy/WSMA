@@ -37,6 +37,7 @@ WSMA::Application.routes.draw do
   match "/logout" => "users#logout"
   match "/manageShifts" => "shifts#manageShifts"
   match "/createChore" => "chores#createChore"
+  match "users/find_by_name/:name" => "users#find_by_name"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
