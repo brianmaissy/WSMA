@@ -21,6 +21,8 @@ Connect to the application as explained in the 'Running the application on the E
 
 Please use Chrome. We have not yet tackled cross-browser compatibility, so we cannot guarantee correct functionality if you use any other browser. The UI design is not yet complete, so the appearance will be somewhat rough around the edges.
 
+Things to test:
+
 Chore and Shift creation:
 1. Are chores and shifts properly created?
 2. Do they get shown on other relevant pages (Shift allocation, Manage shifts)?
@@ -29,11 +31,11 @@ Manage Shifts:
 1. Do all shifts get displayed correctly?
 2. Are colors correct?
 
-
-
 File issues as explained in the 'Issue Tracker' section below.
 
-If you want to see the source for some reason, it is accessible at https://github.com/brianmaissy/WSMA.
+If you want to see the source, it is accessible at https://github.com/brianmaissy/WSMA/zipball/testing.
+
+Requirements and Design documents are available in the doc/ directory of the repository.
 
 If you have any problems accessing or using the application or filing issues, please contact Brian (contact info above).
 
