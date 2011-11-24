@@ -4,8 +4,6 @@ WSMA::Application.routes.draw do
 
   resources :houses
 
-  resources :encrypted_connections
-
   resources :chores
 
   resources :shifts
@@ -24,8 +22,6 @@ WSMA::Application.routes.draw do
 
   resources :houses
 
-  resources :encrypted_connections
-
   resources :users
   
   resources :demo
@@ -33,12 +29,17 @@ WSMA::Application.routes.draw do
   #match "/demo/login" => "users#login"
   match "/demo/chores" => "chores#new"
   match "/demo/profile" => "users#profile"
+
+  match "/demo/advance_time"
+  match "/demo/mock_time"
+  match "/demo/real_time"
+  
   match "/user/managefines" => "users#manage"
   match "/user/profile" => "users#profile"
-  
 
   match "/login" => "users#login"
   match "/logout" => "users#logout"
+
   match "/manageshifts" => "shifts#manageshifts"
   match "/createChore" => "chores#createChore"
   match "/quickassign" => "assignments#quickcreate"

@@ -1,0 +1,12 @@
+<% if TimeProvider.in_mock_mode %>
+    <%= form_tag({:controller => :demo, :action => :advance_time}, :remote => true, :class => :inline) do %>
+        Mock time: <span id="time"><%= TimeProvider.now.strftime("%Y-%m-%d %H:%M:%S") -%></span>
+        <%= text_field_tag :hours, '', :size => 8 -%> hours
+        <%= submit_tag "Advance" -%>
+    <% end %>
+    <%= form_tag({:controller => :demo, :action => :real_time}, :remote => true, :class => :inline) do %>
+        <%= submit_tag "Real Time" -%>
+    <% end %>
+<% else %>
+    <%= button_to "Mock Time", {:controller => :demo, :action => :mock_time}, :remote => true -%>
+<% end %>
