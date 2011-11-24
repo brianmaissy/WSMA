@@ -7,8 +7,6 @@ class Shift < ActiveRecord::Base
   
   validates_presence_of :day_of_week, :time, :temporary
   validates_numericality_of :day_of_week, :greater_than_or_equal_to => 1, :less_than_or_equal_to => 7
-  #TODO: find a way to do time validation
-  #validates_time :time
   validate :temporary_has_legal_value
   validate :temporary_shifts_cannot_be_allocated
   
