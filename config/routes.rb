@@ -43,7 +43,7 @@ WSMA::Application.routes.draw do
   match "/createChore" => "chores#createChore"
   match "/quickassign" => "assignments#quickcreate"
   match "users/find_by_name/:name" => "users#find_by_name"
-
+  match "assignments/find/:shift_id/:user_id" => "assignments#find"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

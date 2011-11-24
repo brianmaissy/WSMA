@@ -95,19 +95,25 @@ var highlightedShiftID = '';
 								"assignment": {"user_id": userID, "shift_id": shiftID, "week": 1, "status": 1, "blow_off_job_id": 1},
 								"commit": "Create Assignment"},
 							success: function( data ) {
-								;
+								// retrieve the ID of the just-created assignment
+								var findAssignmentURL = "/assignments/find/" + shiftID + "/" + userID;
+								$.ajax({
+									url: findAssignmentURL, 
+									type: 'GET',									
+									success: function( data ) {
+										newDiv.attr('id', data.id);
+										
+									}
+								});
 							}			
-						});
-						residentClick();
+						});			
 					}
-				});									
-					
-				
+				});
+				residentClick();			
 				// click handler for the close buttons
 				$(closeButton).click(function() {
 					undoAssignment(username, newDiv);
-				});	
-				
+				});					
 			}
 		});
 	}
@@ -142,8 +148,18 @@ var highlightedShiftID = '';
 						"authenticity-token": authToken, 
 						"assignment": {"user_id": userID, "shift_id": shiftID, "week": 1, "status": 1, "blow_off_job_id": 1},
 						"commit": "Create Assignment"},
-					success: function( data ) {
-						;												
+					success: function( data ) {						
+						// retrieve the ID of the just-created assignment
+						var findAssignmentURL = "/assignments/find/" + shiftID + "/" + userID;
+						$.ajax({
+							url: findAssignmentURL, 
+							type: 'GET',									
+							success: function( data ) {	
+							
+								newDiv.attr('id', data.id);
+																
+							}
+						});												
 					}			
 				});								
 				residentClick();
@@ -156,9 +172,9 @@ var highlightedShiftID = '';
 	}
 
 	function undoAssignment(username, oldDiv) {
-		//var residentName = oldDiv.text().substr(0, oldDiv.text().length-1);
 		// make a new div with the resident's name
 		var replaceDiv = $('<div></div>').addClass('resident').append(username);
+		var assignmentID = oldDiv.attr('id');
 		// remove the resident's name from the shift div
 		oldDiv.remove();
 		// put the resident's name back into the name list
@@ -170,13 +186,13 @@ var highlightedShiftID = '';
 			snap: '.day',
 			revert: true
 		});	
-					
+		
 		// delete the assignment
-		/*$.ajax({
-			url: '/assignments', 
+		var deleteAssignmentURL = "/assignments/" + assignmentID;					
+		$.ajax({
+			url: deleteAssignmentURL, 
 			type: 'delete', 
-			data:{"user_id": 2, "shift_id": 2, "week": 2, "status": 2, "blow_off_job_id": 2}
-		});*/
+		});
 					
 		// re-call the resident click handler
 		residentClick();		

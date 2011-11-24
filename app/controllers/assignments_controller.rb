@@ -22,6 +22,16 @@ class AssignmentsController < ApplicationController
       format.json { render :json => @assignment }
     end
   end
+  
+  # GET /assignments/find/1/1
+  # GET /assignments/find/1/1.json
+  def find
+    @assignment = Assignment.find_by_shift_id_and_user_id(params[:shift_id], params[:user_id])
+
+    respond_to do |format|
+      format.json { render :json => @assignment }
+    end
+  end
 
   # GET /assignments/new
   # GET /assignments/new.json
