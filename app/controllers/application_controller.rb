@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  before_filter :fetch_logged_user, :only => [:authenticate, :authorize_user, :authorize_wsm, :authorize_admin]
+  before_filter :fetch_logged_user
 
   protected
 
