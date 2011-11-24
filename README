@@ -31,6 +31,13 @@ Manage Shifts:
 1. Do all shifts get displayed correctly?
 2. Are colors correct?
 
+Shift Allocation
+1. Can you drag and drop resident names onto the shift calendar?
+2. Can you highlight a box on the calendar by clicking on it, click on a resident name, and have that name jump to the highlighted box?
+3. Does the resident's name disappear from the list and appear in the right place on the shift calendar each time you do one of the above things?
+4. Is an assignment created each time you do one of the above things?
+5. Is the appropriate assignment deleted when you click the "x" button on a resident's name in a box on the calendar?
+
 File issues as explained in the 'Issue Tracker' section below.
 
 If you want to see the source, it is accessible at https://github.com/brianmaissy/WSMA/zipball/testing.
