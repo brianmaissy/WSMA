@@ -1106,11 +1106,12 @@ function editFailed(t, obj){
 </script>
 
 
-		<div id="Layer1"><strong>My Profile </strong></div>
-        <a>Name: </a><a id="desc"> <%= @user.name %></a><br /><br />
-		<a>Room Number: </a><a id="desc2"> <%= @user.room_number%></a><br /><br />
-        <a>Email: </a><a id="desc3"> <%= @user.email%></a><br /><br />
-        <a>Phone Number: </a><a id="desc4"><%= @user.phone_number%></a><br /><br />
+		<h2>My Profile</h2>
+		<br /><br />
+        <p>Name: <a id="desc"> <%= @user.name %></a></p>
+		<p>Room Number: <a id="desc2"> <%= @user.room_number%></a></p>
+        <p>Email: <a id="desc3"> <%= @user.email%></a></p>
+        <p>Phone Number: <a id="desc4"><%= @user.phone_number%></a></p>
 
         <a>About me:</a><p id="desc5"><%= @user.notes%></p>
         <p>&nbsp; </p>

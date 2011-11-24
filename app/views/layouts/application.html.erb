@@ -27,33 +27,31 @@
    		</span>
       </div>
       <div id="logobar">
-		<%= image_tag "BSC-logo-small.jpg", :alt => "Go Home", :id => "logo" %>
-		<span id="logotext">Workshift Manager</span>
+		<a href="/"><%= image_tag "BSC-logo-small.png", :alt => "Go Home", :id => "logo" %></a>
+		<div id="logotext">Workshift Manager</div>
       </div>
       <div id="navbar">
-		<ul id="navlist">
 			<% if @logged_user %>
               <%if @logged_user.access_level == 1 %>
-                <li><a class="navlistitem" href="">My Shifts</a><li>
-				<li><a class="navlistitem" href="">My Fines</a></li>
-				<li><a class="navlistitem" href="">Shift Preferences</a></li>
+                <div class="navlistitem"><a class="navlistlink" href="">My Shifts</a></div>
+				<div class="navlistitem"><a class="navlistlink" href="">My Fines</a></div>
+				<div class="navlistitem"><a class="navlistlink" href="">Shift Preferences</a></div>
 
               <%elsif @logged_user.access_level == 2 %>
-                <li><a class="navlistitem" href="/manageshifts">Manage Shifts</a><li>
-				<li><a class="navlistitem" href="">Allocate Shifts</a></li>
-				<li><a class="navlistitem" href="/createChore">Create Chores and Shifts</a></li>
+                <div class="navlistitem"><a class="navlistlink" href="/manageshifts">Manage Shifts</a></div>
+				<div class="navlistitem"><a class="navlistlink" href="/shifts">Allocate Shifts</a></div>
+				<div class="navlistitem"><a class="navlistlink" href="/createChore">Create Chores and Shifts</a></div>
 
               <%elsif @logged_user.access_level == 3%>
-                <li><a class="navlistitem" href="/manageshifts">Manage Shifts</a><li>
-				<li><a class="navlistitem" href="">Allocate Shifts</a></li>
-				<li><a class="navlistitem" href="/createChore">Create Chores and Shifts</a></li>
+                <div class="navlistitem"><a class="navlistlink" href="/manageshifts">Manage Shifts</a></div>
+				<div class="navlistitem"><a class="navlistlink" href="/shifts">Allocate Shifts</a></div>
+				<div class="navlistitem"><a class="navlistlink" href="/createChore">Create Chores and Shifts</a></div>
 
               <%end%>
 
             <% else %>
-				<li><a class="navlistitem" href="/login">Login</a></li>
+				<a class="navlistitem" href="/login">Login</a>
             <% end %>			
-   		</ul>
       </div>
       <div id="content">
         <% if not flash[:notice].blank? -%>

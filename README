@@ -19,10 +19,11 @@ Testing Instructions
 
 Connect to the application as explained in the 'Running the application on the EC2' section below.
 
-[*put instructions here about what to test*]
+Please use Chrome. We have not yet tackled cross-browser compatibility, so we cannot guarantee correct functionality if you use any other browser. The UI design is not yet complete, so the appearance will be somewhat rough around the edges.
+
 Chore and Shift creation:
-1. Are chores and shifts properly created.
-2. Do they get shown on other relevant pages (Shift allocation, Manage shifts)
+1. Are chores and shifts properly created?
+2. Do they get shown on other relevant pages (Shift allocation, Manage shifts)?
 
 Manage Shifts:
 1. Do all shifts get displayed correctly?

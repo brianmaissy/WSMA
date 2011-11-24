@@ -1,10 +1,11 @@
 @charset "utf-8";
 /* CSS Document */
 #content_header {
-	padding-left: 10px;
+	padding-left: 20px;
 }
-#calendar {
+#allocationcalendar {
 	position: absolute;
+	top: 60px;
 	margin-left: 20px;
 	margin-right: 0px;
 	width: 715px;
@@ -20,8 +21,8 @@
 {
 	width: 625px;
 	height: 30px;
-	color: #FFFFFF;
-	background-color: #7092BE;
+	color: #000000;
+	background-color: #98A936;
 	font-size: 10pt;
 	padding-left: 89px;
 }
@@ -37,11 +38,15 @@
 	width: 150px;
 	height: 30px;
 }
+#shiftallocationspacer
+{
+	height: 80px;
+}
 .tab {
 	width: 70px;
 	height: 35px;
 	color: #FFFFFF;
-	background-color:#7092BE;  
+	background-color: #98A936;  
     border:1px solid; 
     border-color: #000 #000 #7092BE #000;
 }
@@ -49,14 +54,14 @@
 {
 	float: left;
 	width: 84px;
-	border: 1px solid #777777;
+	border: 1px solid #98A936;
 	padding-left: 3px;
 }
 .chore
 {
 	width: 715px;
 	height: 102px;
-	background-color: #FFBB99;
+	background-color: #EFE4B0;
 }
 .chorename
 {
@@ -64,6 +69,7 @@
 	width: 87px;
 	height: 100px;
 	border: 1px solid black;
+	background-color: #98A936;
 }
 .day
 {
@@ -80,7 +86,7 @@
 	margin: 2px;
 	margin-right: 0px;
 	color: #FFFFFF;
-	background-color: #7092BE;
+	background-color: #2F7097;
 	font-size: 10pt;
 	z-index: 1;
 }
