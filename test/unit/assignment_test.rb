@@ -34,7 +34,7 @@ class AssignmentTest < ActiveSupport::TestCase
   end
 
   test "sign_out removes respective assignment" do
-    assignment = Assignment.new(:user => users(:one), :shift => shifts(:one), :week => 11, :status => 1, :blow_off_job_id => "a")
+    assignment = Assignment.new(:user => users(:one), :shift => shifts(:one), :week => 11, :status => 1)
     assignment.save!
     assignment.sign_out
     assert_nil(assignment)
