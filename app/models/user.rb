@@ -47,17 +47,12 @@ class User < ActiveRecord::Base
     return (0..12).map{ chars[rand(chars.length)] }.join
   end
 
-  def authenticate(encrypted_password, public_key)
-    #TODO: implement this (iteration z)
-    raise NotImplementedError
-  end
-
-  def change_password(encrypted_new_password, public_key)
-    #TODO: implement this (iteration z)
-    raise NotImplementedError
-  end
-
   def send_reset_password_email
+    #TODO: implement this (iteration 3)
+    raise NotImplementedError
+  end
+
+  def change_password(security_token, new_password)
     #TODO: implement this (iteration 3)
     raise NotImplementedError
   end

@@ -57,18 +57,6 @@ class House < ActiveRecord::Base
       end
     end
   end
-  def permanent_chores_start_week=(week)
-    if week.class == String
-      week = week.to_i
-    end
-    if not week.nil?
-      if current_week.nil? or week > current_week
-        super(week)
-      else
-        raise ArgumentError, "Week has already passed!"
-      end
-    end
-  end
   def current_week=(week)
     if week.class == String
       week = week.to_i
@@ -78,6 +66,18 @@ class House < ActiveRecord::Base
         super(week)
       else
         raise ArgumentError, "Current week cannot decrease"
+      end
+    end
+  end
+  def permanent_chores_start_week=(week)
+    if week.class == String
+      week = week.to_i
+    end
+    if not week.nil?
+      if current_week.nil? or week > current_week
+        super(week)
+      else
+        raise ArgumentError, "Week has already passed!"
       end
     end
   end

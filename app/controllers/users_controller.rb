@@ -141,6 +141,12 @@ class UsersController < ApplicationController
     #TODO implement this (iteration 3)
   end
 
+  # GET /change_password
+  # PUT /change_password
+  def change_password
+    #TODO implement this (iteration 3)
+  end
+
   # Get /manage
   def manage
     @user = User.find(session[:user_id])
