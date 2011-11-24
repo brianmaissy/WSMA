@@ -33,6 +33,8 @@ WSMA::Application.routes.draw do
   #match "/demo/login" => "users#login"
   match "/demo/chores" => "chores#new"
   match "/demo/profile" => "users#profile"
+  match "/demo/advance_time" => "demo#advance_time"
+  
   match "/user/managefines" => "users#manage"
   match "/user/profile" => "users#profile"
   
