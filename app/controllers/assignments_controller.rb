@@ -4,7 +4,8 @@ class AssignmentsController < ApplicationController
   # GET /assignments.json
   def index
     @assignments = Assignment.all
-
+	@users = User.all
+	
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @assignments }

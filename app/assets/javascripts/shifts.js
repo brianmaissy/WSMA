@@ -1,7 +1,6 @@
 var shiftIsHighlighted = false;
 var highlightedShiftID = '';
 
-
 	$( init );
 
 	function init() {
@@ -37,7 +36,7 @@ var highlightedShiftID = '';
 			  // if this shift is highlighted, un-highlight it
 			  else if($(this).hasClass('highlighted')) {
 				$(this).css('border', '1px solid #000000');
-				$(this).css('background-color', '#FFBB99');
+				$(this).css('background-color', '#EFE4B0');
 				$(this).removeClass('highlighted');
 				shiftIsHighlighted = false;
 				highlightedShiftID = '';
@@ -46,11 +45,11 @@ var highlightedShiftID = '';
 				if(shiftIsHighlighted) {
 					$('#' + highlightedShiftID).removeClass('highlighted');
 					$('#' + highlightedShiftID).css('border', '1px solid #000000');
-					$('#' + highlightedShiftID).css('background-color', '#FFBB99');
+					$('#' + highlightedShiftID).css('background-color', '#EFE4B0');
 				}
 				// highlight this shift
-				$(this).css('border', '1px solid #00CCFF');
-				$(this).css('background-color', '#FFFFD5');
+				$(this).css('border', '1px solid #2F7097');
+				$(this).css('background-color', '#FFFFFF');
 				$(this).addClass('highlighted');
 				shiftIsHighlighted = true;				
 				highlightedShiftID = $(event.target).attr('id');
@@ -66,7 +65,7 @@ var highlightedShiftID = '';
 			if(shiftIsHighlighted) {
 				// create a new div with the resident's name in it and a close button
 				var username = $(this).text();
-				var shiftID = highlightedShiftID;
+				var shiftID = highlightedShiftID.substr(1);;
 				var newDiv = $('<div></div>').addClass('assignedResident').append(username);
 				var closeButton = $('<span></span>').addClass('closeButton');		
 				closeButton.append('x');
@@ -84,35 +83,24 @@ var highlightedShiftID = '';
 					type: 'GET',
 					dataType: 'json',
 					success: function( data ) {
-						var nameeee = data.name;
 						userID = data.id;
-						var div = $('<div></div>').append(nameeee).append(userID);
-						$('#namelist').append(div);						
+						// create an assignment of the current shift to the selected resident using
+						// the hidden dummy form
+						var authToken = $('input[name=authenticity_token]').attr("value");				
+						$.ajax({
+							url: '/assignments', 
+							type: 'POST', 
+							data:{"utf-8": "&#x2713",
+								"authenticity-token": authToken, 
+								"assignment": {"user_id": userID, "shift_id": shiftID, "week": 1, "status": 1, "blow_off_job_id": 1},
+								"commit": "Create Assignment"},
+							success: function( data ) {
+								;
+							}			
+						});
 						residentClick();
 					}
-				});
-							 
-				// create an assignment of the current shift to the selected resident using
-				// the hidden dummy form
-				$('#form_userid').val(userID);
-				$('#form_shiftid').val(highlightedShiftID);
-				$('#form_week').val(0);
-				$('#form_status').val(1)
-				$('#form_blowoffjobid').val(1);
-				
-				$.ajax({
-					url: '/assignments/new', 
-					type: 'POST', 
-					data:{"assignment": {"user_id": userID, "shift_id": 1, "week": 1, "status": 1, "blow_off_job_id": 1}},
-					success: function( data ) {
-						var div = $('<div></div>').append('assigned');
-						$('#namelist').append(div);
-					},
-					error: function( errorThrown ) {
-						var div = $('<div></div>').append(errorThrown);
-						$('#namelist').append(div);
-					}
-				});					
+				});									
 					
 				
 				// click handler for the close buttons
@@ -127,26 +115,48 @@ var highlightedShiftID = '';
 	function handleResidentDrop(event, ui) {
 		var resident = ui.draggable;
 		var username = resident.text();
-		var shiftID = $(event.target).attr('id');
+		var shiftID = $(this).attr('id').substr(1);
 		var newDiv = $('<div></div>').addClass('assignedResident').append(username);
 		var closeButton = $('<span></span>').addClass('closeButton');
-		
-		//make new assignment using username and shift
-		
 		closeButton.append('x');
-		newDiv.append(closeButton);
+		newDiv.append(closeButton);	
 		$(this).append(newDiv);
 		resident.remove();
 		
-		//$.ajax({
-			//url: '/assignments', type: 'post', data:{user: username, shift: shiftID.substr(1)}
-		//});
+		// retrieve the user ID of the resident whose name was selected
+		var findIDURL = '/users/find_by_name/' + username;
+		var userID = 0;
+		$.ajax({
+			url: findIDURL,
+			type: 'GET',
+			dataType: 'json',
+			success: function( data ) {
+				userID = data.id;
+				// create an assignment of the current shift to the selected resident using
+				// the hidden dummy form's authenticity token
+				var authToken = $('input[name=authenticity_token]').attr("value");
+				$.ajax({
+					url: '/assignments', 
+					type: 'POST', 
+					data:{"utf-8": "&#x2713",
+						"authenticity-token": authToken, 
+						"assignment": {"user_id": userID, "shift_id": shiftID, "week": 1, "status": 1, "blow_off_job_id": 1},
+						"commit": "Create Assignment"},
+					success: function( data ) {
+						;												
+					}			
+				});								
+				residentClick();
+			}
+		});
+		
 		$(closeButton).click(function() {
 			undoAssignment(username, newDiv);
 		});		
 	}
 
 	function undoAssignment(username, oldDiv) {
+		//var residentName = oldDiv.text().substr(0, oldDiv.text().length-1);
 		// make a new div with the resident's name
 		var replaceDiv = $('<div></div>').addClass('resident').append(username);
 		// remove the resident's name from the shift div
@@ -162,11 +172,11 @@ var highlightedShiftID = '';
 		});	
 					
 		// delete the assignment
-		$.ajax({
+		/*$.ajax({
 			url: '/assignments', 
 			type: 'delete', 
 			data:{"user_id": 2, "shift_id": 2, "week": 2, "status": 2, "blow_off_job_id": 2}
-		});
+		});*/
 					
 		// re-call the resident click handler
 		residentClick();		

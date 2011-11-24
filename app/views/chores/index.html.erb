@@ -15,8 +15,10 @@
 
 <% @chores.each do |chore| %>
   <tr>
-    <td><%= chore.house.name %></td>
-    <td><%= chore.name %></td>
+	<% if !chore.house.nil? %>
+		<td><%= chore.house.name %></td>
+    <% end %>
+	<td><%= chore.name %></td>
     <td><%= chore.description %></td>
     <td><%= chore.hours %></td>
     <td><%= chore.sign_out_by_hours_before %></td>

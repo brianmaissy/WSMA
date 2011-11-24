@@ -2,15 +2,16 @@
 
 <table>
   <tr>
+    <th>User</th>
+    <th>Shift</th>
     <th>Week</th>
     <th>Status</th>
-    <th></th>
-    <th></th>
-    <th></th>
   </tr>
 
 <% @assignments.each do |assignment| %>
 		<tr>
+			<td><%= assignment.user_id %></td>
+			<td><%= assignment.shift_id %></td>
 			<td><%= assignment.week %></td>
 			<td><%= assignment.status %></td>
 			<td><%= link_to 'Show', assignment %></td>
