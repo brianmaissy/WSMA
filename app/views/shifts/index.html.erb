@@ -1,44 +1,9 @@
-<h2>Listing shifts</h2>
-
-<table>
-  <tr>
-    <th>Chore</th>
-    <th>Day of week</th>
-    <th>Time</th>
-    <th>Temporary</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @shifts.each do |shift| %>
-  <tr>
-    <td><%= shift.chore.name %></td>
-    <td><%= shift.day_of_week %></td>
-    <td><%= shift.time %></td>
-    <td><%= shift.temporary %></td>
-    <td><%= link_to 'Show', shift %></td>
-    <td><%= link_to 'Edit', edit_shift_path(shift) %></td>
-    <td><%= link_to 'Destroy', shift, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Shift', new_shift_path %>
-
-
 <div id="content_header">
     <h2>Shift Allocation</h2>
 </div>
 <!-- Chore creation field -->
-        <div id="calendar">
+        <div id="allocationcalendar">
        
-			<div>
-				<span class="tab" id="dailytab"><a class="buttonwrapper" href=#>Daily</a></span>
-				<span class="tab" id="weeklytab"><a class="buttonwrapper" href=#>Weekly</a></span>
-			</div>
 			<div id="daily">
               <span class="dayname">Monday</span>
 			  <span class="dayname">Tuesday</span>
@@ -50,57 +15,27 @@
 			</div>
 			<% @shifts.each do |shift| %>				
 				<div class="chore">
-					<div class="chorename"><%= shift.chore.name %></div>
-					<%= tag("div", {:class => "day monday", :id => "m"+shift.chore.name.gsub(/ /,'')}, true) =%></div>
-					<%= tag("div", {:class => "day tuesday", :id => "t"+shift.chore.name.gsub(/ /,'')}, true) =%></div>
-					<%= tag("div", {:class => "day wednesday", :id => "w"+shift.chore.name.gsub(/ /,'')}, true) =%></div>
-					<%= tag("div", {:class => "day thursday", :id => "th"+shift.chore.name.gsub(/ /,'')}, true) =%></div>
-					<%= tag("div", {:class => "day friday", :id => "f"+shift.chore.name.gsub(/ /,'')}, true) =%></div>
-					<%= tag("div", {:class => "day saturday", :id => "sa"+shift.chore.name.gsub(/ /,'')}, true) =%></div>
-					<%= tag("div", {:class => "day sunday", :id => "su"+shift.chore.name.gsub(/ /,'')}, true) =%></div>
+					<%= tag("div", {:class => "chorename", :id => shift.chore.id.to_s}, true) =%><%= shift.chore.name %> <%= shift.time %></div>
+					<%= tag("div", {:class => "day monday", :id => "m"+shift.chore.id.to_s}, true) =%></div>
+					<%= tag("div", {:class => "day tuesday", :id => "t"+shift.chore.id.to_s}, true) =%></div>
+					<%= tag("div", {:class => "day wednesday", :id => "w"+shift.chore.id.to_s}, true) =%></div>
+					<%= tag("div", {:class => "day thursday", :id => "h"+shift.chore.id.to_s}, true) =%></div>
+					<%= tag("div", {:class => "day friday", :id => "f"+shift.chore.id.to_s}, true) =%></div>
+					<%= tag("div", {:class => "day saturday", :id => "a"+shift.chore.id.to_s}, true) =%></div>
+					<%= tag("div", {:class => "day sunday", :id => "u"+shift.chore.id.to_s}, true) =%></div>
 				</div>
 			<% end %>
-			<div class="chore">
-				<div class="chorename">Permanent Chore</div>
-				<div class="day monday" id="mbreakfastdishes"></div>
-				<div class="day tuesday" id="tbreakfastdishes"></div>
-				<div class="day wednesday" id="wbreakfastdishes"></div>
-				<div class="day thursday" id="thbreakfastdishes"></div>
-				<div class="day friday" id="fbreakfastdishes"></div>
-				<div class="day saturday" id="sabreakfastdishes"></div>
-				<div class="day sunday" id="subreakfastdishes"></div>
-			</div>		
-    
+			<div id="shiftallocationspacer"></div>
         </div>
 		
-        <div id="namelist">
-			<div id="namelisttitle"> Residents </div>
-			<div class="resident">
-				John Doe
-			</div>
-			<div class="resident">
-				Jane Doe
-			</div>
-			<div class="resident">
-				Harry Potter
-			</div>
-			<div class="resident">
-				Hermione Granger
-			</div>
-			<div class="resident">
-				Ron Weasley
-			</div>
-			<div class="resident">
-				Ginny Weasley
-			</div>
-			<div class="resident">
-				Draco Malfoy
-			</div>
-			<div class="resident">
-				Dumbledore
-			</div>
+		<div id="namelist">
+			<% @users.each do |user| %>				
+				<%= tag("div", {:class => "resident"}, true) =%><%= user.name %></div>
+			<% end %>
 		</div>
+		
+		<%= form_tag("/assignments", :method => "post") do %>
+			
+		<% end %>
 
-	  
-<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 

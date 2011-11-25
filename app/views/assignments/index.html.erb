@@ -1,22 +1,23 @@
-<h1>Listing assignments</h1>
+<h1>Assignments</h1>
 
 <table>
   <tr>
+    <th>User</th>
+    <th>Shift</th>
     <th>Week</th>
     <th>Status</th>
-    <th></th>
-    <th></th>
-    <th></th>
   </tr>
 
 <% @assignments.each do |assignment| %>
-  <tr>
-    <td><%= assignment.week %></td>
-    <td><%= assignment.status %></td>
-    <td><%= link_to 'Show', assignment %></td>
-    <td><%= link_to 'Edit', edit_assignment_path(assignment) %></td>
-    <td><%= link_to 'Destroy', assignment, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
+		<tr>
+			<td><%= assignment.user_id %></td>
+			<td><%= assignment.shift_id %></td>
+			<td><%= assignment.week %></td>
+			<td><%= assignment.status %></td>
+			<td><%= link_to 'Show', assignment %></td>
+			<td><%= link_to 'Edit', edit_assignment_path(assignment) %></td>
+			<td><%= link_to 'Destroy', assignment, :confirm => 'Are you sure?', :method => :delete %></td>
+		</tr>
 <% end %>
 </table>
 

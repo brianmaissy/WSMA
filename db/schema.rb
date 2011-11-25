@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -14,11 +13,10 @@
 ActiveRecord::Schema.define(:version => 20111014223155) do
 
   create_table "assignments", :force => true do |t|
-    t.integer  "user_id",         :null => false
-    t.integer  "shift_id",        :null => false
+    t.integer  "user_id",    :null => false
+    t.integer  "shift_id",   :null => false
     t.integer  "week"
     t.integer  "status"
-    t.string   "blow_off_job_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -30,13 +28,6 @@ ActiveRecord::Schema.define(:version => 20111014223155) do
     t.decimal  "hours"
     t.decimal  "sign_out_by_hours_before"
     t.decimal  "due_hours_after"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "encrypted_connections", :force => true do |t|
-    t.string   "public_key"
-    t.string   "private_key"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -58,7 +49,6 @@ ActiveRecord::Schema.define(:version => 20111014223155) do
     t.decimal  "fine_for_hours_below"
     t.decimal  "fine_per_hour_below"
     t.decimal  "forgive_percentage_of_fined_hours"
-    t.string   "fine_job_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -82,7 +72,6 @@ ActiveRecord::Schema.define(:version => 20111014223155) do
     t.integer  "using_online_sign_off"
     t.integer  "sign_off_verification_mode"
     t.decimal  "blow_off_penalty_factor"
-    t.string   "new_week_job_id"
     t.string   "wsm_email"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -127,8 +116,4 @@ ActiveRecord::Schema.define(:version => 20111014223155) do
     t.datetime "updated_at"
   end
 
-<<<<<<< HEAD
 end
-=======
-end
->>>>>>> b9fa5b1400dd5c20cd8112f53e2e48b7ae980d77

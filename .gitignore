@@ -6,3 +6,4 @@ tmp/
 *~
 .idea/
 coverage/
+db/schema.rb

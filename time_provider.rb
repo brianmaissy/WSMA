@@ -15,6 +15,10 @@ class TimeProvider
     @@in_mock_mode = mode
   end
 
+  def self.in_mock_mode
+    return @@in_mock_mode
+  end
+
   def self.now
     if @@in_mock_mode
       if not @@current_mock_time

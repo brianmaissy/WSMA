@@ -2,18 +2,25 @@
 <html>
   <head>
     <title>WSMA development</title>
-    <h3> Demo Page </h3>
+    <h2> Demo Page </h2>
 	<ul>
+        <h3>What we want you to test:</h3>
         <li><%= link_to "Login", "/login" %></li>
-		<!--<li><a href="demo/login">login</a></li>-->
 		<li><a href="user/managefines">Manage Fines</a></li>
-        <li><%= link_to "Chores", chores_path %></li>
-		<li><a href="demo/myshift">My Shift</a></li>	
-		<li><p><a href="user/profile">Profile</a> -Please login to access</p></li>	
+		<li><a href="demo/myshift">My Shifts</a></li>
+		<li><p><a href="user/profile">Profile</a> -Please login to access</p></li>
 		<li><a href="demo/register">Register</a></li>
 		<li><p><a href="houses/managefines">Fine management for wsm</a> -Just for testing</p></li>
         <li><%= link_to "Manage Shifts", "/manageshifts" %></li>
-		<li><p><a href="demo/shiftallocation">Shift Allocation</a> - The jQuery effects in this link are currently inactive. To see the page with jQuery effects, please open WSMA/html/shiftallocation.html.</p></li>
+        <li><%= link_to "Chore and Shift creation", "/createChore"%></li>
+		<li><%= link_to "Shift Allocation", "/shifts" %></li>
+
+        <h3>Useful links for testers:</h3>
+
+        <li><p><%= link_to "Create Assignment", "/quickassign" %> - A quick way to create an assignment based on the house of the logged in user.</p></li>
+        <li><p><%= link_to "List of Houses", "/houses"%> - A list of all houses. From here you can edit the qualities of a specific house.</p></li>
+        <li><p><%= link_to "Create User", "/users/new" %> - Create a new user.</p></li>
+        <li><p><%= link_to "List of Users", "/users" %> - List of all the users. From here you can edit specific users.</p></li>
 	</ul>
   </body>
 </html>

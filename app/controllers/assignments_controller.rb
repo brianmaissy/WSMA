@@ -4,7 +4,8 @@ class AssignmentsController < ApplicationController
   # GET /assignments.json
   def index
     @assignments = Assignment.all
-
+	@users = User.all
+	
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @assignments }
@@ -18,6 +19,16 @@ class AssignmentsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
+      format.json { render :json => @assignment }
+    end
+  end
+  
+  # GET /assignments/find/1/1
+  # GET /assignments/find/1/1.json
+  def find
+    @assignment = Assignment.find_by_shift_id_and_user_id(params[:shift_id], params[:user_id])
+
+    respond_to do |format|
       format.json { render :json => @assignment }
     end
   end
@@ -81,4 +92,23 @@ class AssignmentsController < ApplicationController
       format.json { head :ok }
     end
   end
+
+  def quickcreate
+    @assignment = Assignment.new
+    @user = User.find(session[:user_id])
+    @chores = Chore.find_all_by_house_id(@user.house_id)
+    @users = User.find_all_by_house_id(@user.house_id)
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render :json => @assignment }
+    end
+  end
+
+  def update_assign_menu
+   @house = House.find(params[:search][:house])
+   @chores = Chore.find_all_by_house_id(@house.id)
+   @users = User.find_all_by_house_id(@house.id)
+   render :layout => false
+ end
 end

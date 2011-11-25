@@ -3,13 +3,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>BSC Workshift Manager</title>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 <%= stylesheet_link_tag "constant", "application" %>
-<%= javascript_include_tag :application %>
-<%= javascript_include_tag 'rails' %>
+<%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" %>
+<%= javascript_include_tag 'application' %>
 <%= csrf_meta_tags %>
-<script type="text/javascript"><%= yield :jquery %></script>
 </head>
 
 <body>
@@ -18,9 +15,11 @@
       <div id="header">
       	<span id="headertitle">
     		Berkeley Student Cooperative Workshift Manager
-   		</span>
+        </span>
+        <!-- for demo/testing purposes -->
+        <div id="time" style="display: inline-block; background-color: #add8e6; margin-left: 20px;"><%= render "demo/time" %></div>
     	<span id="headerlist">
-			<a class="headerlistitem" href="">Home</a>
+			<a class="headerlistitem" href="/">Home</a>
         	<a class="headerlistitem" href="">Profile</a>
             <% if @logged_user %>
         	    <a class="headerlistitem" href="/logout">Logout</a>
@@ -30,19 +29,31 @@
    		</span>
       </div>
       <div id="logobar">
-		<%= image_tag "BSC-logo-small.jpg", :alt => "Go Home", :id => "logo" %>
-		<span id="logotext">Workshift Manager</span>
+		<a href="/"><%= image_tag "BSC-logo-small.png", :alt => "Go Home", :id => "logo" %></a>
+		<div id="logotext">Workshift Manager</div>
       </div>
       <div id="navbar">
-		<ul id="navlist">
 			<% if @logged_user %>
-				<li><a class="navlistitem" href="">My Shifts</a><li>
-				<li><a class="navlistitem" href="">My Fines</a></li>
-				<li><a class="navlistitem" href="">Shift Preferences</a></li>
+              <%if @logged_user.access_level == 1 %>
+                <div class="navlistitem"><a class="navlistlink" href="">My Shifts</a></div>
+				<div class="navlistitem"><a class="navlistlink" href="">My Fines</a></div>
+				<div class="navlistitem"><a class="navlistlink" href="">Shift Preferences</a></div>
+
+              <%elsif @logged_user.access_level == 2 %>
+                <div class="navlistitem"><a class="navlistlink" href="/manageshifts">Manage Shifts</a></div>
+				<div class="navlistitem"><a class="navlistlink" href="/shifts">Allocate Shifts</a></div>
+				<div class="navlistitem"><a class="navlistlink" href="/createChore">Create Chores and Shifts</a></div>
+
+              <%elsif @logged_user.access_level == 3%>
+                <div class="navlistitem"><a class="navlistlink" href="/manageshifts">Manage Shifts</a></div>
+				<div class="navlistitem"><a class="navlistlink" href="/shifts">Allocate Shifts</a></div>
+				<div class="navlistitem"><a class="navlistlink" href="/createChore">Create Chores and Shifts</a></div>
+
+              <%end%>
+
             <% else %>
-				<li><a class="navlistitem" href="/login">Login</a></li>
+				<a class="navlistitem" href="/login">Login</a>
             <% end %>			
-   		</ul>
       </div>
       <div id="content">
         <% if not flash[:notice].blank? -%>

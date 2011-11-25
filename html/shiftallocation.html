@@ -5,8 +5,8 @@
 <title>BSC Workshift Manager</title>
 <link href="css/constant.css" rel="stylesheet" type="text/css" />
 <link href="css/shiftallocation.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
 <script type="text/javascript">
 
 	var shiftIsHighlighted = false;
@@ -16,17 +16,61 @@
 	$( init );
 
 	function init() {
+		// apply the draggable effect to the resident divs
 		$('.resident').draggable({
 			containment: '#content',
 			snap: '.day',
 			revert: true
 		});
 		
+		// apply the droppable effect to the shift divs, which allows them to
+		// accept draggable items
 		$('.day').droppable({
 			drop: handleResidentDrop
 		});
 		
-		$('.resident').click(function() {
+		// call the resident div click handler, which causes a resident's name 
+		// to jump to the currently highlighted shift when clicked
+		residentClick();
+		
+		// function to allow shifts to be highlighted - only one shift can be 
+		// highlighted at a time, clicking on a highlighted shift will 
+		// un-highlight it, and clicking on a non-highlighted shift will
+		// highlight it and un-highlight the currently highlighted shift if
+		// there is one
+		$('.day').click(function() {
+			// if the user clicks on the close button of a resident name in the
+			// shift, don't highlight the shift
+			if ($(event.target).attr('class') == 'closeButton') {
+				;
+			} 
+			  // if this shift is highlighted, un-highlight it
+			  else if($(this).hasClass('highlighted')) {
+				$(this).css('border', '1px solid #000000');
+				$(this).css('background-color', '#FFBB99');
+				$(this).removeClass('highlighted');
+				shiftIsHighlighted = false;
+			} else {
+				// if another shift is highlighted, un-highlight it
+				if(shiftIsHighlighted) {
+					$('#' + highlightedShiftID).removeClass('highlighted');
+					$('#' + highlightedShiftID).css('border', '1px solid #000000');
+					$('#' + highlightedShiftID).css('background-color', '#FFBB99');
+				}
+				// highlight this shift
+				$(this).css('border', '1px solid #0000DD');
+				$(this).css('background-color', '#FFFFFF');
+				$(this).addClass('highlighted');
+				shiftIsHighlighted = true;
+				highlightedShiftID = $(this).attr('id');
+			}		
+		});
+	}
+	
+	function residentClick() {
+		// unbind is used here to prevent the multiplying effect make sure that 
+		// that would be caused by the click handler getting repeatedly bound
+		$('.resident').unbind('click').bind('click', function() {
 			if(shiftIsHighlighted) {
 				var username = $(this).text();
 				var newDiv = $('<div></div>').addClass('assignedResident').append(username);
@@ -41,34 +85,18 @@
 					var replaceDiv = $('<div></div>').addClass('resident').append(username);
 					newDiv.remove();
 					$('#namelist').append(replaceDiv);
+					
+					// reapply the draggable effect to the replaced resident div
 					$('.resident').draggable({
 						containment: '#content',
-						snap: '.day'
-					});		
-				});
+						snap: '.day',
+						revert: true
+					});	
+					
+					// re-call the resident click handler
+					residentClick();
+				});				
 			}
-		});
-		
-		$('.day').click(function() {
-			if ($(event.target).attr('class') == 'closeButton') {
-				;
-			} else if($(this).hasClass('highlighted')) {
-				$(this).css('border', '1px solid #000000');
-				$(this).css('background-color', '#FFBB99');
-				$(this).removeClass('highlighted');
-				shiftIsHighlighted = false;
-			} else {
-				if(shiftIsHighlighted) {
-					$('#' + highlightedShiftID).removeClass('highlighted');
-					$('#' + highlightedShiftID).css('border', '1px solid #000000');
-					$('#' + highlightedShiftID).css('background-color', '#FFBB99');
-				}
-				$(this).css('border', '1px solid #0000DD');
-				$(this).css('background-color', '#FFFFFF');
-				$(this).addClass('highlighted');
-				shiftIsHighlighted = true;
-				highlightedShiftID = $(this).attr('id');
-			}		
 		});
 	}
 	
@@ -95,8 +123,9 @@
 				snap: '.day',
 				revert: true
 			});
-			//find the assignment corresponding to username and shift and delete it			
+			residentClick();		
 		}); 
+		
 	}	
 	
 </script>
@@ -152,53 +181,53 @@
 			</div>
 			<div class="chore">
 				<div class="chorename">Cook Breakfast</div>
-				<div class="day monday" id="cookbreakfast"></div>
-				<div class="day tuesday"></div>
-				<div class="day wednesday"></div>
-				<div class="day thursday"></div>
-				<div class="day friday"></div>
-				<div class="day saturday"></div>
-				<div class="day sunday"></div>
+				<div class="day monday" id="mcookbreakfast"></div>
+				<div class="day tuesday" id="tcookbreakfast"></div>
+				<div class="day wednesday" id="wcookbreakfast"></div>
+				<div class="day thursday" id="thcookbreakfast"></div>
+				<div class="day friday" id="fcookbreakfast"></div>
+				<div class="day saturday" id="sacookbreakfast"></div>
+				<div class="day sunday" id="sucookbreakfast"></div>
 			</div>
 			<div class="chore">
 				<div class="chorename">Breakfast Dishes</div>
-				<div class="day monday"  id="breakfastdishes"></div>
-				<div class="day tuesday"></div>
-				<div class="day wednesday"></div>
-				<div class="day thursday"></div>
-				<div class="day friday"></div>
-				<div class="day saturday"></div>
-				<div class="day sunday"></div>
+				<div class="day monday" id="mbreakfastdishes"></div>
+				<div class="day tuesday" id="tbreakfastdishes"></div>
+				<div class="day wednesday" id="wbreakfastdishes"></div>
+				<div class="day thursday" id="thbreakfastdishes"></div>
+				<div class="day friday" id="fbreakfastdishes"></div>
+				<div class="day saturday" id="sabreakfastdishes"></div>
+				<div class="day sunday" id="subreakfastdishes"></div>
 			</div>
 			<div class="chore">
 				<div class="chorename">Mop Kitchen Floor</div>
-				<div class="day monday" id="mopkitchenfloor"></div>
-				<div class="day tuesday"></div>
-				<div class="day wednesday"></div>
-				<div class="day thursday"></div>
-				<div class="day friday"></div>
-				<div class="day saturday"></div>
-				<div class="day sunday"></div>
+				<div class="day monday" id="mmopkitchenfloor"></div>
+				<div class="day tuesday" id="tmopkitchenfloor"></div>
+				<div class="day wednesday" id="wmopkitchenfloor"></div>
+				<div class="day thursday" id="thmopkitchenfloor"></div>
+				<div class="day friday" id="fmopkitchenfloor"></div>
+				<div class="day saturday" id="samopkitchenfloor"></div>
+				<div class="day sunday" id="sumopkitchenfloor"></div>
 			</div>
 			<div class="chore">
 				<div class="chorename">Cook Lunch</div>
-				<div class="day monday" id="cooklunch"></div>
-				<div class="day tuesday"></div>
-				<div class="day wednesday"></div>
-				<div class="day thursday"></div>
-				<div class="day friday"></div>
-				<div class="day saturday"></div>
-				<div class="day sunday"></div>
+				<div class="day monday" id="mcooklunch"></div>
+				<div class="day tuesday" id="tcooklunch"></div>
+				<div class="day wednesday" id="wcooklunch"></div>
+				<div class="day thursday" id="thcooklunch"></div>
+				<div class="day friday" id="fcooklunch"></div>
+				<div class="day saturday" id="sacooklunch"></div>
+				<div class="day sunday" id="sucooklunch"></div>
 			</div>
 			<div class="chore">
 				<div class="chorename">Lunch Dishes</div>
-				<div class="day monday" id="lunchdishes"></div>
-				<div class="day tuesday"></div>
-				<div class="day wednesday"></div>
-				<div class="day thursday"></div>
-				<div class="day friday"></div>
-				<div class="day saturday"></div>
-				<div class="day sunday"></div>
+				<div class="day monday" id="mlunchdishes"></div>
+				<div class="day tuesday" id="tlunchdishes"></div>
+				<div class="day wednesday" id="wlunchdishes"></div>
+				<div class="day thursday" id="thlunchdishes"></div>
+				<div class="day friday" id="funchdishes"></div>
+				<div class="day saturday" id="salunchdishes"></div>
+				<div class="day sunday" id="sulunchdishes"></div>
 			</div>
     
         </div>

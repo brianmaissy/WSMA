@@ -12,10 +12,6 @@ class Assignment < ActiveRecord::Base
   validates_numericality_of :week, :greater_than_or_equal_to => 0
   validates_numericality_of :status, :greater_than_or_equal_to => 1, :less_than_or_equal_to => 3
   validates_uniqueness_of :shift_id, :scope => [:week]
-  
-  def initialize_defaults
-    #TODO: implement this
-  end
 
   def initialize_status
     if new_record? and status.nil?
@@ -35,11 +31,12 @@ class Assignment < ActiveRecord::Base
   end
 
   def cancel_jobs
-    #TODO: implement this
+    tag = TimeProvider.generate_job_tag(self)
+    TimeProvider.unschedule_task tag
   end
 
   def blow_off_job
-    #TODO: implement this
+    self.status = 3
   end
 
   def sign_off(*a)
