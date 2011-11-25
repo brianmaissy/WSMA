@@ -4,6 +4,8 @@ class UsersController < ApplicationController
   before_filter :authorize_wsm, :except => [:login, :logout, :show]
   before_filter :authorize_user, :only => :show
 
+
+
   # GET /users
   # GET /users.json
   def index
@@ -65,15 +67,16 @@ class UsersController < ApplicationController
   # PUT /users/1.json
   def update
     @user = User.find(params[:id])
+
     if not params[:password].to_s.blank?
-      @user.password=params[:password]
+     @user.password=params[:password]
     end
 
-    respond_to do |format|
-      if @user.update_attributes(params[:user])
-        format.html { redirect_to @user, :notice => 'User was successfully updated.' }
-        format.json { head :ok }
-      else
+   respond_to do |format|
+     if @user.update_attributes(params[:user])
+      format.html { redirect_to @user, :notice => 'User was successfully updated.' }
+     format.json { head :ok }
+     else
         format.html { render :action => "edit" }
         format.json { render :json => @user.errors, :status => :unprocessable_entity }
       end

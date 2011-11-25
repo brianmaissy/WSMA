@@ -17,7 +17,7 @@ class HousesController < ApplicationController
   # GET /houses/1
   # GET /houses/1.json
   def show
-    @house = House.find(params[:id])
+    @house = House.find(session[:user_id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -72,6 +72,22 @@ class HousesController < ApplicationController
       end
     end
   end
+ 
+#PUT /houses
+#GET /houses
+
+  def managefines
+    @user = User.find(session[:user_id])
+    @house = House.find(@user.house_id)
+
+    if @user.access_level == 2
+      respond_to do |format|
+      format.html # show.html.erb
+      format.json { render :json => @house }
+    end
+  end
+end
+
 
   # DELETE /houses/1
   # DELETE /houses/1.json

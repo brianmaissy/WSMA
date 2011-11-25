@@ -35,6 +35,7 @@ WSMA::Application.routes.draw do
   match "/demo/profile" => "users#profile"
   match "/user/managefines" => "users#manage"
   match "/user/profile" => "users#profile"
+  match "/houses/managefines" => "houses#managefines"
   
 
   match "/login" => "users#login"
