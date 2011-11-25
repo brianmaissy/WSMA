@@ -1,4 +1,3 @@
-
 WSMA::Application.routes.draw do
 
   resources :admin
@@ -104,4 +103,4 @@ WSMA::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id(.:format)))'
 end
-# >>>>>>> 216cfc28fd33f52790e77ebebd7ff96e770d0d41
+
