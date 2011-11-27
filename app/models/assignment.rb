@@ -37,6 +37,7 @@ class Assignment < ActiveRecord::Base
 
   def blow_off_job
     self.status = 3
+    self.save!
   end
 
   def sign_off(*a)
@@ -67,7 +68,7 @@ class Assignment < ActiveRecord::Base
     else
       raise ArgumentError
     end
-    
+
   end
   
   def sign_out

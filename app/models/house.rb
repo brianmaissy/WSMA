@@ -110,6 +110,7 @@ class House < ActiveRecord::Base
         end
       end
     end
+    self.save!
   end
 
   def beginning_of_this_week current
