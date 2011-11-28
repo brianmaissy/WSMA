@@ -58,14 +58,14 @@
               <td height="110" class="STYLE11">
 			<%= shifts.chore.name %>
                 <form id="form4" name="form4" method="post" action="">
-                  <input type="checkbox" name="checkbox" id="checkbox" />
+                  <input type="checkbox" name="checkbox[]" id="checkbox1" />
                   <label for="checkbox"></label>
               </form></td>
 	   <% elsif shifts.day_of_week == 2 %>
               <td class="STYLE12">
 			<%= shifts.chore.name %>
                 <form id="form5" name="form5" method="post" action="">
-                  <input type="checkbox" name="checkbox2" id="checkbox2" />
+                  <input type="checkbox" name="checkbox[]" id="checkbox2" />
                   <label for="checkbox2"></label>
                 </form>
               </td>
@@ -73,7 +73,7 @@
               <td class="STYLE13">
 			<%= shifts.chore.name %>
                 <form id="form6" name="form6" method="post" action="">
-                  <input type="checkbox" name="checkbox3" id="checkbox3" />
+                  <input type="checkbox" name="checkbox[]" id="checkbox3" />
                   <label for="checkbox3"></label>
                 </form>
               </td>
@@ -81,7 +81,7 @@
               <td class="STYLE14">
 			<%= shifts.chore.name %>
 		   <form id="form7" name="form7" method="post" action="">
-                  <input type="checkbox" name="checkbox4" id="checkbox4" />
+                  <input type="checkbox" name="checkbox[]" id="checkbox4" />
                   <label for="checkbox4"></label>
                 </form>
 		</td>
@@ -89,7 +89,7 @@
               <td class="STYLE15">
 			<%= shifts.chore.name %>
 		   <form id="form8" name="form8" method="post" action="">
-                  <input type="checkbox" name="checkbox5" id="checkbox5" />
+                  <input type="checkbox" name="checkbox[]" id="checkbox5" />
                   <label for="checkbox5"></label>
                 </form>
 		</td>
@@ -97,7 +97,7 @@
               <td class="STYLE16">
 			<%= shifts.chore.name %>
 		   <form id="form9" name="form9" method="post" action="">
-                  <input type="checkbox" name="checkbox6" id="checkbox6" />
+                  <input type="checkbox" name="checkbox[]" id="checkbox6" />
                   <label for="checkbox6"></label>
                 </form>
 		</td>
@@ -105,7 +105,7 @@
               <td class="STYLE17">
 			<%= shifts.chore.name %>
 		   <form id="form10" name="form10" method="post" action="">
-                  <input type="checkbox" name="checkbox7" id="checkbox7" />
+                  <input type="checkbox" name="checkbox[]" id="checkbox7" />
                   <label for="checkbox7"></label>
                 </form>
 		</td>
@@ -116,7 +116,7 @@
               <td class = "STYLE18">
 			<%= shifts.chore.name %>
                 <form id="form11" name="form11" method="post" action="">
-                  <input type="checkbox" name="checkbox8" id="checkbox8" />
+                  <input type="checkbox" name="checkbox[]" id="checkbox8" />
                   <label for="checkbox8"></label>
                 </form>
               </td>
@@ -138,9 +138,7 @@
             </tr>
           </table> 
 
-          <form id="form1" name="form1" method="post" action="">
-            <input type="submit" name="button" id="button" value="Sign out!" />
-          </form>
+          <%= submit_tag "Sign Out", :name => "Sign Out" %>
 
           <p>&nbsp;</p>
           <table width="200" border="1">
@@ -152,15 +150,21 @@
             </tr>
           </table>
 
-          <form id="form2" name="form2" method="post" action="">
-            <input type="submit" name="button2" id="button2" value="Sign off!" />
-          </form>
-
-	   <p>&nbsp;</p>
-          <p>&nbsp;</p>
+          <%= submit_tag "Sign Off", :name => "Sign Off" %>
 
           <form id="form3" name="form3" method="post" action="">
             <p><strong>Available Shifts:</strong></p>
+
+		  <% @shifts.each do |shifts| %>
+			<% if shifts.temporary == 1 %>
+				<%= shifts.chore.name %>
+					<form id="form12" name="form12" method="post" action="">
+                  			<input type="checkbox" name="checkbox[]" id="checkbox9" />
+                  			<label for="checkbox9"></label>
+                			</form>
+			<% end %>
+	         <% end %>
+
             <table width="350" border="1">
               <tr>
                 <td>&nbsp;</td>
@@ -168,6 +172,7 @@
             </table>
             <p>&nbsp;</p>
           </form>
+
 
 
           <p>&nbsp;</p>

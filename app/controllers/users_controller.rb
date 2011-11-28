@@ -2,8 +2,8 @@
 class UsersController < ApplicationController
 
   before_filter :authenticate, :except => [:login, :logout]
-  before_filter :authorize_wsm, :except => [:login, :logout, :show]
-  before_filter :authorize_user, :only => [:show, :myshift]
+  before_filter :authorize_wsm, :except => [:login, :logout, :show, :myshift]
+  before_filter :authorize_user, :only => [:show]
 
   # GET /users
   # GET /users.json
@@ -162,6 +162,19 @@ class UsersController < ApplicationController
     @user = User.find(session[:user_id])
     @shifts = Shift.find_all_by_user_id(session[:user_id])
     @chores = Chore.find_all_by_house_id(@user.house_id)
+    @checkbox = params[:checkbox]
+
+#    if params['Sign Out']
+#    	checkbox.each do |check|
+#		shifts.each do |shifts|
+#			if check == "checkbox1" and shifts.day_of_week == 1
+#
+#
+#		end
+#	end
+#   else
+#   # Do something else
+#    end
 
     respond_to do |format|
       format.html # index.html.erb
