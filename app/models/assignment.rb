@@ -7,6 +7,7 @@ class Assignment < ActiveRecord::Base
 
   before_validation :initialize_status
   after_create :schedule_blow_off_job
+  before_destroy :cancel_jobs
 
   validates_presence_of :week, :status
   validates_numericality_of :week, :greater_than_or_equal_to => 0
@@ -26,7 +27,7 @@ class Assignment < ActiveRecord::Base
   def schedule_blow_off_job
     if house.using_online_sign_off == 1
       tag = TimeProvider.generate_job_tag(self)
-      TimeProvider.schedule_task_at(shift.blow_off_time, tag) {blow_off_job}
+      TimeProvider.schedule_execute_at(shift.blow_off_time, tag, self.class.to_s, self.id)
     end
   end
 
@@ -35,7 +36,7 @@ class Assignment < ActiveRecord::Base
     TimeProvider.unschedule_task tag
   end
 
-  def blow_off_job
+  def execute_job
     self.status = 3
     self.save!
   end

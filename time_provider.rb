@@ -11,6 +11,16 @@ class TimeProvider
   @@scheduler = Rufus::Scheduler::PlainScheduler.start_new
   @@task_table = []
 
+  def self.reload_jobs
+    jobs = ScheduledJob.all
+    jobs.each do |job|
+      if job.time >= self.now
+        self.schedule_execute_at job.time, job.tag, job.target_class, job.target_id
+      end
+      job.destroy
+    end
+  end
+
   def self.set_mock_mode(mode = true)
     @@in_mock_mode = mode
   end
@@ -52,6 +62,14 @@ class TimeProvider
     end
   end
 
+  def self.schedule_execute_at task_time, tag, callee_class, callee_id
+    ScheduledJob.create(:time => task_time, :tag => tag, :target_class => callee_class, :target_id => callee_id)
+    self.schedule_task_at task_time, tag do
+      ScheduledJob.find_by_tag(tag).destroy
+      callee_class.constantize.find(callee_id).execute_job
+    end
+  end
+
   def self.unschedule_task tag
     if @@in_mock_mode
       tasks_to_delete = []
@@ -61,11 +79,15 @@ class TimeProvider
         end
       end
       for task in tasks_to_delete
+        job = ScheduledJob.find_by_tag(tag)
+        job.destroy if !job.nil?
         @@task_table.delete(task)
       end
     else
       tasks_to_delete = @@scheduler.find_by_tag(tag)
       for task in tasks_to_delete
+        job = ScheduledJob.find_by_tag(tag)
+        job.destroy if !job.nil?
         task.unschedule
       end
     end
@@ -98,7 +120,7 @@ class TimeProvider
         end
       end
       for task in tasks_to_run
-        task[2].call()
+        task[2].call
         @@task_table.delete(task)
       end
     end

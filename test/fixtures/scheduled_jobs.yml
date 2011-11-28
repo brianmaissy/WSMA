@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  time: 2011-11-27 04:12:27
+  tag: MyString
+  target_class: MyString
+  target_id: 1
+
+two:
+  time: 2011-11-27 04:12:27
+  tag: MyString
+  target_class: MyString
+  target_id: 1

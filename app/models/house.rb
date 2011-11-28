@@ -84,7 +84,7 @@ class House < ActiveRecord::Base
 
   def schedule_new_week_job new_week_time
     tag = TimeProvider.generate_job_tag(self)
-    TimeProvider.schedule_task_at(new_week_time, tag) {new_week_job}
+    TimeProvider.schedule_execute_at(new_week_time, tag, self.class.to_s, self.id)
   end
 
   def cancel_jobs
@@ -92,7 +92,7 @@ class House < ActiveRecord::Base
     TimeProvider.unschedule_task tag
   end
 
-  def new_week_job
+  def execute_job
     if semester_end_date and TimeProvider.now < semester_end_date
       start_new_week
       if TimeProvider.now + 7.days < semester_end_date

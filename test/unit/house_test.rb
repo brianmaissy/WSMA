@@ -112,7 +112,7 @@ class HouseTest < ActiveSupport::TestCase
     assert_equal(s1, @house.unassigned_shifts[0])
     s2 = Shift.create(:user => users(:one), :day_of_week => 1, :chore => c2, :time => TimeProvider.now, :temporary => 0)
     assert_equal(2, @house.unassigned_shifts.length)
-    Assignment.create(:user => users(:one), :shift => s1, :week => 0, :status => 1)
+    @assignment = Assignment.create(:user => users(:one), :shift => s1, :week => 0, :status => 1)
     assert_equal(1, @house.unassigned_shifts.length)
     assert_equal(s2, @house.unassigned_shifts[0])
   end
@@ -181,11 +181,13 @@ class HouseTest < ActiveSupport::TestCase
     @house.semester_start_date = TimeProvider.now + 1.minute
     @house.semester_start_date = TimeProvider.now + 1.week
     week = @house.current_week
+    @house.save
     TimeProvider.set_mock_time @house.next_sunday_at_midnight TimeProvider.now + 1.minute
     TimeProvider.advance_mock_time 1.minute
     assert_equal(week, @house.current_week)
     TimeProvider.advance_mock_time 1.week
     TimeProvider.advance_mock_time 1.minute
+    @house.reload
     assert_equal(week+1, @house.current_week)
   end
 
@@ -264,11 +266,42 @@ class HouseTest < ActiveSupport::TestCase
     @house.semester_end_date = TimeProvider.now + 1.month
     @house.save
     assert_equal(0, @user.assigned_hours_this_week)
+    count = ScheduledJob.find_all_by_target_class("House").count
     @house.schedule_new_week_job @house.next_sunday_at_midnight(TimeProvider.now)
+    assert_equal(count+1, ScheduledJob.find_all_by_target_class("House").count)
     TimeProvider.advance_mock_time(7.days)
+    assert_equal(count+1, ScheduledJob.find_all_by_target_class("House").count)
+    @user.reload
     assert_equal(c1.hours, @user.assigned_hours_this_week)
     assert_equal(c1.hours, @user.pending_hours_this_week)
     assert_equal(0, @user.completed_hours_this_week)
+  end
+
+  test "jobs persist beyond TimeProvider lifetime" do
+    c1 = Chore.create(:house => @house, :name => "a", :hours => 2, :sign_out_by_hours_before => 2, :due_hours_after => 4)
+    s1 = Shift.create(:user => @user, :day_of_week => 1, :chore => c1, :time => TimeProvider.now, :temporary => 0)
+    @house.using_online_sign_off = 1
+    @house.current_week = 1
+    @house.permanent_chores_start_week = 2
+    @house.semester_end_date = TimeProvider.now + 1.month
+    @house.save
+    assert_equal(0, @user.assigned_hours_this_week)
+    count = ScheduledJob.find_all_by_target_class("House").count
+    @house.schedule_new_week_job @house.next_sunday_at_midnight(TimeProvider.now)
+    assert_equal(count+1, ScheduledJob.find_all_by_target_class("House").count)
+    TimeProvider.reload_jobs
+    assert_equal(count+1, ScheduledJob.find_all_by_target_class("House").count)
+    TimeProvider.advance_mock_time(7.days)
+    assert_equal(count+1, ScheduledJob.find_all_by_target_class("House").count)
+    @user.reload
+    assert_equal(c1.hours, @user.assigned_hours_this_week)
+    assert_equal(c1.hours, @user.pending_hours_this_week)
+    assert_equal(0, @user.completed_hours_this_week)
+  end
+
+  def teardown
+    @house.destroy if !@house.nil?
+    @assignment.destroy if !@assignment.nil?
   end
 
 end
