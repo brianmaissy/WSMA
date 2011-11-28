@@ -158,4 +158,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def myshift
+    @user = User.find(session[:user_id])
+    @shifts = Shift.find_all_by_user_id(session[:user_id])
+    @chores = Chore.find_all_by_house_id(@user.house_id)
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @shifts }
+    end
+  end
+
 end
