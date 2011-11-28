@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   before_filter :authenticate, :except => [:login, :logout]
   before_filter :authorize_wsm, :except => [:login, :logout, :show]
-  before_filter :authorize_user, :only => :show
+  before_filter :authorize_user, :only => [:show, :myshift]
 
   # GET /users
   # GET /users.json
