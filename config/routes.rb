@@ -28,7 +28,7 @@ WSMA::Application.routes.draw do
   
   #match "/demo/login" => "users#login"
   match "/demo/chores" => "chores#new"
-  match "/demo/profile" => "users#profile"
+  #match "/demo/profile" => "users#profile"
   match "/demo/myshift" => "users#myshift"
   match "/myshift" => "users#myshift"
 

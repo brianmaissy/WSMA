@@ -2,7 +2,7 @@
 class UsersController < ApplicationController
 
   before_filter :authenticate, :except => [:login, :logout]
-  before_filter :authorize_wsm, :except => [:login, :logout, :show, :myshift]
+  before_filter :authorize_wsm, :except => [:login, :logout, :show, :myshift, :profile]
   before_filter :authorize_user, :only => [:show]
 
   # GET /users
@@ -112,7 +112,7 @@ class UsersController < ApplicationController
         session[:user_id] = @user.id
         uri = session[:original_uri]
         session[:original_uri] = nil
-        redirect_to(uri || { :action => "show", :id => @user.id })
+        redirect_to(uri || {:controller => :users, :action => :profile})
       else
         flash.now[:notice] = "Invalid email/password combination"
       end
@@ -130,7 +130,7 @@ class UsersController < ApplicationController
   # GET /profile
   # PUT /profile
   def profile
-    @user = User.find(session[:user_id])
+    @user = @logged_user
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @user }
