@@ -69,7 +69,7 @@ class UsersControllerTest < ActionController::TestCase
     user.save!
     post :login, :email => "testEmail2", :password => "testPassword"
     get :show, :id => @user.to_param
-    assert_redirected_to :action => "show", :id => user.to_param
+    assert_redirected_to :action => "profile"
   end
 
   test "should not be able to access admin area when logged in as user" do
