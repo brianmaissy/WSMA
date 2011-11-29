@@ -57,57 +57,37 @@
             <tr>
               <td height="110" class="STYLE11">
 			<%= shifts.chore.name %>
-                <form id="form4" name="form4" method="post" action="">
-                  <input type="checkbox" name="checkbox[]" id="checkbox1" />
-                  <label for="checkbox"></label>
-              </form></td>
+			<%= check_box_tag "checkbox[]", @checkbox %>
+                td>
 	   <% elsif shifts.day_of_week == 2 %>
               <td class="STYLE12">
 			<%= shifts.chore.name %>
-                <form id="form5" name="form5" method="post" action="">
-                  <input type="checkbox" name="checkbox[]" id="checkbox2" />
-                  <label for="checkbox2"></label>
-                </form>
+			<%= check_box_tag "checkbox[]", @checkbox %>
               </td>
 	   <% shifts.day_of_week == 3 %>
               <td class="STYLE13">
 			<%= shifts.chore.name %>
-                <form id="form6" name="form6" method="post" action="">
-                  <input type="checkbox" name="checkbox[]" id="checkbox3" />
-                  <label for="checkbox3"></label>
-                </form>
+			<%= check_box_tag "checkbox[]", @checkbox %>
               </td>
 	   <% elsif shifts.day_of_week == 4 %>
               <td class="STYLE14">
 			<%= shifts.chore.name %>
-		   <form id="form7" name="form7" method="post" action="">
-                  <input type="checkbox" name="checkbox[]" id="checkbox4" />
-                  <label for="checkbox4"></label>
-                </form>
+		   	<%= check_box_tag "checkbox[]", @checkbox %>
 		</td>
 	   <% elsif shifts.day_of_week == 5 %>
               <td class="STYLE15">
 			<%= shifts.chore.name %>
-		   <form id="form8" name="form8" method="post" action="">
-                  <input type="checkbox" name="checkbox[]" id="checkbox5" />
-                  <label for="checkbox5"></label>
-                </form>
+			<%= check_box_tag "checkbox[]", @checkbox %>
 		</td>
 	   <% elsif shifts.day_of_week == 6 %>
               <td class="STYLE16">
 			<%= shifts.chore.name %>
-		   <form id="form9" name="form9" method="post" action="">
-                  <input type="checkbox" name="checkbox[]" id="checkbox6" />
-                  <label for="checkbox6"></label>
-                </form>
+		   	<%= check_box_tag "checkbox[]", @checkbox %>
 		</td>
 	   <% elsif shifts.day_of_week == 7 %>
               <td class="STYLE17">
 			<%= shifts.chore.name %>
-		   <form id="form10" name="form10" method="post" action="">
-                  <input type="checkbox" name="checkbox[]" id="checkbox7" />
-                  <label for="checkbox7"></label>
-                </form>
+		   	<%= check_box_tag "checkbox[]", @checkbox %>
 		</td>
             </tr>
 
@@ -115,10 +95,7 @@
 	   <% else %>
               <td class = "STYLE18">
 			<%= shifts.chore.name %>
-                <form id="form11" name="form11" method="post" action="">
-                  <input type="checkbox" name="checkbox[]" id="checkbox8" />
-                  <label for="checkbox8"></label>
-                </form>
+			<%= check_box_tag "checkbox[]", @checkbox %>
               </td>
             </tr>
           </table>
@@ -158,10 +135,7 @@
 		  <% @shifts.each do |shifts| %>
 			<% if shifts.temporary == 1 %>
 				<%= shifts.chore.name %>
-					<form id="form12" name="form12" method="post" action="">
-                  			<input type="checkbox" name="checkbox[]" id="checkbox9" />
-                  			<label for="checkbox9"></label>
-                			</form>
+				<%= check_box_tag "checkbox[]", @checkbox %>
 			<% end %>
 	         <% end %>
 
