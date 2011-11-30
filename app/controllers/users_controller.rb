@@ -163,50 +163,15 @@ class UsersController < ApplicationController
     @assignments = Assignment.find_all_by_user_id(session[:user_id])
 
     @chores = Chore.find_all_by_house_id(@user.house_id)
-    @checkbox = params[:checkbox]
 
-#   @checkbox.each do |checkbox|
-  @shifts.each do |shifts|
-		if params['Sign Out']
 
-			if checkbox == 1 and shifts.day_of_week == 1
-				shifts.assignment.signoff(@user.id)
-			elsif checkbox == 2 and shifts.day_of_week == 2
-				shifts.assignment.signoff(@user.id)
-			elsif checkbox == 3 and shifts.day_of_week == 3
-				shifts.assignment.signoff(@user.id)
-			elsif checkbox == 4 and shifts.day_of_week == 4
-				shifts.assignment.signoff(@user.id)
-			elsif checkbox == 5 and shifts.day_of_week == 5
-				shifts.assignment.signoff(@user.id)
-			elsif checkbox == 6 and shifts.day_of_week == 6
-				shifts.assignment.signoff(@user.id)
-			elsif checkbox == 7 and shifts.day_of_week == 7
-				shifts.assignment.signoff(@user.id)
-			elsif checkbox == 8
-				shifts.assignment.signoff(@user.id)
-			end
+		if params['commit'] == "Sign Out"
+			 	    assignment.sign_off(@user.id)
    		else
-			if checkbox == "checkbox1" and shifts.day_of_week == 1
-				shifts.assignment.signout
-			elsif checkbox == "checkbox2" and shifts.day_of_week == 2
-				shifts.assignment.signout
-			elsif checkbox == "checkbox3" and shifts.day_of_week == 3
-				shifts.assignment.signout
-			elsif checkbox == "checkbox4" and shifts.day_of_week == 4
-				shifts.assignment.signout
-			elsif checkbox == "checkbox5" and shifts.day_of_week == 5
-				shifts.assignment.signout
-			elsif checkbox == "checkbox6" and shifts.day_of_week == 6
-				shifts.assignment.signout
-			elsif checkbox == "checkbox7" and shifts.day_of_week == 7
-				shifts.assignment.signout
-			elsif checkbox == "checkbox8"
-				shifts.assignment.signout
-			end
+				    @user = User.find(session[:user_id])
+   				    @user.destroy
 		end
-     end
-#  end
+
 
     respond_to do |format|
       format.html # index.html.erb

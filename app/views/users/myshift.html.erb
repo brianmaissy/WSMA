@@ -56,37 +56,37 @@
             <tr>
               <td height="110" class="STYLE11">
 			<%= assignment.chore.name %>
-			<%= check_box_tag "checkbox[]", @checkbox %>
+			<%= check_box_tag "Monday", assignment.shift_id, @assignments.include?(assignment) %>
                 </td>
 	   <% elsif assignment.week == 2 %>
               <td class="STYLE12">
 			<%= assignment.chore.name %>
-			<%= check_box_tag "checkbox[]", @checkbox %>
+			<%= check_box_tag "Tuesday", assignment.shift_id, @assignments.include?(assignment) %>
               </td>
 	   <% elsif assignment.week == 3 %>
               <td class="STYLE13">
 			<%= assignment.chore.name %>
-			<%= check_box_tag "checkbox[]", @checkbox %>
+			<%= check_box_tag "Wednesday", assignment.shift_id, @assignments.include?(assignment) %>
               </td>
 	   <% elsif assignment.week == 4 %>
               <td class="STYLE14">
 			<%= assignment.chore.name %>
-		   	<%= check_box_tag "checkbox[]", @checkbox %>
+			<%= check_box_tag "Thursday", assignment.shift_id, @assignments.include?(assignment) %>
 		</td>
 	   <% elsif assignment.week == 5 %>
               <td class="STYLE15">
 			<%= assignment.chore.name %>
-			<%= check_box_tag "checkbox[]", @checkbox %>
+			<%= check_box_tag "Friday", assignment.shift_id, @assignments.include?(assignment) %>
 		</td>
 	   <% elsif assignment.week == 6 %>
               <td class="STYLE16">
 			<%= assignment.chore.name %>
-		   	<%= check_box_tag "checkbox[]", @checkbox %>
+			<%= check_box_tag "Saturday", assignment.shift_id, @assignments.include?(assignment) %>
 		</td>
 	   <% elsif assignment.week == 7 %>
               <td class="STYLE17">
 			<%= assignment.chore.name %>
-		   	<%= check_box_tag "checkbox[]", @checkbox %>
+			<%= check_box_tag "Sunday", assignment.shift_id, @assignments.include?(assignment) %>
 		</td>
             </tr>
 
@@ -94,7 +94,7 @@
 	   <% else %>
               <td class = "STYLE18">
 			<%= assignment.chore.name %>
-			<%= check_box_tag "checkbox[]", @checkbox %>
+			<%= check_box_tag "Weeklong", assignment.shift_id, @assignments.include?(assignment) %>
               </td>
             </tr>
           </table>
@@ -128,23 +128,6 @@
 
           <%= submit_tag "Sign Off", :name => "Sign Off" %>
 
-          <form id="form3" name="form3" method="post" action="">
-            <p><strong>Available Shifts:</strong></p>
-
-		  <% @shifts.each do |shifts| %>
-			<% if shifts.temporary == 1 %>
-				<%= shifts.chore.name %>
-				<%= check_box_tag "checkbox[]", @checkbox %>
-			<% end %>
-	         <% end %>
-
-            <table width="350" border="1">
-              <tr>
-                <td>&nbsp;</td>
-              </tr>
-            </table>
-            <p>&nbsp;</p>
-          </form>
 
 
 
