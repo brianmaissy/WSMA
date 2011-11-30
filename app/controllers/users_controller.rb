@@ -1,9 +1,8 @@
-
 class UsersController < ApplicationController
 
   before_filter :authenticate, :except => [:login, :logout]
-  before_filter :authorize_wsm, :except => [:login, :logout, :show]
-  before_filter :authorize_user, :only => [:show, :myshift]
+  before_filter :authorize_wsm, :except => [:login, :logout, :show, :myshift, :profile]
+  before_filter :authorize_user, :only => [:show]
 
   # GET /users
   # GET /users.json
@@ -112,7 +111,7 @@ class UsersController < ApplicationController
         session[:user_id] = @user.id
         uri = session[:original_uri]
         session[:original_uri] = nil
-        redirect_to(uri || { :action => "show", :id => @user.id })
+        redirect_to(uri || {:controller => :users, :action => :profile})
       else
         flash.now[:notice] = "Invalid email/password combination"
       end
@@ -130,7 +129,7 @@ class UsersController < ApplicationController
   # GET /profile
   # PUT /profile
   def profile
-    @user = User.find(session[:user_id])
+    @user = @logged_user
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @user }
@@ -161,12 +160,22 @@ class UsersController < ApplicationController
   def myshift
     @user = User.find(session[:user_id])
     @shifts = Shift.find_all_by_user_id(session[:user_id])
+    @assignments = Assignment.find_all_by_user_id(session[:user_id])
+
     @chores = Chore.find_all_by_house_id(@user.house_id)
+
+
+		if params['commit'] == "Sign Out"
+			 	    assignment.sign_off(@user.id)
+   		else
+				    @user = User.find(session[:user_id])
+   				    @user.destroy
+		end
+
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @shifts }
     end
   end
-
 end

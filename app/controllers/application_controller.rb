@@ -19,14 +19,14 @@ class ApplicationController < ActionController::Base
     unless @logged_user
       session[:original_uri] = request.url
       flash[:notice] = "Please log in to access this page"
-      redirect_to :controller => :users, :action => :login
+      redirect_to_login
     end
   end
 
   def authorize_user
     unless @logged_user.access_level >= 2 or (@logged_user.access_level == 1 and params[:id].to_i == @logged_user.id)
       flash[:notice] = "You do not have the privileges to see another user's page"
-        redirect_to(:action => "show", :id => @logged_user.id)
+        redirect_to :controller => request[:controller], :action => request[:action], :id => @logged_user.id
     end
   end
 
@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
     unless @logged_user.access_level >= 2
       session[:original_uri] = request.url
       flash[:notice] = "Please log in to access workshift manager area"
-      redirect_to :controller => :users, :action => :login
+      redirect_to_login
     end
   end
 
@@ -42,8 +42,12 @@ class ApplicationController < ActionController::Base
     unless @logged_user.access_level == 3
       session[:original_uri] = request.url
       flash[:notice] = "Please log in to access administrative area"
-      redirect_to :controller => :users, :action => :login
+      redirect_to_login
     end
+  end
+
+  def redirect_to_login
+    redirect_to :controller => :users, :action => :login
   end
 
 end
