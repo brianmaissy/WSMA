@@ -28,10 +28,12 @@
 }
 #namelist
 {
-	width: 200px;
+	width: 250px;
+	height: 800px;
 	position: absolute;
 	top: 50px;
 	left: 740px;
+	#overflow: auto;
 }
 #namelisttitle
 {
@@ -81,7 +83,63 @@
 }
 .resident
 {
-	width: 82px;
+	width: 85px;
+	height: 50px;
+	float: left;
+	margin: 2px;
+	margin-right: 0px;
+	color: #FFFFFF;
+	background-color: #2F7097;
+	font-size: 10pt;
+	z-index: 1;
+}
+.pref1
+{
+	width: 85px;
+	height: 50px;
+	margin: 2px;
+	margin-right: 0px;
+	color: #FFFFFF;
+	background-color: #2F7097;
+	font-size: 10pt;
+	z-index: 1;
+}
+.pref2
+{
+	width: 85px;
+	height: 50px;
+	margin: 2px;
+	margin-right: 0px;
+	color: #FFFFFF;
+	background-color: #2F7097;
+	font-size: 10pt;
+	z-index: 1;
+}
+.pref3
+{
+	width: 85px;
+	height: 50px;
+	margin: 2px;
+	margin-right: 0px;
+	color: #FFFFFF;
+	background-color: #2F7097;
+	font-size: 10pt;
+	z-index: 1;
+}
+.pref4
+{
+	width: 85px;
+	height: 50px;
+	margin: 2px;
+	margin-right: 0px;
+	color: #FFFFFF;
+	background-color: #2F7097;
+	font-size: 10pt;
+	z-index: 1;
+}
+.pref5
+{
+	width: 85px;
 	height: 50px;
 	margin: 2px;
 	margin-right: 0px;

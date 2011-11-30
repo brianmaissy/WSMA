@@ -9,7 +9,8 @@ var highlightedShiftID = '';
 		$('.resident').draggable({
 			containment: '#content',
 			snap: '.day',
-			revert: true
+			revert: true,
+			helper: 'clone'
 		});
 		
 		// apply the droppable effect to the shift divs, which allows them to
@@ -71,9 +72,7 @@ var highlightedShiftID = '';
 				closeButton.append('x');
 				newDiv.append(closeButton);
 				// place the new resident name div in the shift div
-				$('#'+highlightedShiftID).append(newDiv);
-				// remove the resident's name from the name list
-				$(this).remove();			 
+				$('#'+highlightedShiftID).append(newDiv);			 
 				
 				// retrieve the user ID of the resident whose name was selected
 				var findIDURL = '/users/find_by_name/' + username;
@@ -127,7 +126,6 @@ var highlightedShiftID = '';
 		closeButton.append('x');
 		newDiv.append(closeButton);	
 		$(this).append(newDiv);
-		resident.remove();
 		
 		// retrieve the user ID of the resident whose name was selected
 		var findIDURL = '/users/find_by_name/' + username;
@@ -161,11 +159,10 @@ var highlightedShiftID = '';
 							}
 						});												
 					}			
-				});								
-				residentClick();
+				});				
 			}
 		});
-		
+		residentClick();
 		$(closeButton).click(function() {
 			undoAssignment(username, newDiv);
 		});		
@@ -184,7 +181,8 @@ var highlightedShiftID = '';
 		$('.resident').draggable({
 			containment: '#content',
 			snap: '.day',
-			revert: true
+			revert: true,
+			helper: 'clone'
 		});	
 		
 		// delete the assignment
@@ -197,5 +195,6 @@ var highlightedShiftID = '';
 		// re-call the resident click handler
 		residentClick();		
 	}
-
-
+$(document).ready(function() {
+alert("house id is " + $('#house').attr('house'));
+});

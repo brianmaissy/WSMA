@@ -29,10 +29,13 @@
         </div>
 		
 		<div id="namelist">
-			<% @users.each do |user| %>				
+			<% @sortedUsers = @users.sort { |a,b| a.name.downcase <=> b.name.downcase } %>
+			<% @sortedUsers.each do |user| %>				
 				<%= tag("div", {:class => "resident"}, true) =%><%= user.name %></div>
 			<% end %>
 		</div>
+		
+		<%= tag("div", {:id => "house", :house => User.find_by_id(session[:user_id]).house_id}) =%>
 		
 		<%= form_tag("/assignments", :method => "post") do %>
 			
