@@ -13,17 +13,58 @@
 			  <span class="dayname">Saturday</span>
 			  <span class="dayname">Sunday</span>
 			</div>
-			<% @shifts.each do |shift| %>
-				<% if Chore.find_by_id(shift.chore_id).house_id == User.find_by_id(session[:user_id]).house_id %>
-					<div class="chore">
-						<%= tag("div", {:class => "chorename", :id => shift.chore.id.to_s}, true) =%><%= shift.chore.name %> <%= shift.time %></div>
-						<%= tag("div", {:class => "day monday", :id => "m"+shift.chore.id.to_s}, true) =%></div>
-						<%= tag("div", {:class => "day tuesday", :id => "t"+shift.chore.id.to_s}, true) =%></div>
-						<%= tag("div", {:class => "day wednesday", :id => "w"+shift.chore.id.to_s}, true) =%></div>
-						<%= tag("div", {:class => "day thursday", :id => "h"+shift.chore.id.to_s}, true) =%></div>
-						<%= tag("div", {:class => "day friday", :id => "f"+shift.chore.id.to_s}, true) =%></div>
-						<%= tag("div", {:class => "day saturday", :id => "a"+shift.chore.id.to_s}, true) =%></div>
-						<%= tag("div", {:class => "day sunday", :id => "u"+shift.chore.id.to_s}, true) =%></div>
+			
+			<% @chores.each do |chore| %>
+				<% if chore.house_id ==  User.find_by_id(session[:user_id]).house_id %>
+					<%= tag("div", {:class => "chore", :id => "chore"+chore.id.to_s}, true) =%>
+					<%= tag("div", {:class => "chorename", :id => chore.id.to_s}, true) =%><%= chore.name %></div>
+					<% @shifts = chore.shifts %>
+					<% @shiftDays = Array.new %>
+					<% @shifts.each do |shift| %>
+						<% @shiftDays.push(shift.day_of_week) %>	
+					<% end %>
+					
+					<% if @shiftDays.include?(1) %>
+						<%= tag("div", {:class => "day monday active", :id => "m"+chore.id.to_s}, true) =%></div>
+					<% else %>
+						<%= tag("div", {:class => "day monday void", :id => "m"+chore.id.to_s+"void"}, true) =%></div>
+					<% end %>
+					
+					<% if @shiftDays.include?(2) %>
+						<%= tag("div", {:class => "day tuesday active", :id => "t"+chore.id.to_s}, true) =%></div>
+					<% else %>
+						<%= tag("div", {:class => "day tuesday void", :id => "t"+chore.id.to_s+"void"}, true) =%></div>
+					<% end %>
+					
+					<% if @shiftDays.include?(3) %>
+						<%= tag("div", {:class => "day wednesday active", :id => "w"+chore.id.to_s}, true) =%></div>
+					<% else %>
+						<%= tag("div", {:class => "day wednesday void", :id => "w"+chore.id.to_s+"void"}, true) =%></div>
+					<% end %>
+					
+					<% if @shiftDays.include?(4) %>
+						<%= tag("div", {:class => "day thursday active", :id => "h"+chore.id.to_s}, true) =%></div>
+					<% else %>
+						<%= tag("div", {:class => "day thursday void", :id => "h"+chore.id.to_s+"void"}, true) =%></div>
+					<% end %>
+					
+					<% if @shiftDays.include?(5) %>
+						<%= tag("div", {:class => "day friday active", :id => "f"+chore.id.to_s}, true) =%></div>
+					<% else %>
+						<%= tag("div", {:class => "day friday void", :id => "f"+chore.id.to_s+"void"}, true) =%></div>
+					<% end %>
+					
+					<% if @shiftDays.include?(6) %>
+						<%= tag("div", {:class => "day saturday active", :id => "a"+chore.id.to_s}, true) =%></div>
+					<% else %>
+						<%= tag("div", {:class => "day saturday void", :id => "a"+chore.id.to_s+"void"}, true) =%></div>
+					<% end %>
+					
+					<% if @shiftDays.include?(7) %>
+						<%= tag("div", {:class => "day sunday active", :id => "s"+chore.id.to_s}, true) =%></div>
+					<% else %>
+						<%= tag("div", {:class => "day sunday void", :id => "s"+chore.id.to_s+"void"}, true) =%></div>
+					<% end %>
 					</div>
 				<% end %>
 			<% end %>

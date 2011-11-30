@@ -6,8 +6,8 @@ class ShiftsController < ApplicationController
   # GET /shifts
   # GET /shifts.json
   def index
-    @shifts = Shift.all
 	@users = User.all
+	@chores = Chore.all
 	
     respond_to do |format|
       format.html # index.html.erb

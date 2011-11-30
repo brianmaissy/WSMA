@@ -11,14 +11,14 @@ $(document).ready(function() {
 		// apply the draggable effect to the resident divs
 		$('.resident').draggable({
 			containment: '#content',
-			snap: '.day',
+			snap: '.active',
 			revert: true,
 			helper: 'clone'
 		});
 		
 		// apply the droppable effect to the shift divs, which allows them to
 		// accept draggable items
-		$('.day').droppable({
+		$('.active').droppable({
 			drop: handleResidentDrop
 		});
 		
@@ -31,7 +31,7 @@ $(document).ready(function() {
 		// un-highlight it, and clicking on a non-highlighted shift will
 		// highlight it and un-highlight the currently highlighted shift if
 		// there is one
-		$('.day').click(function() {
+		$('.active').click(function() {
 			// if the user clicks on the close button of a resident name in the
 			// shift, don't highlight the shift
 			if ($(event.target).hasClass('closeButton') || $(event.target).hasClass('assignedResident')) {
@@ -180,7 +180,7 @@ $(document).ready(function() {
 		// reapply the draggable effect to the replaced resident div
 		$('.resident').draggable({
 			containment: '#content',
-			snap: '.day',
+			snap: '.active',
 			revert: true,
 			helper: 'clone'
 		});	
