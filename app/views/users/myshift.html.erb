@@ -51,39 +51,40 @@
               <td width="105" class="STYLE9"><div align="center">Weekly Shifts</div></td>
             </tr>
 
+<% @shifts.each do |shift| %>
     <% @assignments.each do |assignment| %>
-	   <% if assignment.week == 1 %>
+	   <% if shift.day_of_week == 1 %>
             <tr>
               <td height="110" class="STYLE11">
 			<%= assignment.chore.name %>
 			<%= check_box_tag "Monday", assignment.shift_id, @assignments.include?(assignment) %>
                 </td>
-	   <% elsif assignment.week == 2 %>
+	   <% elsif shift.day_of_week == 2 %>
               <td class="STYLE12">
 			<%= assignment.chore.name %>
 			<%= check_box_tag "Tuesday", assignment.shift_id, @assignments.include?(assignment) %>
               </td>
-	   <% elsif assignment.week == 3 %>
+	   <% elsif shift.day_of_week  == 3 %>
               <td class="STYLE13">
 			<%= assignment.chore.name %>
 			<%= check_box_tag "Wednesday", assignment.shift_id, @assignments.include?(assignment) %>
               </td>
-	   <% elsif assignment.week == 4 %>
+	   <% elsif shift.day_of_week == 4 %>
               <td class="STYLE14">
 			<%= assignment.chore.name %>
 			<%= check_box_tag "Thursday", assignment.shift_id, @assignments.include?(assignment) %>
 		</td>
-	   <% elsif assignment.week == 5 %>
+	   <% elsif shift.day_of_week == 5 %>
               <td class="STYLE15">
 			<%= assignment.chore.name %>
 			<%= check_box_tag "Friday", assignment.shift_id, @assignments.include?(assignment) %>
 		</td>
-	   <% elsif assignment.week == 6 %>
+	   <% elsif shift.day_of_week == 6 %>
               <td class="STYLE16">
 			<%= assignment.chore.name %>
 			<%= check_box_tag "Saturday", assignment.shift_id, @assignments.include?(assignment) %>
 		</td>
-	   <% elsif assignment.week == 7 %>
+	   <% elsif shift.day_of_week == 7 %>
               <td class="STYLE17">
 			<%= assignment.chore.name %>
 			<%= check_box_tag "Sunday", assignment.shift_id, @assignments.include?(assignment) %>
@@ -100,6 +101,7 @@
           </table>
 
 	<% end %>
+   <% end %>
 <% end %>
 
 
