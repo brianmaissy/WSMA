@@ -51,42 +51,41 @@
               <td width="105" class="STYLE9"><div align="center">Weekly Shifts</div></td>
             </tr>
 
-  <% @shifts.each do |shifts| %>
-	
-	   <% if shifts.day_of_week == 1 %>
+    <% @assignments.each do |assignment| %>
+	   <% if assignment.week == 1 %>
             <tr>
               <td height="110" class="STYLE11">
-			<%= shifts.chore.name %>
+			<%= assignment.chore.name %>
 			<%= check_box_tag "checkbox[]", @checkbox %>
-                td>
-	   <% elsif shifts.day_of_week == 2 %>
+                </td>
+	   <% elsif assignment.week == 2 %>
               <td class="STYLE12">
-			<%= shifts.chore.name %>
+			<%= assignment.chore.name %>
 			<%= check_box_tag "checkbox[]", @checkbox %>
               </td>
-	   <% shifts.day_of_week == 3 %>
+	   <% elsif assignment.week == 3 %>
               <td class="STYLE13">
-			<%= shifts.chore.name %>
+			<%= assignment.chore.name %>
 			<%= check_box_tag "checkbox[]", @checkbox %>
               </td>
-	   <% elsif shifts.day_of_week == 4 %>
+	   <% elsif assignment.week == 4 %>
               <td class="STYLE14">
-			<%= shifts.chore.name %>
+			<%= assignment.chore.name %>
 		   	<%= check_box_tag "checkbox[]", @checkbox %>
 		</td>
-	   <% elsif shifts.day_of_week == 5 %>
+	   <% elsif assignment.week == 5 %>
               <td class="STYLE15">
-			<%= shifts.chore.name %>
+			<%= assignment.chore.name %>
 			<%= check_box_tag "checkbox[]", @checkbox %>
 		</td>
-	   <% elsif shifts.day_of_week == 6 %>
+	   <% elsif assignment.week == 6 %>
               <td class="STYLE16">
-			<%= shifts.chore.name %>
+			<%= assignment.chore.name %>
 		   	<%= check_box_tag "checkbox[]", @checkbox %>
 		</td>
-	   <% elsif shifts.day_of_week == 7 %>
+	   <% elsif assignment.week == 7 %>
               <td class="STYLE17">
-			<%= shifts.chore.name %>
+			<%= assignment.chore.name %>
 		   	<%= check_box_tag "checkbox[]", @checkbox %>
 		</td>
             </tr>
@@ -94,7 +93,7 @@
 
 	   <% else %>
               <td class = "STYLE18">
-			<%= shifts.chore.name %>
+			<%= assignment.chore.name %>
 			<%= check_box_tag "checkbox[]", @checkbox %>
               </td>
             </tr>
