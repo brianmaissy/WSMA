@@ -1,6 +1,9 @@
 var shiftIsHighlighted = false;
 var highlightedShiftID = '';
 
+$(document).ready(function() {
+	//alert("house id is " + $('#house').attr('house'));
+
 	$( init );
 
 	function init() {
@@ -152,20 +155,19 @@ var highlightedShiftID = '';
 						$.ajax({
 							url: findAssignmentURL, 
 							type: 'GET',									
-							success: function( data ) {	
-							
-								newDiv.attr('id', data.id);
-																
+							success: function( data ) {								
+								newDiv.attr('id', data.id);								
+								$(closeButton).click(function() {
+									undoAssignment(username, newDiv);
+								});		
+								residentClick();								
 							}
 						});												
 					}			
 				});				
 			}
 		});
-		residentClick();
-		$(closeButton).click(function() {
-			undoAssignment(username, newDiv);
-		});		
+			
 	}
 
 	function undoAssignment(username, oldDiv) {
@@ -174,8 +176,6 @@ var highlightedShiftID = '';
 		var assignmentID = oldDiv.attr('id');
 		// remove the resident's name from the shift div
 		oldDiv.remove();
-		// put the resident's name back into the name list
-		$('#namelist').append(replaceDiv);
 					
 		// reapply the draggable effect to the replaced resident div
 		$('.resident').draggable({
@@ -195,6 +195,5 @@ var highlightedShiftID = '';
 		// re-call the resident click handler
 		residentClick();		
 	}
-$(document).ready(function() {
-alert("house id is " + $('#house').attr('house'));
+
 });

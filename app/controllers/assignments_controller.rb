@@ -5,6 +5,7 @@ class AssignmentsController < ApplicationController
   def index
     @assignments = Assignment.all
 	@users = User.all
+	@chores = Chore.all
 	
     respond_to do |format|
       format.html # index.html.erb

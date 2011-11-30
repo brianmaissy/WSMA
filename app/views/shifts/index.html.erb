@@ -13,25 +13,29 @@
 			  <span class="dayname">Saturday</span>
 			  <span class="dayname">Sunday</span>
 			</div>
-			<% @shifts.each do |shift| %>				
-				<div class="chore">
-					<%= tag("div", {:class => "chorename", :id => shift.chore.id.to_s}, true) =%><%= shift.chore.name %> <%= shift.time %></div>
-					<%= tag("div", {:class => "day monday", :id => "m"+shift.chore.id.to_s}, true) =%></div>
-					<%= tag("div", {:class => "day tuesday", :id => "t"+shift.chore.id.to_s}, true) =%></div>
-					<%= tag("div", {:class => "day wednesday", :id => "w"+shift.chore.id.to_s}, true) =%></div>
-					<%= tag("div", {:class => "day thursday", :id => "h"+shift.chore.id.to_s}, true) =%></div>
-					<%= tag("div", {:class => "day friday", :id => "f"+shift.chore.id.to_s}, true) =%></div>
-					<%= tag("div", {:class => "day saturday", :id => "a"+shift.chore.id.to_s}, true) =%></div>
-					<%= tag("div", {:class => "day sunday", :id => "u"+shift.chore.id.to_s}, true) =%></div>
-				</div>
+			<% @shifts.each do |shift| %>
+				<% if Chore.find_by_id(shift.chore_id).house_id == User.find_by_id(session[:user_id]).house_id %>
+					<div class="chore">
+						<%= tag("div", {:class => "chorename", :id => shift.chore.id.to_s}, true) =%><%= shift.chore.name %> <%= shift.time %></div>
+						<%= tag("div", {:class => "day monday", :id => "m"+shift.chore.id.to_s}, true) =%></div>
+						<%= tag("div", {:class => "day tuesday", :id => "t"+shift.chore.id.to_s}, true) =%></div>
+						<%= tag("div", {:class => "day wednesday", :id => "w"+shift.chore.id.to_s}, true) =%></div>
+						<%= tag("div", {:class => "day thursday", :id => "h"+shift.chore.id.to_s}, true) =%></div>
+						<%= tag("div", {:class => "day friday", :id => "f"+shift.chore.id.to_s}, true) =%></div>
+						<%= tag("div", {:class => "day saturday", :id => "a"+shift.chore.id.to_s}, true) =%></div>
+						<%= tag("div", {:class => "day sunday", :id => "u"+shift.chore.id.to_s}, true) =%></div>
+					</div>
+				<% end %>
 			<% end %>
 			<div id="shiftallocationspacer"></div>
         </div>
 		
 		<div id="namelist">
 			<% @sortedUsers = @users.sort { |a,b| a.name.downcase <=> b.name.downcase } %>
-			<% @sortedUsers.each do |user| %>				
-				<%= tag("div", {:class => "resident"}, true) =%><%= user.name %></div>
+			<% @sortedUsers.each do |user| %>	
+				<% if user.house_id == User.find_by_id(session[:user_id]).house_id %>
+					<%= tag("div", {:class => "resident"}, true) =%><%= user.name %></div>
+				<% end %>
 			<% end %>
 		</div>
 		
