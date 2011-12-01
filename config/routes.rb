@@ -47,7 +47,8 @@ WSMA::Application.routes.draw do
   match "/quickassign" => "assignments#quickcreate"
   match "users/find_by_name/:name" => "users#find_by_name"
   match "assignments/find/:shift_id/:user_id" => "assignments#find"
-
+  match "/setprefs" => "preferences#set_prefs"
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

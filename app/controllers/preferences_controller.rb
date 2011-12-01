@@ -81,4 +81,13 @@ class PreferencesController < ApplicationController
       format.json { head :ok }
     end
   end
+  
+  # GET /setprefs
+  def set_prefs
+    @preference = Preference.new
+
+    respond_to do |format|
+      format.html { render :action => "setprefs" }
+    end
+  end
 end
