@@ -13,11 +13,11 @@ class TimeProvider
 
   def self.reload_jobs
     jobs = ScheduledJob.all
+    unschedule_all_tasks
     jobs.each do |job|
       if job.time >= self.now
         self.schedule_execute_at job.time, job.tag, job.target_class, job.target_id
       end
-      job.destroy
     end
   end
 
@@ -109,6 +109,7 @@ class TimeProvider
         job.unschedule
       end
     end
+    ScheduledJob.all.each &:destroy
   end
 
   def self.run_tasks

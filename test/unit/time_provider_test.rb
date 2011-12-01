@@ -2,6 +2,10 @@ require 'test_helper'
 
 class TimeProviderTest < ActiveSupport::TestCase
 
+  setup do
+    TimeProvider.unschedule_all_tasks
+  end
+
   test "starts in mock mode while testing" do
     time = TimeProvider.now
     assert_equal(time, TimeProvider.now)

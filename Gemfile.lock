@@ -49,6 +49,7 @@ GEM
       railties (~> 3.0)
       thor (~> 0.14)
     json (1.6.1)
+    libv8 (3.3.10.4)
     mail (2.3.0)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -81,6 +82,7 @@ GEM
       rdoc (~> 3.4)
       thor (~> 0.14.6)
     rake (0.9.2.2)
+    rcov (0.9.11)
     rdoc (3.11)
       json (~> 1.4)
     rufus-scheduler (2.0.13)
@@ -119,7 +121,9 @@ DEPENDENCIES
   json
   rails (= 3.1.1)
   rake (= 0.9.2.2)
+  rcov
   rufus-scheduler (~> 2.0.13)
   sass-rails (~> 3.1.4)
   sqlite3
   therubyracer
+  tzinfo

@@ -7,7 +7,17 @@
 
         <h3> Create a chore </h3>
         <%= form_for @chore do |f| %>
+              <% if @chore.errors.any? %>
+                <div id="error_explanation">
+                 <h2><%= pluralize(@chore.errors.count, "error") %> prohibited this chore from being saved:</h2>
 
+                <ul>
+                    <% @chore.errors.full_messages.each do |msg| %>
+                        <li><%= msg %></li>
+                        <% end %>
+                </ul>
+                </div>
+              <% end %>
 
               <div class="field"><label>
                 <span>Name</span>

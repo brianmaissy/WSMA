@@ -50,14 +50,16 @@ class ChoresController < ApplicationController
     @user = User.find(session[:user_id])
     chore_params[:house_id] = @user.house_id
     @chore = Chore.new(chore_params)
+    @chores = Chore.find_all_by_house_id(@user.house_id)
+    @shift = Shift.new
     respond_to do |format|
       if @chore.save
 
-        format.html { redirect_to :back, :notice => 'Chore was successfully created.' }
+        format.html { redirect_to '/createChore', :notice => 'Chore was successfully created.' }
         format.json { render :json => @chore, :status => :created, :location => @chore }
 
       else
-        format.html { render :action => "new" }
+        format.html { render :action => 'createChore' }
         format.json { render :json => @chore.errors, :status => :unprocessable_entity }
       end
     end

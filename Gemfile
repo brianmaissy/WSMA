@@ -23,6 +23,9 @@ gem "rufus-scheduler", '~>2.0.13'
 
 gem 'jquery-rails'
 
+gem 'rcov'
+gem 'tzinfo'
+
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
 
