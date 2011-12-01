@@ -99,12 +99,53 @@ class ShiftsController < ApplicationController
   end
 
   def manageshifts
-    @user = User.find(session[:user_id])
-    @chores = Chore.find_all_by_house_id(@user.house_id)
+    if request.post?
+      @user = User.find(session[:user_id])
+      @chores = Chore.find_all_by_house_id(@user.house_id)
+      @users = User.find_all_by_house_id(@user.house_id)
+      if params[:assign] == '1' #Creating an assignment
+        assign_params = {"shift_id"=>params[:shift_id],
+                         "week"=>params[:week],
+                         "user_id"=>params[:user_id],
+                         "status"=>params[:status]}
+        #assign_params[:shift_id] = params[:shift_id]
+        #assign_params[:week] = params[:week]
+        #assign_params[:user_id] = params[:user_id]
+        #assign_params[:status] = params[:week]
+        @new_assign = Assignment.new(assign_params)
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render :json => @shifts }
+        respond_to do |format|
+           if @new_assign.save
+
+              format.html { redirect_to @new_assign, :notice => 'Assignment was successfully created.' }
+              format.json { render :json => @new_assign, :status => :created, :location => @new_assign }
+
+           else
+              format.html { render :action => 'manageshifts' }
+              format.json { render :json => @new_assign.errors, :status => :unprocessable_entity }
+           end
+
+
+        end
+
+      elsif params[:assign] == '0' #Signing Out or Signing Off of a workshift
+          @assign = Assignment.find(params[:assign_id])
+          if params[:commit] == "Sign Out"
+            @assign.sign_out
+          elsif params[:commit] == "Sign Off"
+            @assign.sign_off(params[:user_id])
+          end
+      end
+
+    else #a GET request
+      @user = User.find(session[:user_id])
+      @chores = Chore.find_all_by_house_id(@user.house_id)
+      @users = User.find_all_by_house_id(@user.house_id)
+
+      respond_to do |format|
+        format.html # index.html.erb
+        format.json { render :json => @shifts }
+      end
     end
   end
 
