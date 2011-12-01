@@ -53,7 +53,7 @@ class Assignment < ActiveRecord::Base
     when 1
       if house.using_online_sign_off == 1 and house.sign_off_verification_mode == 1 and self.status == 1
         self.status = 2
-        #TODO: send email to user
+        UserMailer.verification_email(a[0]).deliver
       else
         raise ArgumentError
       end
