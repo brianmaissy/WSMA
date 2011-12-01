@@ -59,43 +59,37 @@ class User < ActiveRecord::Base
 
   def hour_balance
     balance = 0
-    assignments.where(:status => 2).each { |a| balance += a.chore.hours }
-    assignments.where(:status => 3).each { |a| balance -= a.chore.hours * house.blow_off_penalty_factor }
-    (0...house.current_week).each { |week| balance -= hours_required_for_week(week) }
-    fines.all.each do |fine|
+    balance += assignments.where(:status => 2).all.sum { |a| a.chore.hours }
+    balance -= assignments.where(:status => 3).all.sum { |a| a.chore.hours * house.blow_off_penalty_factor }
+    balance -= (0...house.current_week).sum { |week| hours_required_for_week(week) }
+    balance += fines.all.sum do |fine|
       if fine.fining_period
-        balance += fine.hours_fined_for * fine.fining_period.forgive_percentage_of_fined_hours
+        fine.hours_fined_for * fine.fining_period.forgive_percentage_of_fined_hours
+      else
+        0
       end
     end
-    return balance
+    balance
   end
 
   def total_allocated_hours
-    hours = 0
-    shifts.all.each { |s| hours += s.chore.hours }
-    return hours
+    shifts.all.sum { |s| s.chore.hours }
   end
 
   def assigned_hours_this_week
-    hours = 0
-    assignments.where(:week => house.current_week).each { |a| hours += a.chore.hours }
-    return hours
+    assignments.where(:week => house.current_week).all.sum { |a| a.chore.hours }
   end
 
   def completed_hours_this_week
-    hours = 0
-    assignments.where(:week => house.current_week, :status => 2).each { |a| hours += a.chore.hours }
-    return hours
+    assignments.where(:week => house.current_week, :status => 2).all.sum { |a| a.chore.hours }
   end
 
   def pending_hours_this_week
-    hours = 0
-    assignments.where(:week => house.current_week, :status => 1).each { |a| hours += a.chore.hours }
-    return hours
+    assignments.where(:week => house.current_week, :status => 1).all.sum { |a| a.chore.hours }
   end
 
   def hours_required_this_week
-    return hours_required_for_week house.current_week
+    hours_required_for_week house.current_week
   end
 
   def hours_required_for_week(week)
