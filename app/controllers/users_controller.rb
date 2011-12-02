@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
   before_filter :authenticate, :except => [:login, :logout]
   before_filter :authorize_wsm, :except => [:login, :logout, :show, :myshift, :profile, :change_password]
-  before_filter :authorize_user, :only => [:show, :change_password]
+  before_filter :authorize_user, :only => [:show, :change_password, :profile]
 
   # GET /users
   # GET /users.json
@@ -111,7 +111,7 @@ class UsersController < ApplicationController
         session[:user_id] = @user.id
         uri = session[:original_uri]
         session[:original_uri] = nil
-        redirect_to(uri || {:controller => :users, :action => :profile})
+        redirect_to(uri || {:controller => :users, :action => :profile, :id => @user.to_param})
       else
         flash.now[:notice] = "Invalid email/password combination"
       end
@@ -126,23 +126,32 @@ class UsersController < ApplicationController
     redirect_to(:action => "login" )
   end
 
-  # GET /profile
-  # PUT /profile
+  # GET /user/profile
+  def find_profile
+    if @logged_user
+      redirect_to({:controller => :users, :action => :profile, :id => @logged_user.to_param})
+    else
+      redirect_to_login
+    end
+  end
+
+  # GET /1/profile
   def profile
-    @user = @logged_user
+    @user = User.find(params[:id])
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @user }
     end
   end
 
-  # GET /forgot_password
+  # GET /1/forgot_password
+  # POST /1/forgot_password
   def forgot_password
     #TODO implement this (iteration 3)
   end
 
-  # GET /change_password/1
-  # PUT /change_password/1
+  # GET /1/change_password
+  # POST /1/change_password
   def change_password
     @user = User.find(params[:id])
     if request.post?
