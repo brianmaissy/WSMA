@@ -22,7 +22,7 @@
     padding:12px;
     font-size:13px;
 }
-#popupContact{
+#popupContactAssigned, #popupContactUnassigned{
     display:none;
     position:fixed;
     _position:absolute; /* hack for internet explorer 6*/
@@ -34,7 +34,7 @@
     padding:12px;
     font-size:13px;
 }
-#popupContactClose{
+#popupContactClose, #popupContactClose1{
     font-size:14px;
     line-height:14px;
     right:6px;

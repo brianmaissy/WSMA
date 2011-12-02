@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
   end
 
   def presence_of_password
-    errors[:base] << ("Password can't be blank") if password_hash.nil?
+    errors[:base] << ("Password can't be blank") if password.nil? or password == ""
   end
 
   def initialize_defaults
@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
     raise NotImplementedError
   end
 
-  def change_password(security_token, new_password)
+  def reset_password(security_token, new_password)
     #TODO: implement this (iteration 3)
     raise NotImplementedError
   end

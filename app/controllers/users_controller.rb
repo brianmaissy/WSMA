@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
 
   before_filter :authenticate, :except => [:login, :logout]
-  before_filter :authorize_wsm, :except => [:login, :logout, :show, :myshift, :profile]
-  before_filter :authorize_user, :only => [:show]
+  before_filter :authorize_wsm, :except => [:login, :logout, :show, :myshift, :profile, :change_password]
+  before_filter :authorize_user, :only => [:show, :change_password, :profile]
 
   # GET /users
   # GET /users.json
@@ -111,7 +111,7 @@ class UsersController < ApplicationController
         session[:user_id] = @user.id
         uri = session[:original_uri]
         session[:original_uri] = nil
-        redirect_to(uri || {:controller => :users, :action => :profile})
+        redirect_to(uri || {:controller => :users, :action => :profile, :id => @user.to_param})
       else
         flash.now[:notice] = "Invalid email/password combination"
       end
@@ -126,25 +126,51 @@ class UsersController < ApplicationController
     redirect_to(:action => "login" )
   end
 
-  # GET /profile
-  # PUT /profile
+  # GET /user/profile
+  def find_profile
+    if @logged_user
+      redirect_to({:controller => :users, :action => :profile, :id => @logged_user.to_param})
+    else
+      redirect_to_login
+    end
+  end
+
+  # GET /1/profile
   def profile
-    @user = @logged_user
+    @user = User.find(params[:id])
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @user }
     end
   end
 
-  # GET /forgot_password
+  # GET /1/forgot_password
+  # POST /1/forgot_password
   def forgot_password
     #TODO implement this (iteration 3)
   end
 
-  # GET /change_password
-  # PUT /change_password
+  # GET /1/change_password
+  # POST /1/change_password
   def change_password
-    #TODO implement this (iteration 3)
+    @user = User.find(params[:id])
+    if request.post?
+      if @logged_user.password != params[:current_password]
+        flash[:notice] = "Incorrect password."
+      elsif params[:new_password] != params[:confirm_new_password]
+        flash[:notice] = "New passwords do not match."
+      else
+        @user.password = params[:new_password]
+        respond_to do |format|
+          if @user.save
+            flash[:notice] = 'Password was successfully updated.'
+            format.html { redirect_to :action => :profile }
+          else
+            format.html { render :action => :change_password }
+          end
+        end
+      end
+    end
   end
 
   # Get /manage
@@ -181,7 +207,4 @@ class UsersController < ApplicationController
       format.json { render :json => @shifts }
     end
   end
-
-
-
 end

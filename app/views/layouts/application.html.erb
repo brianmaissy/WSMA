@@ -18,12 +18,12 @@
         <!-- for demo/testing purposes -->
         <div id="time" style="display: inline-block; background-color: #add8e6; margin-left: 20px;"><%= render "demo/time" %></div>
     	<span id="headerlist">
-			<a class="headerlistitem" href="/">Home</a>
-        	<a class="headerlistitem" href="/user/profile">Profile</a>
+			<%= link_to "Home", root_path, :class => 'headerlistitem' %>
             <% if @logged_user %>
-        	    <a class="headerlistitem" href="/logout">Logout</a>
+                <%= profile_link :class => 'headerlistitem' -%>
+        	    <%= link_to "Logout", {:controller => :users, :action => :logout}, :class => 'headerlistitem' %>
             <% else %>
-              <a class="headerlistitem" href="/login">Login</a>
+              <%= link_to "Login", {:controller => :users, :action => :login}, :class => 'headerlistitem' %>
             <% end %>
    		</span>
       </div>

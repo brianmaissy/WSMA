@@ -255,6 +255,7 @@ class HouseTest < ActiveSupport::TestCase
     assert_equal(1, monday_afternoon.wday)
     assert_equal(6, monday_afternoon.hour)
     assert_equal(sunday + 7.days, @house.next_sunday_at_midnight(sunday))
+    assert_equal(@house.next_sunday_at_midnight(TimeProvider.now), @house.end_of_this_week(TimeProvider.now))
   end
 
   test "job scheduling works" do
