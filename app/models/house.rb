@@ -121,6 +121,10 @@ class House < ActiveRecord::Base
     return beginning.advance(:days => -current.wday)
   end
 
+  def end_of_this_week current
+    next_sunday_at_midnight current
+  end
+
   def next_sunday_at_midnight current
     if current.class != DateTime
       current = DateTime.parse(current)
