@@ -22,8 +22,8 @@ WSMA::Application.routes.draw do
 
   resources :houses
 
-  resources :users
-  
+  resources :users, :complete => :put 
+ 
   resources :demo
   
   #match "/demo/login" => "users#login"

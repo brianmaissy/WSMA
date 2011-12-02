@@ -157,25 +157,31 @@ class UsersController < ApplicationController
     end
   end
 
+ def complete
+
+ end 
+
   def myshift
     @user = User.find(session[:user_id])
     @shifts = Shift.find_all_by_user_id(session[:user_id])
     @assignments = Assignment.find_all_by_user_id(session[:user_id])
 
     @chores = Chore.find_all_by_house_id(@user.house_id)
+    @data = params[:assignment_ids]
 
-
-		if params['commit'] == "Sign Out"
-			 	    assignment.sign_off(@user.id)
-   		else
-				    @user = User.find(session[:user_id])
-   				    @user.destroy
-		end
-
+    if params[:commit] == "Sign Out"
+       @data.each do |datum|
+		if datum == 1
+    else
+       # do something else
+    end
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @shifts }
     end
   end
+
+
+
 end
