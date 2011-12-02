@@ -39,6 +39,7 @@ WSMA::Application.routes.draw do
   match "/user/managefines" => "users#manage"
   match "/user/profile" => "users#profile"
 
+  match "/users/change_password/:id" => "users#change_password"
   match "/login" => "users#login"
   match "/logout" => "users#logout"
 

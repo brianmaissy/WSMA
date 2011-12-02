@@ -92,4 +92,31 @@ class UsersControllerTest < ActionController::TestCase
     get :show, :id => @user.to_param
     assert_redirected_to :action => "login"
   end
+
+  test "changing password" do
+    get :logout
+    user = User.new(:name => "testUser2", :email => "testEmail2", :house => @house, :access_level => 1)
+    user.password = "testPassword"
+    user.save!
+    post :login, :email => "testEmail2", :password => "testPassword"
+    post :change_password, :id => user.to_param, :current_password => 'wrong', :new_password => 'new', :confirm_new_password => 'new'
+    get :logout
+    post :login, :email => "testEmail2", :password => "testPassword"
+    assert_redirected_to :action => :profile
+
+    post :change_password, :id => user.to_param, :current_password => 'testPassword', :new_password => 'new', :confirm_new_password => 'different'
+    get :logout
+    post :login, :email => "testEmail2", :password => "testPassword"
+    assert_redirected_to :action => :profile
+
+    post :change_password, :id => user.to_param, :current_password => 'testPassword', :new_password => '', :confirm_new_password => ''
+    get :logout
+    post :login, :email => "testEmail2", :password => "testPassword"
+    assert_redirected_to :action => :profile
+
+    post :change_password, :id => user.to_param, :current_password => 'testPassword', :new_password => 'new', :confirm_new_password => 'new'
+    get :logout
+    post :login, :email => "testEmail2", :password => "new"
+    assert_redirected_to :action => :profile
+  end
 end

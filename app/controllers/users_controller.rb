@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
 
   before_filter :authenticate, :except => [:login, :logout]
-  before_filter :authorize_wsm, :except => [:login, :logout, :show, :myshift, :profile]
-  before_filter :authorize_user, :only => [:show]
+  before_filter :authorize_wsm, :except => [:login, :logout, :show, :myshift, :profile, :change_password]
+  before_filter :authorize_user, :only => [:show, :change_password]
 
   # GET /users
   # GET /users.json
@@ -141,10 +141,27 @@ class UsersController < ApplicationController
     #TODO implement this (iteration 3)
   end
 
-  # GET /change_password
-  # PUT /change_password
+  # GET /change_password/1
+  # PUT /change_password/1
   def change_password
-    #TODO implement this (iteration 3)
+    @user = User.find(params[:id])
+    if request.post?
+      if @logged_user.password != params[:current_password]
+        flash[:notice] = "Incorrect password."
+      elsif params[:new_password] != params[:confirm_new_password]
+        flash[:notice] = "New passwords do not match."
+      else
+        @user.password = params[:new_password]
+        respond_to do |format|
+          if @user.save
+            flash[:notice] = 'Password was successfully updated.'
+            format.html { redirect_to :action => :profile }
+          else
+            format.html { render :action => :change_password }
+          end
+        end
+      end
+    end
   end
 
   # Get /manage
