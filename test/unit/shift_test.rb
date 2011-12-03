@@ -14,7 +14,21 @@ class ShiftTest < ActiveSupport::TestCase
   end
 
   test "day_of_week must be between 1 and 7" do
-    #TODO: implement this
+    assert shifts(:one).valid?
+    for number in MANY_NONINTEGERS
+      shifts(:one).day_of_week = number
+      assert shifts(:one).invalid?
+      assert shifts(:one).errors[:day_of_week].include? "must be an integer"
+    end
+    for number in [-1,0,8]
+      shifts(:one).day_of_week = number
+      assert shifts(:one).invalid?
+      assert shifts(:one).errors[:day_of_week].include? "must be 1 - 7"
+    end
+    for number in [1,2,3,4,5,6,7]
+      shifts(:one).day_of_week = number
+      assert shifts(:one).valid?
+    end
   end
 
   test "time must not be null" do
@@ -26,7 +40,23 @@ class ShiftTest < ActiveSupport::TestCase
   end
 
   test "temporary must be 0 or 1" do
-    #TODO: implement this
+    shifts(:one).user = nil
+    shifts(:one).save!
+    assert shifts(:one).valid?
+    for number in MANY_NONINTEGERS
+      shifts(:one).temporary = number
+      assert shifts(:one).invalid?
+      assert shifts(:one).errors[:temporary].include? "must be an integer"
+    end
+    for number in [-1,2,3]
+      shifts(:one).temporary = number
+      assert shifts(:one).invalid?
+      assert shifts(:one).errors[:temporary].include? "must be 0 or 1"
+    end
+    for number in [0,1]
+      shifts(:one).temporary = number
+      assert shifts(:one).valid?
+    end
   end
 
   test "temporary shifts cannot be allocated" do
