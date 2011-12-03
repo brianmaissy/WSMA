@@ -14,7 +14,21 @@ class FineTest < ActiveSupport::TestCase
   end
 
   test "paid must be 0 or 1" do
-    #TODO: implement this
+    assert fines(:one).valid?
+    for number in MANY_NONINTEGERS
+      fines(:one).paid = number
+      assert fines(:one).invalid?
+      assert fines(:one).errors[:paid].include? "must be an integer"
+    end
+    for number in [-1,2,3]
+      fines(:one).paid = number
+      assert fines(:one).invalid?
+      assert fines(:one).errors[:paid].include? "must be 0 or 1"
+    end
+    for number in [0,1]
+      fines(:one).paid = number
+      assert fines(:one).valid?
+    end
   end
 
   test "paid_date must not be null if paid is 1" do

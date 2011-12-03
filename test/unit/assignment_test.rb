@@ -19,7 +19,22 @@ class AssignmentTest < ActiveSupport::TestCase
   end
 
   test "status must be 1,2, or 3" do
-    #TODO: implement this
+    assignment = Assignment.create(:user => users(:one), :shift => shifts(:one), :week => 11, :status => 1)
+    assert assignment.valid?
+    for number in MANY_NONINTEGERS
+      assignment.status = number
+      assert assignment.invalid?
+      assert assignment.errors[:status].include? "must be an integer"
+    end
+    for number in [-1,4,5]
+      assignment.status = number
+      assert assignment.invalid?
+      assert assignment.errors[:status].include? "must be 1, 2, or 3"
+    end
+    for number in [1,2,3]
+      assignment.status = number
+      assert assignment.valid?
+    end
   end
 
   test "cannot assign the same chore twice in a week" do

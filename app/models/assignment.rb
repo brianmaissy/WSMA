@@ -11,9 +11,14 @@ class Assignment < ActiveRecord::Base
 
   validates_presence_of :week, :status
   validates_numericality_of :week, :greater_than_or_equal_to => 0
-  validates_numericality_of :status, :greater_than_or_equal_to => 1, :less_than_or_equal_to => 3
   validates_uniqueness_of :shift_id, :scope => [:week]
+  validates_numericality_of :status, :only_integer => true
+  validate :status_has_legal_value
 
+  def status_has_legal_value
+    errors.add(:status, 'must be 1, 2, or 3' ) if not [1, 2, 3].include? status
+  end
+  
   def initialize_status
     if new_record? and status.nil?
       if house.using_online_sign_off == 1
