@@ -17,10 +17,22 @@ class FiningPeriod < ActiveRecord::Base
     #TODO: implement this
     #creates a Rufus-scheduler job which will run calculate_fines at House.sign_off_by_hours_after hours after the end of fining_week
     #stores the job id in the fine_job_id field
+    tag = TimeProvider.generate_job_tag(self)
+    TimeProvider.schedule_execute_at(calculate_fines_time, tag, self.class.to_s, self.id)
+  end
+  
+  def execute_job
+    calculate_fines
+  end
+  
+  def calculate_fines_time
+    #implement
+    # given fining_week, find end of fining_week then add House.sign_off_by_hours_after hours
   end
   
   def cancel_jobs
-    #TODO: implement this
+    tag = TimeProvider.generate_job_tag(self)
+    TimeProvider.unschedule_task tag
   end
   
   def calculate_fines
