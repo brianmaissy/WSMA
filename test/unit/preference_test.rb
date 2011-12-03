@@ -6,7 +6,6 @@ class PreferenceTest < ActiveSupport::TestCase
   end
 
   test "rating must be between 0 and 5" do
-    #TODO: implement this
     assert preferences(:one).valid?
     for number in MANY_NONINTEGERS
       preferences(:one).rating = number
