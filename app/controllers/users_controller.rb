@@ -195,12 +195,7 @@ class UsersController < ApplicationController
     @chores = Chore.find_all_by_house_id(@user.house_id)
     @data = params[:assignment_ids]
 
-    if params[:commit] == "Sign Out"
-       @data.each do |datum|
-		if datum == 1
-    else
-       # do something else
-    end
+
 
     respond_to do |format|
       format.html # index.html.erb
