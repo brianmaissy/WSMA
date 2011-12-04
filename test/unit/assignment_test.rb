@@ -73,6 +73,13 @@ class AssignmentTest < ActiveSupport::TestCase
   
   test "blow off works" do
     #TODO: write this test
+    # make new assignment, go to shift ending time, check assignment is blown off
+    assignment = Assignment.new(:user => users(:one), :shift => shifts(:one), :week => 11, :status => 1)
+    assignment.house.using_online_sign_off = 1
+    assignment.house.save!
+    assignment.save!
+    TimeProvider.set_mock_time(assignment.shift.blow_off_time + 2.hours)
+    assert_equal(3, assignment.status)
   end
 
   def teardown
