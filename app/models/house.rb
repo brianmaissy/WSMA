@@ -117,12 +117,16 @@ class House < ActiveRecord::Base
     if current.class != DateTime
       current = DateTime.parse(current)
     end
-    beginning = DateTime.new(current.year, current.month, current.day, 0, 0, 0, 0)
+    beginning = current.advance(:hours => -current.hour, :minutes => -current.min, :seconds => -current.sec)
     return beginning.advance(:days => -current.wday)
   end
 
   def end_of_this_week current
-    next_sunday_at_midnight current
+    end_of_week current_week
+  end
+
+  def end_of_week week
+    next_sunday_at_midnight(TimeProvider.now).advance(:days => 7 * (week - current_week))
   end
 
   def next_sunday_at_midnight current

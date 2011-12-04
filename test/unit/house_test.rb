@@ -139,6 +139,7 @@ class HouseTest < ActiveSupport::TestCase
   end
 
   test "next sunday at midnight" do
+    TimeProvider.set_mock_time
     next_sunday = @house.next_sunday_at_midnight TimeProvider.now
     assert_equal(0, next_sunday.wday)
     assert_equal(0, next_sunday.hour)
@@ -255,7 +256,13 @@ class HouseTest < ActiveSupport::TestCase
     assert_equal(1, monday_afternoon.wday)
     assert_equal(6, monday_afternoon.hour)
     assert_equal(sunday + 7.days, @house.next_sunday_at_midnight(sunday))
+  end
+
+  test "end of week" do
+    TimeProvider.set_mock_time
+    @house.current_week = 3
     assert_equal(@house.next_sunday_at_midnight(TimeProvider.now), @house.end_of_this_week(TimeProvider.now))
+    assert_equal(@house.end_of_this_week(TimeProvider.now).advance(:days => 14), @house.end_of_week(5))
   end
 
   test "job scheduling works" do
