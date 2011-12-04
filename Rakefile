@@ -11,7 +11,7 @@ task :bootstrap => ["cancel_jobs", "db:drop", "db:create", "db:migrate", "db:see
 end
 
 desc "Cancels all Rufus-scheduler jobs, to be used before dropping the database tables"
-task :cancel_jobs do
+task :cancel_jobs => :environment do
   mode = TimeProvider.in_mock_mode
   TimeProvider.set_mock_mode false
   TimeProvider.unschedule_all_tasks
