@@ -62,14 +62,14 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should not be able to access someone else\'s profile" do
+  test "should not be able to access someone else's profile" do
     get :logout
     user = User.new(:name => "testUser2", :email => "testEmail2", :house => @house, :access_level => 1)
     user.password = "testPassword"
     user.save!
     post :login, :email => "testEmail2", :password => "testPassword"
-    get :show, :id => @user.to_param
-    assert_redirected_to :action => "profile"
+    get :profile, :id => @user.to_param
+    assert_redirected_to :action => "profile", :id => user.to_param
   end
 
   test "should not be able to access admin area when logged in as user" do
@@ -102,21 +102,21 @@ class UsersControllerTest < ActionController::TestCase
     post :change_password, :id => user.to_param, :current_password => 'wrong', :new_password => 'new', :confirm_new_password => 'new'
     get :logout
     post :login, :email => "testEmail2", :password => "testPassword"
-    assert_redirected_to :action => :profile
+    assert_redirected_to :action => :profile, :id => user.to_param
 
     post :change_password, :id => user.to_param, :current_password => 'testPassword', :new_password => 'new', :confirm_new_password => 'different'
     get :logout
     post :login, :email => "testEmail2", :password => "testPassword"
-    assert_redirected_to :action => :profile
+    assert_redirected_to :action => :profile, :id => user.to_param
 
     post :change_password, :id => user.to_param, :current_password => 'testPassword', :new_password => '', :confirm_new_password => ''
     get :logout
     post :login, :email => "testEmail2", :password => "testPassword"
-    assert_redirected_to :action => :profile
+    assert_redirected_to :action => :profile, :id => user.to_param
 
     post :change_password, :id => user.to_param, :current_password => 'testPassword', :new_password => 'new', :confirm_new_password => 'new'
     get :logout
     post :login, :email => "testEmail2", :password => "new"
-    assert_redirected_to :action => :profile
+    assert_redirected_to :action => :profile, :id => user.to_param
   end
 end
