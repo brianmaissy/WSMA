@@ -71,6 +71,19 @@ class AssignmentTest < ActiveSupport::TestCase
     assert_equal(count, ScheduledJob.count)
   end
   
+  test "sign_off(user,password) removes respective assignment" do
+    assignment = Assignment.new(:user => users(:one), :shift => shifts(:one), :week => 11, :status => 1)
+    @assignments << assignment
+    assignment.house.using_online_sign_off = 1 
+    assignment.house.sign_off_verification_mode = 2
+    @house = House.create(:name => "testHouse", :hours_per_week => 5)
+    @user = User.new(:name => "testUser", :email => "testEmail", :house => @house, :access_level => 3)
+    @user.password = "testPassword"
+    @user.save!
+    assignment.sign_off(@user, @user.password)
+    assert_equal(2, assignment.status)
+  end
+
   test "blow off works" do
     #TODO: write this test
     # make new assignment, go to shift ending time, check assignment is blown off
@@ -79,6 +92,7 @@ class AssignmentTest < ActiveSupport::TestCase
     assignment.house.save!
     assignment.save!
     TimeProvider.set_mock_time(assignment.shift.blow_off_time + 2.hours)
+    assert_equal(TimeProvider.now, assignment.shift.blow_off_time + 2.hours)
     assert_equal(3, assignment.status)
   end
 

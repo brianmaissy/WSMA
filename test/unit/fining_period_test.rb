@@ -43,7 +43,7 @@ class FiningPeriodTest < ActiveSupport::TestCase
     c1 = Chore.create(:house => h1, :name => "a", :hours => 3, :sign_out_by_hours_before => 2, :due_hours_after => 4)
     s1 = Shift.create(:day_of_week => 1, :chore => c1, :time => TimeProvider.now, :temporary => 0)
     a1 = Assignment.create(:user => u1, :shift => s1, :week => 1, :status => 2)
-    TimeProvider.set_mock_time h1.end_of_week 3
+    TimeProvider.set_mock_time h1.end_of_week(3)
     TimeProvider.advance_mock_time h1.sign_off_by_hours_after.hours + 1.minute
     assert_equal(60, u1.fines[0].amount)
   end
