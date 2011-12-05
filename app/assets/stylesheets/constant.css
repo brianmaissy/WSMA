@@ -99,26 +99,32 @@ html, body
 	color: #000000;
 	list-style: none;
 	position: absolute;
-	top: 15px;
-	left: -22px;
 	height: 300px;
-	width: 155px;
+	width: 152px;
 }
 .navlistitem
 {
 	color: #000000;
-	padding-bottom: 10px;
+	padding: 15px;
 	text-decoration: none;
-	position: relative;
-	left: 20px;
-	top: 20px;
+	bottom: 15px;
+	border-bottom: 3px solid #FFFFFF;
+}
+#currentnavlistitem
+{
+	background-color: #5A8F29;
+}
+#currentnavlistlink
+{
+	color: #FFFFFF;
+	text-decoration: none;
 }
 .navlistlink
 {
 	color: #000000;
 	text-decoration: none;
 }
-#content {
+#viewContent {
 	width: 890px;
 	position: absolute;
 	top: 65px;
@@ -126,6 +132,7 @@ html, body
 	background-color: #E6D380;
 	border: 4px solid #FFFFFF;
 	float: right;
+	padding-left: 15px;
 }
 #footer {
 	font-size: 10px;

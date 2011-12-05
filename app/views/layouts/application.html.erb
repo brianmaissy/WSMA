@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>BSC Workshift Manager</title>
-<%= stylesheet_link_tag "constant", "application" %>
+<%= stylesheet_link_tag "application" %>
 <%= javascript_include_tag 'application' %>
 <%= csrf_meta_tags %>
 </head>
@@ -34,24 +34,24 @@
       <div id="navbar">
 			<% if @logged_user %>
               <%if @logged_user.access_level == 1 %>
-                <div class="navlistitem"><a class="navlistlink" href="/user/myshift">My Shifts</a></div>
-				<div class="navlistitem"><a class="navlistlink" href="">My Fines</a></div>
-				<div class="navlistitem"><a class="navlistlink" href="/setprefs">Shift Preferences</a></div>
-				<div class="navlistitem"><%= tag("a", {:class => "navlistlink", :href => "/users/"+session[:user_id].to_s+"/profile"}, true) =%>My Profile</a></div>
+                <a class="navlistlink" href="/user/myshift"><div class="navlistitem">My Shifts</div></a>
+				<a class="navlistlink" href="/user/managefines"><div class="navlistitem">My Fines</div></a>
+				<a class="navlistlink" href="/setprefs"><div class="navlistitem">Shift Preferences</div></a>
+				<%= tag("a", {:class => "navlistlink", :href => "/users/"+session[:user_id].to_s+"/profile"}, true) =%><div class="navlistitem">My Profile</div></a>
 
               <%elsif @logged_user.access_level == 2 %>
-				<div class="navlistitem"><a class="navlistlink" href="/user/myshift">My Shifts</a></div>
-				<div class="navlistitem"><a class="navlistlink" href="">My Fines</a></div>
-				<div class="navlistitem"><a class="navlistlink" href="/setprefs">Shift Preferences</a></div>
-                <div class="navlistitem"><a class="navlistlink" href="/manageshifts">Manage Shifts</a></div>
-				<div class="navlistitem"><a class="navlistlink" href="/shifts">Allocate Shifts</a></div>
-				<div class="navlistitem"><a class="navlistlink" href="/createChore">Create Chores and Shifts</a></div>
+				<a class="navlistlink" href="/user/myshift"><div class="navlistitem">My Shifts</div></a>
+				<a class="navlistlink" href="/user/managefines"><div class="navlistitem">My Fines</div></a>
+				<a class="navlistlink" href="/setprefs"><div class="navlistitem">Shift Preferences</div></a>
+                <a class="navlistlink" href="/manageshifts"><div class="navlistitem">Manage Shifts</div></a>
+				<a class="navlistlink" href="/shifts"><div class="navlistitem">Allocate Shifts</div></a>
+				<a class="navlistlink" href="/createChore"><div class="navlistitem">Create Chores and Shifts</div></a>
 
               <%elsif @logged_user.access_level == 3%>
-                <div class="navlistitem"><a class="navlistlink" href="/manageshifts">Manage Shifts</a></div>
-				<div class="navlistitem"><a class="navlistlink" href="/shifts">Allocate Shifts</a></div>
-				<div class="navlistitem"><a class="navlistlink" href="/createChore">Create Chores and Shifts</a></div>
-				<div class="navlistitem"><a class="navlistlink" href="#">Admin Tools</a></div>
+                <a class="navlistlink" href="/manageshifts"><div class="navlistitem">Manage Shifts</div></a>
+				<a class="navlistlink" href="/shifts"><div class="navlistitem">Allocate Shifts</div></a>
+				<a class="navlistlink" href="/createChore"><div class="navlistitem">Create Chores and Shifts</div></a>
+				<a class="navlistlink" href="#"><div class="navlistitem">Admin Tools</div></a>
 
               <%end%>
 
@@ -59,15 +59,15 @@
 				<a class="navlistitem" href="/login">Login</a>
             <% end %>			
       </div>
-      <div id="content">
+      <div id="viewContent">
         <% if not flash[:notice].blank? -%>
           <div id="notice"><%= flash[:notice] %></div>
         <% end -%>
 		<%= yield %>
-		<div id="spacer"></div>
-	  </div>
-	  	  
+		
+	  </div>  
 </div>
+
     </div>
 </body>
 </html>
