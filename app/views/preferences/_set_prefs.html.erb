@@ -1,0 +1,37 @@
+<%= form_tag("/createprefs", :method => "get") do %>
+	<% @house = House.find_by_id(User.find_by_id(session[:user_id]).house_id) %>
+	<% @chores = @house.chores %>
+	<% @chores.each do |chore| %>
+		<br />
+		<div class="prefChoreName">
+			<%= chore.name %>
+		</div>
+		<br />
+		<div class="choreRating">
+			<%= radio_button_tag(chore.id, "1") %>	
+			<%= label_tag(:rating_1, "Hate/Can't Do") %>					
+		</div>
+		<div class="choreRating">
+			<%= radio_button_tag(chore.id, "2") %>
+			<%= label_tag(:rating_2, "Dislike") %>
+		</div>
+		<div class="choreRating">
+			<%= radio_button_tag(chore.id, "3") %>
+			<%= label_tag(:rating_3, "Neutral") %>
+		</div>
+		<div class="choreRating">
+			<%= radio_button_tag(chore.id, "4") %>
+			<%= label_tag(:rating_4, "Like") %>
+		</div>
+		<div class="choreRating">
+			<%= radio_button_tag(chore.id, "5") %>
+			<%= label_tag(:rating_5, "Love") %>
+		</div>	
+		<br />
+	<% end %>	
+  <br />
+  <div id="prefSubmit">
+    <%= submit_tag("Save Preferences") %>
+  </div>
+  <br />
+<% end %>

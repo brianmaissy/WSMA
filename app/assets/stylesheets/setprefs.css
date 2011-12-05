@@ -1,0 +1,22 @@
+#background
+{
+
+}
+.prefChoreName
+{
+	float: left;
+}
+.choreRating
+{
+	float: left;
+	padding: 5px;
+	padding-right: 15px;
+}
+#prefSubmit
+{
+	float: left;
+}
+#setprefsspacer
+{
+	height: 40px;
+}
