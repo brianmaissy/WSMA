@@ -99,10 +99,11 @@ class ShiftsController < ApplicationController
   end
 
   def manageshifts
-    if request.post?
       @user = User.find(session[:user_id])
       @chores = Chore.find_all_by_house_id(@user.house_id)
       @users = User.find_all_by_house_id(@user.house_id)
+      @house = @user.house
+    if request.post?
       if params[:assign] == '1' #Creating an assignment
         assign_params = {"shift_id"=>params[:shift_id],
                          "week"=>params[:week],
@@ -117,7 +118,7 @@ class ShiftsController < ApplicationController
         respond_to do |format|
            if @new_assign.save
 
-              format.html { redirect_to @new_assign, :notice => 'Assignment was successfully created.' }
+              format.html { render :action => 'manageshifts', :notice => 'Assignment was successfully created.' }
               format.json { render :json => @new_assign, :status => :created, :location => @new_assign }
 
            else
@@ -133,15 +134,16 @@ class ShiftsController < ApplicationController
           if params[:commit] == "Sign Out"
             @assign.sign_out
           elsif params[:commit] == "Sign Off"
-            @assign.sign_off(params[:user_id])
+            if @house.sign_off_verification_mode == 0
+                @assign.sign_off
+            elsif @house.sign_off_verification_mode == 1
+                @user_so = User.find(params[:fuser_id])
+                @assign.sign_off(@user_so)
+            end
           end
       end
 
     else #a GET request
-      @user = User.find(session[:user_id])
-      @chores = Chore.find_all_by_house_id(@user.house_id)
-      @users = User.find_all_by_house_id(@user.house_id)
-
       respond_to do |format|
         format.html # index.html.erb
         format.json { render :json => @shifts }
