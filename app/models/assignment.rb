@@ -70,9 +70,6 @@ class Assignment < ActiveRecord::Base
       if house.using_online_sign_off == 1 and house.sign_off_verification_mode == 2 and self.status == 1
         @user = a[0]
         @password = a[1]
-        puts @user
-        puts @password
-        puts @user.password
         if @user and @user.password.eql? @password
           self.status = 2
           self.save!
