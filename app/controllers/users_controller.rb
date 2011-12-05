@@ -55,6 +55,22 @@ class UsersController < ApplicationController
     end
   end
 
+  def register
+    @email = User.find_by_email(params[:text2])
+    @user = User.find_by_name(params[:text1])
+
+    if request.post?
+     
+	if @email and @user
+		flash.now[:notice] = "Valid user, email sent"
+          	render :action => :reset_password
+	else
+		flash.now[:notice] = "User does not exist"
+	end
+     
+    end
+  end
+
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
@@ -221,6 +237,7 @@ class UsersController < ApplicationController
     end
   end
 
+
   # Get /manage
   def manage
     @user = User.find(session[:user_id])
@@ -231,28 +248,26 @@ class UsersController < ApplicationController
     end
   end
 
- def complete
-
- end 
-
   def myshift
     @user = User.find(session[:user_id])
     @shifts = Shift.find_all_by_user_id(session[:user_id])
     @assignments = Assignment.find_all_by_user_id(session[:user_id])
 
     @chores = Chore.find_all_by_house_id(@user.house_id)
-    @data = params[:assignment_ids]
 
-    if params[:assignment_ids]
-    	@data.each do |datum|
-  		@assign = Assignment.find(params[:datum])
+    if request.post?
+	if params[:assignments] == '0'
+		@assign = Assignment.find(params[:assignment_ids])
     		if params[:commit] == "Sign Out"
 			@assign.sign_out
+			flash.now[:notice] = "Successfully Signed Out"
    		elsif
-			@assign.sign_off(params[:user_id])
-    		end
+			@assign.sign_off(params[:user_id]) 
+			flash.now[:notice] = "Successfully Signed Off"
+		end
 	end
     end
+
 
     respond_to do |format|
       format.html # index.html.erb
