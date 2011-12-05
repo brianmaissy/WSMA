@@ -55,6 +55,22 @@ class UsersController < ApplicationController
     end
   end
 
+  def register
+    @email = User.find_by_email(params[:text2])
+    @user = User.find_by_name(params[:text1])
+
+    if request.post?
+     
+	if @email and @user
+		flash.now[:notice] = "Valid user, email sent"
+          	render :action => :reset_password
+	else
+		flash.now[:notice] = "User does not exist"
+	end
+     
+    end
+  end
+
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
@@ -220,6 +236,7 @@ class UsersController < ApplicationController
       end
     end
   end
+
 
   # Get /manage
   def manage
