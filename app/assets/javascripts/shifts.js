@@ -94,7 +94,7 @@ $(document).ready(function() {
 							type: 'POST', 
 							data:{"utf-8": "&#x2713",
 								"authenticity-token": authToken, 
-								"assignment": {"user_id": userID, "shift_id": shiftID, "week": 1, "status": 1, "blow_off_job_id": 1},
+								"assignment": {"user_id": userID, "shift_id": shiftID, "week": 1, "status": 1},
 								"commit": "Create Assignment"},
 							success: function( data ) {
 								// retrieve the ID of the just-created assignment
@@ -104,18 +104,18 @@ $(document).ready(function() {
 									type: 'GET',									
 									success: function( data ) {
 										newDiv.attr('id', data.id);
-										
+										residentClick();			
+										// click handler for the close buttons
+										$(closeButton).click(function() {
+											undoAssignment(username, newDiv);
+										});	
 									}
 								});
 							}			
 						});			
 					}
 				});
-				residentClick();			
-				// click handler for the close buttons
-				$(closeButton).click(function() {
-					undoAssignment(username, newDiv);
-				});					
+								
 			}
 		});
 	}
@@ -147,7 +147,7 @@ $(document).ready(function() {
 					type: 'POST', 
 					data:{"utf-8": "&#x2713",
 						"authenticity-token": authToken, 
-						"assignment": {"user_id": userID, "shift_id": shiftID, "week": 1, "status": 1, "blow_off_job_id": 1},
+						"assignment": {"user_id": userID, "shift_id": shiftID, "week": 1, "status": 1},
 						"commit": "Create Assignment"},
 					success: function( data ) {						
 						// retrieve the ID of the just-created assignment
