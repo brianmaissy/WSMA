@@ -50,43 +50,59 @@
 
               <td width="105" class="STYLE9"><div align="center">Weekly Shifts</div></td>
             </tr>
+	<%= form_tag do%>
 <form action = "/users/myshift">
+
     <% @assignments.each do |assignment| %>
 	   <% if assignment.shift.day_of_week == 1 %>
             <tr>
               <td height="110" class="STYLE11">
 			<%= assignment.chore.name %>
-			<%= check_box_tag "assignment_ids[]", assignment.shift.day_of_week %>
+			<% if assignment.status == 1 %>
+			<%= check_box_tag "assignment_ids[]", assignment.shift_id %>
+			<% end %>
                 </td>
 	   <% elsif assignment.shift.day_of_week == 2 %>
               <td class="STYLE12">
 			<%= assignment.chore.name %>
-			<%= check_box_tag "assignment_ids[]", assignment.shift.day_of_week %>
+			<% if assignment.status == 1 %>
+			<%= check_box_tag "assignment_ids[]", assignment.shift_id%>
+			<% end %>
               </td>
 	   <% elsif assignment.shift.day_of_week  == 3 %>
               <td class="STYLE13">
 			<%= assignment.chore.name %>
-			<%= check_box_tag "assignment_ids[]", assignment.shift.day_of_week %>
+			<% if assignment.status == 1 %>
+			<%= check_box_tag "assignment_ids[]", assignment.shift_id %>
+			<% end %>
               </td>
 	   <% elsif assignment.shift.day_of_week == 4 %>
               <td class="STYLE14">
 			<%= assignment.chore.name %>
-			<%= check_box_tag "assignment_ids[]", assignment.shift.day_of_week %>
+			<% if assignment.status == 1 %>
+			<%= check_box_tag "assignment_ids[]", assignment.shift_id %>
+			<% end %>
 		</td>
 	   <% elsif assignment.shift.day_of_week == 5 %>
               <td class="STYLE15">
 			<%= assignment.chore.name %>
-			<%= check_box_tag "assignment_ids[]", assignment.shift.day_of_week %>
+			<% if assignment.status == 1 %>
+			<%= check_box_tag "assignment_ids[]", assignment.shift_id %>
+			<% end %>
 		</td>
 	   <% elsif assignment.shift.day_of_week == 6 %>
               <td class="STYLE16">
 			<%= assignment.chore.name %>
-			<%= check_box_tag "assignment_ids[]", assignment.shift.day_of_week %>
+			<% if assignment.status == 1 %>
+			<%= check_box_tag "assignment_ids[]", assignment.shift_id %>
+			<% end %>
 		</td>
 	   <% elsif assignment.shift.day_of_week == 7 %>
               <td class="STYLE17">
 			<%= assignment.chore.name %>
-			<%= check_box_tag "assignment_ids[]", assignment.shift.day_of_week %>
+			<% if assignment.status == 1 %>
+			<%= check_box_tag "assignment_ids[]", assignment.shift_id %>
+			<% end %>
 		</td>
             </tr>
 
@@ -94,7 +110,9 @@
 	   <% else %>
               <td class = "STYLE18">
 			<%= assignment.chore.name %>
-			<%= check_box_tag "assignment_ids[]", assignment.shift.day_of_week %>
+			<% if assignment.status == 1 %>
+			<%= check_box_tag "assignment_ids[]", assignment.shift_id %>
+			<% end %>
               </td>
             </tr>
           </table>
@@ -102,12 +120,16 @@
 	<% end %>
    <% end %>
 
-	<% form_tag do%>
+
+   <div id = "tags">
+
           <%= submit_tag "Sign Out", :name => "Sign Out" %>
           <%= submit_tag "Sign Off", :name => "Sign Off" %>
-	<% end %>
-</form>
 
+
+   </div>
+</form>
+<% end %>
 
           <p>&nbsp;</p>
           <p>&nbsp;</p>
