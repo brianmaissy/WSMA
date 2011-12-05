@@ -51,6 +51,7 @@ class Assignment < ActiveRecord::Base
     when 0
       if house.using_online_sign_off == 1 and house.sign_off_verification_mode == 0 and self.status == 1
         self.status = 2
+        self.save!
       else
         raise ArgumentError
       end
@@ -58,6 +59,7 @@ class Assignment < ActiveRecord::Base
     when 1
       if house.using_online_sign_off == 1 and house.sign_off_verification_mode == 1 and self.status == 1
         self.status = 2
+        self.save!
         UserMailer.verification_email(a[0]).deliver
       else
         raise ArgumentError
@@ -67,6 +69,7 @@ class Assignment < ActiveRecord::Base
       if house.using_online_sign_off == 1 and house.sign_off_verification_mode == 2 and self.status == 1
         #TODO: call User.authenticate(encrypted_password, public_key)
         self.status = 2
+        self.save!
       else
         raise ArgumentError
       end
