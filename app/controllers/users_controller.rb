@@ -243,8 +243,10 @@ class UsersController < ApplicationController
 		@assign = Assignment.find(params[:assignment_ids])
     		if params[:commit] == "Sign Out"
 			@assign.sign_out
+			flash.now[:notice] = "Successfully Signed Out"
    		elsif
 			@assign.sign_off(params[:user_id]) 
+			flash.now[:notice] = "Successfully Signed Off"
 		end
 	end
     end
