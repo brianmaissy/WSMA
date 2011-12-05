@@ -7,9 +7,9 @@
 #   Mayor.create(:name => 'Emanuel', :city => cities.first)
 
 
-testHouse = House.create(:name => 'Test House')
+testHouse = House.create(:name => 'Test House', :sign_off_verification_mode => 1)
 admin = User.create(:house => testHouse, :name => 'admin', :access_level => 3, :email => 'admin', :password => '169testers')
 wsm = User.create(:house => testHouse, :name => 'wsm', :access_level => 2, :email => 'wsm', :password => '169testers')
 user = User.create(:house => testHouse, :name => 'user', :access_level => 1, :email => 'user', :password => '169testers')
-
+brian = User.create(:house => testHouse, :name => 'Brian', :access_level => 2, :email => 'brian.maissy@gmail.com', :password => 'b')
 
