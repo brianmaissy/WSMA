@@ -32,12 +32,14 @@ WSMA::Application.routes.draw do
   match "/demo/myshift" => "users#myshift"
   match "/user/myshift" => "users#myshift"
 
+
   match "/demo/advance_time"
   match "/demo/mock_time"
   match "/demo/real_time"
   
   match "/user/managefines" => "users#manage"
   match "/user/profile" => "users#find_profile"
+  match "/user/register" => "users#register"
 
   match "/users/:id/profile" => "users#profile"
   match "/users/:id/change_password/" => "users#change_password"
