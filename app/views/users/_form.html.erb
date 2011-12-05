@@ -23,7 +23,10 @@
     <%= label_tag :password %><br />
     <%= text_field_tag :password %>
   </div>
-
+  <div class="field">
+    <%= f.label :access_level %><br />
+    <%= f.select(:access_level, options_for_select([['Resident', 1], ['Workshift Manager', 2], ['Administrator', 3]], 1)) %>
+  </div>
   <div class="field">
     <%= f.label :name %><br />
     <%= f.text_field :name %>
@@ -36,7 +39,10 @@
     <%= f.label :room_number %><br />
     <%= f.text_field :room_number %>
   </div>
-
+  <div class="field">
+    <%= f.label :hours_per_week %><br />
+    <%= f.text_field :hours_per_week %>
+  </div>
   <div class="field">
     <%= f.label :notes %><br />
     <%= f.text_area :notes %>
