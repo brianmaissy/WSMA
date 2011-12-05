@@ -30,8 +30,10 @@ class UserTest < ActiveSupport::TestCase
     test_attribute_must_be_unique @user, :email
   end
   
-  test "password hash must not be null" do
-    test_attribute_may_not_be_null @user, :password_hash
+  test "password must not be blank" do
+    assert @user.valid?
+    @user.password = ""
+    assert @user.invalid?
   end
   
   test "access level must not be null" do

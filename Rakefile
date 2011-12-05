@@ -7,7 +7,7 @@ require File.expand_path('../config/application', __FILE__)
 WSMA::Application.load_tasks
 
 desc "Clears the database and loads the sample data"
-task :bootstrap => ["cancel_jobs", "db:drop", "db:create", "db:migrate", "db:seed"] do
+task :bootstrap => ["db:drop", "db:create", "db:migrate", "db:seed", "cancel_jobs"] do
 end
 
 desc "Cancels all Rufus-scheduler jobs, to be used before dropping the database tables"

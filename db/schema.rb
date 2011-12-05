@@ -111,7 +111,7 @@ ActiveRecord::Schema.define(:version => 20111127121227) do
   end
 
   create_table "users", :force => true do |t|
-    t.integer  "house_id",       :null => false
+    t.integer  "house_id",             :null => false
     t.string   "email"
     t.string   "password_hash"
     t.string   "jom_social_id"
@@ -121,6 +121,8 @@ ActiveRecord::Schema.define(:version => 20111127121227) do
     t.string   "room_number"
     t.decimal  "hours_per_week"
     t.text     "notes"
+    t.string   "password_reset_token"
+    t.datetime "token_expiration"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

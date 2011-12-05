@@ -119,4 +119,41 @@ class UsersControllerTest < ActionController::TestCase
     post :login, :email => "testEmail2", :password => "new"
     assert_redirected_to :action => :profile, :id => user.to_param
   end
+
+  test "resetting password" do
+    get :logout
+    user = User.new(:name => "testUser2", :email => "testEmail2", :house => @house, :access_level => 1)
+    user.password = "testPassword"
+    user.save!
+
+    post :forgot_password, :email => "testEmail2"
+    user.reload
+
+    post :reset_password, :id => user.to_param, :password_reset_token => 'wrong', :new_password => 'new', :confirm_new_password => 'new'
+    post :login, :email => "testEmail2", :password => "testPassword"
+    assert_redirected_to :action => :profile, :id => user.to_param
+
+    post :reset_password, :id => user.to_param, :password_reset_token => user.password_reset_token, :new_password => 'new', :confirm_new_password => 'different'
+    post :login, :email => "testEmail2", :password => "testPassword"
+    assert_redirected_to :action => :profile, :id => user.to_param
+
+    post :reset_password, :id => user.to_param, :password_reset_token => user.password_reset_token, :new_password => '', :confirm_new_password => ''
+    post :login, :email => "testEmail2", :password => "testPassword"
+    assert_redirected_to :action => :profile, :id => user.to_param
+
+    TimeProvider.advance_mock_time(25.hours)
+    post :reset_password, :id => user.to_param, :password_reset_token => user.password_reset_token, :new_password => 'new', :confirm_new_password => 'new'
+    post :login, :email => "testEmail2", :password => "testPassword"
+    assert_redirected_to :action => :profile, :id => user.to_param
+
+    TimeProvider.advance_mock_time(-25.hours)
+    post :reset_password, :id => user.to_param, :password_reset_token => user.password_reset_token, :new_password => 'new', :confirm_new_password => 'new'
+    post :login, :email => "testEmail2", :password => "new"
+    assert_redirected_to :action => :profile, :id => user.to_param
+
+    post :reset_password, :id => user.to_param, :password_reset_token => user.password_reset_token, :new_password => 'newer', :confirm_new_password => 'newer'
+    post :login, :email => "testEmail2", :password => "new"
+    assert_redirected_to :action => :profile, :id => user.to_param
+  end
+
 end

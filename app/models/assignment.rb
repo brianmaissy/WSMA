@@ -60,16 +60,22 @@ class Assignment < ActiveRecord::Base
       if house.using_online_sign_off == 1 and house.sign_off_verification_mode == 1 and self.status == 1
         self.status = 2
         self.save!
-        UserMailer.verification_email(a[0]).deliver
+        @user = a[0]
+        UserMailer.verification_email(@user).deliver
       else
         raise ArgumentError
       end
     
-    when 3
+    when 2
       if house.using_online_sign_off == 1 and house.sign_off_verification_mode == 2 and self.status == 1
-        #TODO: call User.authenticate(encrypted_password, public_key)
-        self.status = 2
-        self.save!
+        @user = a[0]
+        @password = a[1]
+        if @user and @user.password.eql? @password
+          self.status = 2
+          self.save!
+        else
+          raise ArgumentError, 'Invalid email/password combination'
+        end
       else
         raise ArgumentError
       end
