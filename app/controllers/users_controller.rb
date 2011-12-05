@@ -1,8 +1,16 @@
 class UsersController < ApplicationController
 
-  before_filter :authenticate, :except => [:login, :logout]
-  before_filter :authorize_wsm, :except => [:login, :logout, :show, :myshift, :profile, :change_password]
-  before_filter :authorize_user, :only => [:show, :change_password, :profile]
+  # Pages available without login
+  public_pages = [:login, :logout, :forgot_password, :reset_password, :find_profile]
+  # Pages available to anyone logged in
+  authenticated_pages = [:myshift]
+  # Pages available only to the logged in user, must take a :id param
+  user_pages = [:show, :profile, :change_password]
+  # All other pages will only be available to wsms and admins
+
+  before_filter :authenticate, :except => public_pages
+  before_filter :authorize_user, :only => user_pages
+  before_filter :authorize_wsm, :except => public_pages + authenticated_pages + user_pages
 
   # GET /users
   # GET /users.json
@@ -144,10 +152,50 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /1/forgot_password
-  # POST /1/forgot_password
+  # GET /forgot_password
+  # POST /forgot_password
   def forgot_password
-    #TODO implement this (iteration 3)
+    if request.post?
+      @user = User.find_by_email(params[:email])
+      if @user
+        if @user.send_reset_password_email
+          flash.now[:notice] = "An email has been sent to you with a password reset token. Enter that token here along with a new password."
+          render :action => :reset_password
+        else
+          flash.now[:notice] = "There was an error sending email to #{params[:email]}, please contact your system administrator."
+        end
+      else
+        flash.now[:notice] = "User with email #{params[:email]} not found"
+      end
+    end
+  end
+
+  # GET /1/reset_password
+  # POST /1/reset_password
+  def reset_password
+    if request.post?
+      @user = User.find_by_password_reset_token(params[:password_reset_token])
+      if params[:password_reset_token].blank? or @user.nil?
+        flash.now[:notice] = "Invalid password reset token."
+      elsif TimeProvider.now > @user.token_expiration
+        flash.now[:notice] = "Password reset token has expired. Click 'Resend Email' to generate a new one."
+      elsif params[:new_password] != params[:confirm_new_password]
+        flash.now[:notice] = "New passwords do not match."
+      else
+        @user.password = params[:new_password]
+        respond_to do |format|
+          if @user.save
+            flash[:notice] = 'Password was successfully changed.'
+            #manually expire the reset token, we don't want anyone using it again
+            @user.token_expiration = TimeProvider.now
+            @user.save!
+            format.html { redirect_to :action => :login }
+          else
+            format.html { render :action => :reset_password }
+          end
+        end
+      end
+    end
   end
 
   # GET /1/change_password
@@ -156,14 +204,14 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     if request.post?
       if @logged_user.password != params[:current_password]
-        flash[:notice] = "Incorrect password."
+        flash.now[:notice] = "Incorrect password."
       elsif params[:new_password] != params[:confirm_new_password]
-        flash[:notice] = "New passwords do not match."
+        flash.now[:notice] = "New passwords do not match."
       else
         @user.password = params[:new_password]
         respond_to do |format|
           if @user.save
-            flash[:notice] = 'Password was successfully updated.'
+            flash[:notice] = 'Password was successfully changed.'
             format.html { redirect_to :action => :profile }
           else
             format.html { render :action => :change_password }
@@ -195,7 +243,15 @@ class UsersController < ApplicationController
     @chores = Chore.find_all_by_house_id(@user.house_id)
     @data = params[:assignment_ids]
 
-
+    if params[:assignment_ids]
+    @data.each do |datum|
+  	@assign = Assignment.find(params[:datum])
+    	if params[:commit] == "Sign Out"
+		@assign.sign_out
+   	elsif
+		@assign.sign_off(params[:user_id])
+    	end
+    end
 
     respond_to do |format|
       format.html # index.html.erb
