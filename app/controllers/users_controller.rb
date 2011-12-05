@@ -244,13 +244,14 @@ class UsersController < ApplicationController
     @data = params[:assignment_ids]
 
     if params[:assignment_ids]
-    @data.each do |datum|
-  	@assign = Assignment.find(params[:datum])
-    	if params[:commit] == "Sign Out"
-		@assign.sign_out
-   	elsif
-		@assign.sign_off(params[:user_id])
-    	end
+    	@data.each do |datum|
+  		@assign = Assignment.find(params[:datum])
+    		if params[:commit] == "Sign Out"
+			@assign.sign_out
+   		elsif
+			@assign.sign_off(params[:user_id])
+    		end
+	end
     end
 
     respond_to do |format|
