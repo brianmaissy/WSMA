@@ -91,8 +91,7 @@ class AssignmentTest < ActiveSupport::TestCase
     assignment.house.using_online_sign_off = 1
     assignment.house.save!
     assignment.save!
-    TimeProvider.set_mock_time(assignment.shift.blow_off_time + 2.hours)
-    assert_equal(TimeProvider.now, assignment.shift.blow_off_time + 2.hours)
+    TimeProvider.set_mock_time(assignment.shift.blow_off_time)
     assert_equal(3, assignment.status)
   end
 
