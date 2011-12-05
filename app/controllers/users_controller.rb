@@ -1,8 +1,16 @@
 class UsersController < ApplicationController
 
-  before_filter :authenticate, :except => [:login, :logout, :forgot_password, :reset_password]
-  before_filter :authorize_wsm, :except => [:login, :logout, :forgot_password, :reset_password, :show, :profile, :change_password, :myshift]
-  before_filter :authorize_user, :only => [:show, :profile, :change_password]
+  # Pages available without login
+  public_pages = [:login, :logout, :forgot_password, :reset_password, :find_profile]
+  # Pages available to anyone logged in
+  authenticated_pages = [:myshift]
+  # Pages available only to the logged in user, must take a :id param
+  user_pages = [:show, :profile, :change_password]
+  # All other pages will only be available to wsms and admins
+
+  before_filter :authenticate, :except => public_pages
+  before_filter :authorize_user, :only => user_pages
+  before_filter :authorize_wsm, :except => public_pages + authenticated_pages + user_pages
 
   # GET /users
   # GET /users.json
