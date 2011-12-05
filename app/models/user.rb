@@ -48,13 +48,17 @@ class User < ActiveRecord::Base
   end
 
   def send_reset_password_email
-    #TODO: implement this (iteration 3)
-    raise NotImplementedError
-  end
-
-  def reset_password(security_token, new_password)
-    #TODO: implement this (iteration 3)
-    raise NotImplementedError
+    self.password_reset_token = ActionController::HttpAuthentication::Digest.nonce(password_hash, TimeProvider.now)[1,20]
+    self.token_expiration = TimeProvider.now.advance(:hours => 24)
+    self.save!
+    begin
+      UserMailer.password_reset_email(self).deliver
+    rescue Net::SMTPError
+      self.token_expiration = TimeProvider.now
+      self.save!
+      return false
+    end
+    return true
   end
 
   def hour_balance

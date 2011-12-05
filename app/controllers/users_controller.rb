@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
 
-  before_filter :authenticate, :except => [:login, :logout]
-  before_filter :authorize_wsm, :except => [:login, :logout, :show, :myshift, :profile, :change_password]
-  before_filter :authorize_user, :only => [:show, :change_password, :profile]
+  before_filter :authenticate, :except => [:login, :logout, :forgot_password, :reset_password]
+  before_filter :authorize_wsm, :except => [:login, :logout, :forgot_password, :reset_password, :show, :profile, :change_password, :myshift]
+  before_filter :authorize_user, :only => [:show, :profile, :change_password]
 
   # GET /users
   # GET /users.json
@@ -144,10 +144,50 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /1/forgot_password
-  # POST /1/forgot_password
+  # GET /forgot_password
+  # POST /forgot_password
   def forgot_password
-    #TODO implement this (iteration 3)
+    if request.post?
+      @user = User.find_by_email(params[:email])
+      if @user
+        if @user.send_reset_password_email
+          flash.now[:notice] = "An email has been sent to you with a password reset token. Enter that token here along with a new password."
+          render :action => :reset_password
+        else
+          flash.now[:notice] = "There was an error sending email to #{params[:email]}, please contact your system administrator."
+        end
+      else
+        flash.now[:notice] = "User with email #{params[:email]} not found"
+      end
+    end
+  end
+
+  # GET /1/reset_password
+  # POST /1/reset_password
+  def reset_password
+    if request.post?
+      @user = User.find_by_password_reset_token(params[:password_reset_token])
+      if params[:password_reset_token].blank? or @user.nil?
+        flash.now[:notice] = "Invalid password reset token."
+      elsif TimeProvider.now > @user.token_expiration
+        flash.now[:notice] = "Password reset token has expired. Click 'Resend Email' to generate a new one."
+      elsif params[:new_password] != params[:confirm_new_password]
+        flash.now[:notice] = "New passwords do not match."
+      else
+        @user.password = params[:new_password]
+        respond_to do |format|
+          if @user.save
+            flash[:notice] = 'Password was successfully changed.'
+            #manually expire the reset token, we don't want anyone using it again
+            @user.token_expiration = TimeProvider.now
+            @user.save!
+            format.html { redirect_to :action => :login }
+          else
+            format.html { render :action => :reset_password }
+          end
+        end
+      end
+    end
   end
 
   # GET /1/change_password
@@ -156,14 +196,14 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     if request.post?
       if @logged_user.password != params[:current_password]
-        flash[:notice] = "Incorrect password."
+        flash.now[:notice] = "Incorrect password."
       elsif params[:new_password] != params[:confirm_new_password]
-        flash[:notice] = "New passwords do not match."
+        flash.now[:notice] = "New passwords do not match."
       else
         @user.password = params[:new_password]
         respond_to do |format|
           if @user.save
-            flash[:notice] = 'Password was successfully updated.'
+            flash[:notice] = 'Password was successfully changed.'
             format.html { redirect_to :action => :profile }
           else
             format.html { render :action => :change_password }

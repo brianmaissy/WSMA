@@ -22,7 +22,7 @@ WSMA::Application.routes.draw do
 
   resources :houses
 
-  resources :users, :complete => :put 
+  resources :users
   
   resources :demo
   
@@ -41,6 +41,8 @@ WSMA::Application.routes.draw do
 
   match "/users/:id/profile" => "users#profile"
   match "/users/:id/change_password/" => "users#change_password"
+  match "/forgot_password" => "users#forgot_password"
+  match "/reset_password" => "users#reset_password"
   match "/login" => "users#login"
   match "/logout" => "users#logout"
 
