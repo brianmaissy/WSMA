@@ -11,7 +11,8 @@ class CreateUsers < ActiveRecord::Migration
       t.string :room_number
       t.decimal :hours_per_week
       t.text :notes
-
+      t.string :password_reset_token
+      t.datetime :token_expiration
       t.timestamps
     end
   end

@@ -11,9 +11,14 @@ class Assignment < ActiveRecord::Base
 
   validates_presence_of :week, :status
   validates_numericality_of :week, :greater_than_or_equal_to => 0
-  validates_numericality_of :status, :greater_than_or_equal_to => 1, :less_than_or_equal_to => 3
   validates_uniqueness_of :shift_id, :scope => [:week]
+  validates_numericality_of :status, :only_integer => true
+  validate :status_has_legal_value
 
+  def status_has_legal_value
+    errors.add(:status, 'must be 1, 2, or 3' ) if not [1, 2, 3].include? status
+  end
+  
   def initialize_status
     if new_record? and status.nil?
       if house.using_online_sign_off == 1
@@ -46,6 +51,7 @@ class Assignment < ActiveRecord::Base
     when 0
       if house.using_online_sign_off == 1 and house.sign_off_verification_mode == 0 and self.status == 1
         self.status = 2
+        self.save!
       else
         raise ArgumentError
       end
@@ -53,15 +59,26 @@ class Assignment < ActiveRecord::Base
     when 1
       if house.using_online_sign_off == 1 and house.sign_off_verification_mode == 1 and self.status == 1
         self.status = 2
-        UserMailer.verification_email(a[0]).deliver
+        self.save!
+        @user = a[0]
+        UserMailer.verification_email(@user).deliver
       else
         raise ArgumentError
       end
     
-    when 3
+    when 2
       if house.using_online_sign_off == 1 and house.sign_off_verification_mode == 2 and self.status == 1
-        #TODO: call User.authenticate(encrypted_password, public_key)
-        self.status = 2
+        @user = a[0]
+        @password = a[1]
+        puts @user
+        puts @password
+        puts @user.password
+        if @user and @user.password.eql? @password
+          self.status = 2
+          self.save!
+        else
+          raise ArgumentError, 'Invalid email/password combination'
+        end
       else
         raise ArgumentError
       end

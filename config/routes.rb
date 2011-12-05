@@ -37,8 +37,12 @@ WSMA::Application.routes.draw do
   match "/demo/real_time"
   
   match "/user/managefines" => "users#manage"
-  match "/user/profile" => "users#profile"
+  match "/user/profile" => "users#find_profile"
 
+  match "/users/:id/profile" => "users#profile"
+  match "/users/:id/change_password/" => "users#change_password"
+  match "/forgot_password" => "users#forgot_password"
+  match "/reset_password" => "users#reset_password"
   match "/login" => "users#login"
   match "/logout" => "users#logout"
 
@@ -107,4 +111,3 @@ WSMA::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id(.:format)))'
 end
-

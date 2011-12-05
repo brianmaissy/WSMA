@@ -23,21 +23,38 @@ $(document).ready(function() {
 
     $('#calendar').fullCalendar({
         defaultView: 'agendaWeek',
-        slotMinutes: 15,
+        slotMinutes: 30,
         eventClick: function(calEvent, jsEvent, view) {
 
 
-            $('div.event_name').replaceWith('<div class="inner event_name">'+calEvent.name+'</div>');
-            $('div.event_description').replaceWith('<div class="inner event_description">'+calEvent.description+'</div>');
-            $('div.event_assignedto').replaceWith('<div class="inner event_assignedto">'+calEvent.assigned_to+'</div>');
-            $('div.event_status').replaceWith('<div class="inner event_status">'+calEvent.status+'</div>');
+            //$('div.event_name').replaceWith('<div class="inner event_name">'+calEvent.name+'</div>');
+            //$('div.event_description').replaceWith('<div class="inner event_description">'+calEvent.description+'</div>');
+            //$('div.event_assignedto').replaceWith('<div class="inner event_assignedto">'+calEvent.assigned_to+'</div>');
+            //$('div.event_status').replaceWith('<div class="inner event_status">'+calEvent.status+'</div>');
+            $('div.event_name').empty();
+            $('div.event_name').append(calEvent.name);
 
+            $('div.event_description').empty();
+            $('div.event_description').append(calEvent.description);
 
+            $('div.event_assignedto').empty();
+            $('div.event_assignedto').append(calEvent.assigned_to);
 
-
-
-
-            $("#popupContact").modal({overlayClose: true});
+            $('div.event_status').empty();
+            $('div.event_status').append(calEvent.status);
+            if(calEvent.isAssigned == 0){
+                $('#shift_id').val(calEvent.shift_id);
+                $("#popupContactUnassigned").modal({overlayClose: true});
+            }else{
+                $('#assign_id').val(calEvent.assignment_id);
+                $('#fuser_id').val(calEvent.assigned_uid);
+                if (calEvent.status =="pending"){
+                    $("#assign_form").css("display", "inline");
+                }else{
+                    $("#assign_form").css("display", "none");
+                }
+                $("#popupContactAssigned").modal({overlayClose: true});
+            }
 
         },
         // put your options and callbacks here
@@ -68,6 +85,7 @@ $(document).ready(function() {
                            assignment_id: '<%=assignment.id%>',
                            title: '<%=chore.name%>'+': '+ '<%=assignment.user.name%>',
                            name: '<%=chore.name%>',
+                           assigned_uid: '<%=assignment.user.id%>',
                            assigned_to: '<%=assignment.user.name%>',
                            description: '<%=chore.description%>',
                            start: new Date(y,m,base-1+<%=shift.day_of_week%>, <%=shift.time.hour%>, <%=shift.time.min%>),
@@ -87,7 +105,7 @@ $(document).ready(function() {
 });
 
 </script>
-<div id='popupContact'>
+<div id='popupContactUnassigned'>
   <a id="popupContactClose" class="simplemodal-close">x</a>
 
     Chore: <div class="inner event_name"></div> <br />
@@ -95,9 +113,41 @@ $(document).ready(function() {
     Assigned to: <div class="inner event_assignedto"></div> <br />
     Status: <div class="inner event_status"></div> <br />
 
-
-
+    <%= form_tag do%>
+        <%= hidden_field_tag :shift_id %>
+        <%= hidden_field_tag :assign, 1 %>
+        <%= hidden_field_tag :week, 1 %>
+        <%= hidden_field_tag :status, 1%>
+        Resident to assign shift to: <br />
+        <% user_array = Array.new %>
+        <% for user in @users%>
+          <%if user.access_level < 3%>
+              <%user_array << [user.name, user.id]%>
+              <%end%>
+          <%end%>
+        <%= select_tag :user_id, options_for_select(user_array) %>
+        <%= submit_tag "Assign Shift" %>
+    <% end %>
 </div>
+<div id='popupContactAssigned'>
+  <a id="popupContactClose1" class="simplemodal-close">x</a>
+
+    <b>Chore:</b> <div class="inner event_name"></div> <br />
+    <b>Description:</b> <div class="inner event_description"></div> <br />
+    <b>Assigned to:</b> <div class="inner event_assignedto"></div> <br />
+    <b>Status:</b> <div class="inner event_status"></div> <br />
+
+   <div id="assign_form">
+    <%= form_tag do%>
+        <%= hidden_field_tag :assign, 0 %>
+        <%= hidden_field_tag :assign_id %>
+        <%= hidden_field_tag :fuser_id %>
+        <%= submit_tag "Sign Off" %>
+        <%= submit_tag "Sign Out" %>
+    <%end%>
+     </div>
+</div>
+
 <div id="backgroundPopup"></div>
 
 

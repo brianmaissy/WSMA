@@ -14,13 +14,21 @@ class FiningPeriod < ActiveRecord::Base
   validates_numericality_of :forgive_percentage_of_fined_hours, :greater_than_or_equal_to => 0, :less_than_or_equal_to => 1
   
   def initialize_defaults
-    #TODO: implement this
-    #creates a Rufus-scheduler job which will run calculate_fines at House.sign_off_by_hours_after hours after the end of fining_week
-    #stores the job id in the fine_job_id field
+    tag = TimeProvider.generate_job_tag(self)
+    TimeProvider.schedule_execute_at(calculate_fines_time, tag, self.class.to_s, self.id)
+  end
+  
+  def execute_job
+    calculate_fines
+  end
+  
+  def calculate_fines_time
+    return house.end_of_week(fining_week).advance(:hours => house.sign_off_by_hours_after.to_r)
   end
   
   def cancel_jobs
-    #TODO: implement this
+    tag = TimeProvider.generate_job_tag(self)
+    TimeProvider.unschedule_task tag
   end
   
   def calculate_fines

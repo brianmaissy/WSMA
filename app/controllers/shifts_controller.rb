@@ -99,12 +99,55 @@ class ShiftsController < ApplicationController
   end
 
   def manageshifts
-    @user = User.find(session[:user_id])
-    @chores = Chore.find_all_by_house_id(@user.house_id)
+      @user = User.find(session[:user_id])
+      @chores = Chore.find_all_by_house_id(@user.house_id)
+      @users = User.find_all_by_house_id(@user.house_id)
+      @house = @user.house
+    if request.post?
+      if params[:assign] == '1' #Creating an assignment
+        assign_params = {"shift_id"=>params[:shift_id],
+                         "week"=>params[:week],
+                         "user_id"=>params[:user_id],
+                         "status"=>params[:status]}
+        #assign_params[:shift_id] = params[:shift_id]
+        #assign_params[:week] = params[:week]
+        #assign_params[:user_id] = params[:user_id]
+        #assign_params[:status] = params[:week]
+        @new_assign = Assignment.new(assign_params)
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render :json => @shifts }
+        respond_to do |format|
+           if @new_assign.save
+
+              format.html { render :action => 'manageshifts', :notice => 'Assignment was successfully created.' }
+              format.json { render :json => @new_assign, :status => :created, :location => @new_assign }
+
+           else
+              format.html { render :action => 'manageshifts' }
+              format.json { render :json => @new_assign.errors, :status => :unprocessable_entity }
+           end
+
+
+        end
+
+      elsif params[:assign] == '0' #Signing Out or Signing Off of a workshift
+          @assign = Assignment.find(params[:assign_id])
+          if params[:commit] == "Sign Out"
+            @assign.sign_out
+          elsif params[:commit] == "Sign Off"
+            if @house.sign_off_verification_mode == 0
+                @assign.sign_off
+            elsif @house.sign_off_verification_mode == 1
+                @user_so = User.find(params[:fuser_id])
+                @assign.sign_off(@user_so)
+            end
+          end
+      end
+
+    else #a GET request
+      respond_to do |format|
+        format.html # index.html.erb
+        format.json { render :json => @shifts }
+      end
     end
   end
 

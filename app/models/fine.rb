@@ -5,6 +5,7 @@ class Fine < ActiveRecord::Base
   
   validates_presence_of :amount, :paid, :hours_fined_for
   validates_numericality_of :amount, :greater_than => 0
+  validates_numericality_of :paid, :only_integer => true
   validate :paid_has_legal_value
   
   def paid_has_legal_value
