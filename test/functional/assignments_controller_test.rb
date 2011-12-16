@@ -55,4 +55,9 @@ class AssignmentsControllerTest < ActionController::TestCase
 
     assert_redirected_to assignments_path
   end
+
+  def teardown
+    TimeProvider.unschedule_all_tasks
+  end
+
 end

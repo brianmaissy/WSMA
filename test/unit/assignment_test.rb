@@ -96,9 +96,7 @@ class AssignmentTest < ActiveSupport::TestCase
   end
 
   def teardown
-    for assignment in @assignments
-      assignment.destroy
-    end
+    TimeProvider.unschedule_all_tasks
   end
 
 end

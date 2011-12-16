@@ -156,4 +156,8 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to :action => :profile, :id => user.to_param
   end
 
+  def teardown
+    TimeProvider.unschedule_all_tasks
+  end
+
 end

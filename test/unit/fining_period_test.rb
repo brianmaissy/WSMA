@@ -61,4 +61,9 @@ class FiningPeriodTest < ActiveSupport::TestCase
     fp1.calculate_fines
     assert_equal(60, u1.fines[0].amount)
   end
+
+  def teardown
+    TimeProvider.unschedule_all_tasks
+  end
+
 end
