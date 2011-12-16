@@ -1,6 +1,7 @@
 class FiningPeriod < ActiveRecord::Base
   
-  after_initialize :initialize_defaults
+  after_create :schedule_blow_off_job
+  before_destroy :cancel_jobs
   
   belongs_to :house
   has_many :fines, :dependent => :destroy
@@ -12,12 +13,12 @@ class FiningPeriod < ActiveRecord::Base
   validates_numericality_of :fine_for_hours_below, :less_than_or_equal_to => 0
   
   validates_numericality_of :forgive_percentage_of_fined_hours, :greater_than_or_equal_to => 0, :less_than_or_equal_to => 1
-  
-  def initialize_defaults
+
+  def schedule_blow_off_job
     tag = TimeProvider.generate_job_tag(self)
     TimeProvider.schedule_execute_at(calculate_fines_time, tag, self.class.to_s, self.id)
   end
-  
+
   def execute_job
     calculate_fines
   end
@@ -38,5 +39,5 @@ class FiningPeriod < ActiveRecord::Base
       end
     end
   end
-  
+
 end
