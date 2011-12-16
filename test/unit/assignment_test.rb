@@ -77,7 +77,7 @@ class AssignmentTest < ActiveSupport::TestCase
     assignment.house.using_online_sign_off = 1 
     assignment.house.sign_off_verification_mode = 2
     @house = House.create(:name => "testHouse", :hours_per_week => 5)
-    @user = User.new(:name => "testUser", :email => "testEmail", :house => @house, :access_level => 3)
+    @user = User.new(:name => "testUser", :email => "testEmail@fake.fake", :house => @house, :access_level => 3)
     @user.password = "testPassword"
     @user.save!
     assignment.sign_off(@user, @user.password)
