@@ -58,14 +58,14 @@ class User < ActiveRecord::Base
     self.password_reset_token = ActionController::HttpAuthentication::Digest.nonce(password_hash, TimeProvider.now)[1,20]
     self.token_expiration = TimeProvider.now.advance(:hours => 24)
     self.save!
-    begin
-      UserMailer.password_reset_email(self).deliver
-    rescue Net::SMTPError
-      self.token_expiration = TimeProvider.now
-      self.save!
-      return false
+    TimeProvider.do_now do
+      begin
+        UserMailer.password_reset_email(self).deliver
+      rescue Net::SMTPError
+        self.token_expiration = TimeProvider.now
+        self.save!
+      end
     end
-    return true
   end
 
   def hour_balance

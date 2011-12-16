@@ -131,4 +131,8 @@ class TimeProvider
     return model_instance.class.to_s + model_instance.id.to_s
   end
 
+  def self.do_now &task
+    @@scheduler.in '1s', &task
+  end
+
 end
