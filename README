@@ -44,9 +44,14 @@ https://github.com/brianmaissy/WSMA
 To run the server:
 bundle install
 rake bootstrap
-rails server
+rake assets:precompile (optional)
+rails server -e production
 
 (The rake bootstrap task sets up the database and loads it with some sample data)
+
+(Currently the setting is to fall back to the asset pipeline if the precompiled assets are unavailable.
+We should change this in the production.rb config file when deploying.
+This will require configuration of nginx to serve our files in public/assets.)
 
 Navigate to: localhost:3000/
 
