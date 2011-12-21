@@ -18,6 +18,7 @@ class House < ActiveRecord::Base
   validates_uniqueness_of :name
   validate :using_online_sign_off_has_legal_value
   validate :sign_off_verification_mode_has_legal_value
+	validate :email_is_valid_or_nil
   validate :current_week_cannot_decrease
   validate :permanent_chores_start_week_must_be_in_future
   validate :new_and_old_semester_end_date_must_be_in_future
@@ -31,6 +32,12 @@ class House < ActiveRecord::Base
     errors.add(:sign_off_verification_mode, 'must be 0, 1, or 2' ) if not [0, 1, 2].include? sign_off_verification_mode
   end
 
+	def email_is_valid_or_nil
+    # This regex is from http://www.regular-expressions.info/email.html, read there for more information
+    re = Regexp.new("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$", Regexp::IGNORECASE)
+    errors.add(:wsm_email, 'must be a valid email' ) unless wsm_email.blank? or re.match wsm_email
+  end
+  
   def current_week_cannot_decrease
     errors.add(:current_week, 'cannot be decreased' ) if not current_week.blank? and current_week_changed? and current_week < (current_week_was || 0)
   end

@@ -103,6 +103,15 @@ class HouseTest < ActiveSupport::TestCase
     test_attribute_must_be_nonnegative @house, :blow_off_penalty_factor
   end
 
+  test "wsm_email must be valid or blank" do
+    @house.wsm_email = "validemail@whatever.com"
+    assert @house.valid?
+    @house.wsm_email = "notavalidemail@whatever.toolongtobeatld"
+    assert @house.invalid?
+    @house.wsm_email = ""
+    assert @house.valid?
+  end
+
   test "unassigned shifts works" do
     c1 = Chore.create(:house => @house, :name => "a", :hours => 2, :sign_out_by_hours_before => 2, :due_hours_after => 4)
     c2 = Chore.create(:house => @house, :name => "b", :hours => 2, :sign_out_by_hours_before => 2, :due_hours_after => 4)
