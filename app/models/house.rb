@@ -21,8 +21,8 @@ class House < ActiveRecord::Base
 	validate :email_is_valid_or_nil
   validate :current_week_cannot_decrease
   validate :permanent_chores_start_week_must_be_in_future
-  validate :new_and_old_semester_end_date_must_be_in_future
-  validate :new_and_old_semester_start_date_must_be_in_future
+  validate :semester_start_date_is_valid
+  validate :semester_end_date_is_valid
 
   def using_online_sign_off_has_legal_value
     errors.add(:using_online_sign_off, 'must be 0 or 1' ) if not [0, 1].include? using_online_sign_off
@@ -46,14 +46,15 @@ class House < ActiveRecord::Base
     errors.add(:permanent_chores_start_week, 'must be in the future' ) if not permanent_chores_start_week.blank? and permanent_chores_start_week_changed? and permanent_chores_start_week <= current_week
   end
 
-  def new_and_old_semester_start_date_must_be_in_future
+  def semester_start_date_is_valid
     errors.add(:semester_start_date, 'cannot be changed; semester is already begun') if not semester_start_date.blank? and semester_start_date_changed? and not semester_start_date_was.blank? and semester_start_date_was <= TimeProvider.now
     errors.add(:semester_start_date, 'must be in the future' ) if not semester_start_date.blank? and semester_start_date_changed? and semester_start_date <= TimeProvider.now
   end
 
-  def new_and_old_semester_end_date_must_be_in_future
+  def semester_end_date_is_valid
     errors.add(:semester_end_date, 'cannot be changed; semester is already over') if not semester_end_date.blank? and semester_end_date_changed? and not semester_end_date_was.blank? and semester_end_date_was <= TimeProvider.now
     errors.add(:semester_end_date, 'must be in the future' ) if not semester_end_date.blank? and semester_end_date_changed? and semester_end_date <= TimeProvider.now
+    errors.add(:semester_end_date, 'must be after semester start date' ) if not semester_end_date.blank? and semester_end_date <= semester_start_date
   end
 
   def initialize_defaults
