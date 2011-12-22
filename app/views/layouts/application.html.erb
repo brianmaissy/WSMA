@@ -60,9 +60,7 @@
             <% end %>			
       </div>
       <div id="viewContent">
-        <% if not flash[:notice].blank? -%>
-          <div id="notice"><%= flash[:notice] %></div>
-        <% end -%>
+      	<div id="notice" class="purr"><%= flash[:notice] %></div>
 		<%= yield %>
 		
 	  </div>  

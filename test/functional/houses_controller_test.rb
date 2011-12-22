@@ -30,7 +30,7 @@ class HousesControllerTest < ActionController::TestCase
       post :create, :house => @house.attributes
     end
 
-    assert_redirected_to house_path(assigns(:house))
+    assert_redirected_to houses_path
   end
 
   test "should show house" do
@@ -45,7 +45,7 @@ class HousesControllerTest < ActionController::TestCase
 
   test "should update house" do
     put :update, :id => @house.to_param, :house => @house.attributes
-    assert_redirected_to house_path(assigns(:house))
+    assert_redirected_to houses_path
   end
 
   test "should destroy house" do

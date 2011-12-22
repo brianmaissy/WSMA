@@ -32,6 +32,9 @@ gem "rufus-scheduler", '~>2.0.13'
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
 
+# In-place editing
+gem 'best_in_place'
+
 # Use unicorn as the web server
 # gem 'unicorn'
 
