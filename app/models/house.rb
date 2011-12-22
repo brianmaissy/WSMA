@@ -64,6 +64,7 @@ class House < ActiveRecord::Base
       self.using_online_sign_off = 1 if using_online_sign_off.nil?
       self.sign_off_verification_mode = 2 if sign_off_verification_mode.nil?
       self.current_week = 0 if current_week.nil?
+      self.permanent_chores_start_week = 1 if permanent_chores_start_week.nil?
     end
   end
 

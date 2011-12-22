@@ -34,7 +34,9 @@ class FiningPeriodTest < ActiveSupport::TestCase
   end
   
   test "initialize_defaults works" do
-    h1 = House.create(:name => "testHouse", :hours_per_week => 5, :current_week => 2)
+    h1 = House.create(:name => "testHouse", :hours_per_week => 5)
+    h1.current_week = 2
+    h1.save!
     u1 = User.new(:name => "testUser", :email => "testEmail@fake.fake", :house => h1, :access_level => 3)
     u1.password = "testPassword"
     u1.save!
@@ -49,7 +51,9 @@ class FiningPeriodTest < ActiveSupport::TestCase
   end
 
   test "calculate_fines correctly creates fines" do
-    h1 = House.create(:name => "testHouse", :hours_per_week => 5, :current_week => 2)
+    h1 = House.create(:name => "testHouse", :hours_per_week => 5)
+    h1.current_week = 2
+    h1.save!
     u1 = User.new(:name => "testUser", :email => "testEmail@fake.fake", :house => h1, :access_level => 3)
     u1.password = "testPassword"
     u1.save!
