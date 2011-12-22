@@ -54,7 +54,7 @@ class House < ActiveRecord::Base
   def semester_end_date_is_valid
     errors.add(:semester_end_date, 'cannot be changed; semester is already over') if not semester_end_date.blank? and semester_end_date_changed? and not semester_end_date_was.blank? and semester_end_date_was <= TimeProvider.now
     errors.add(:semester_end_date, 'must be in the future' ) if not semester_end_date.blank? and semester_end_date_changed? and semester_end_date <= TimeProvider.now
-    errors.add(:semester_end_date, 'must be after semester start date' ) if not semester_end_date.blank? and semester_end_date <= semester_start_date
+    errors.add(:semester_end_date, 'must be after semester start date' ) if not semester_end_date.blank? and not semester_start_date.blank? and semester_end_date <= semester_start_date
   end
 
   def initialize_defaults
