@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-
+  respond_to :html, :json
   # Pages available without login
   public_pages = [:login, :logout, :forgot_password, :reset_password, :find_profile]
   # Pages available to anyone logged in
