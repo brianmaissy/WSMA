@@ -4,7 +4,7 @@ class ShiftTest < ActiveSupport::TestCase
 
   def setup
     @house = House.create(:name => "testHouse", :hours_per_week => 5)
-    @user = User.new(:name => "testUser", :email => "testEmail", :house => @house, :access_level => 3)
+    @user = User.new(:name => "testUser", :email => "testEmail@fake.fake", :house => @house, :access_level => 3)
     @user.password = "testPassword"
     @user.save!
   end

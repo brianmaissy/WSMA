@@ -2,17 +2,23 @@
 {
 	font-family: Verdana, Geneva, sans-serif;
 }
- a
+ a, a:visited
 {
-	color: #000000;
+	color: #555555;
+}
+html, body
+{
+	background-color: #555555;
 }
 #wrap{
 	margin: auto;
 	width: 1100px;
+	background-color: #555555;
 }
 #main
 {
 	position: absolute;
+	background-color: #555555;
 }
 #header {
 	font-size: 12px;
@@ -21,16 +27,16 @@
 	font-weight: normal;
 	font-variant: normal;
 	text-transform: none;
-	color: #000;
+	color: #555555;
 	text-decoration: none;
 	background-attachment: fixed;
-	background-color: #FFF;
+	background-color: #E6D380;
 	background-image: none;
 	background-repeat: no-repeat;
 	height: 35px;
 	width: 1100px;
 	vertical-align: middle;
-	border: thin solid #666;
+	border: 4px solid #FFFFFF;
 	position: absolute;
 }
 #headertitle {
@@ -43,15 +49,18 @@
 	right: 0px;
 	position: absolute;
 }
-.headerlistitem {
+.headerlistitem 
+{
 	margin-right: 10px;
+	color: #FFFFFF;
 }
 #logobar {
-	background-color: #FFF;
+	background-color: #555555;
 	height: 260px;
 	width: 200px;
 	position: absolute;
-	top: 40px;
+	top: 50px;
+	left: 5px;
 }
 #logo
 {
@@ -60,61 +69,70 @@
 	position: absolute;
 	top: 15px;
 	left: 0px;	
+	border: 4px solid #E6D380;
 }
 #logotext
 {
-	color: #000000;
+	color: #FFFFFF;
 	font-family: Georgia;
 	font-size: 18pt;
 	font-weight: bold;
 	position: absolute;
 	width: 150px;
-	top: 167px; 
+	top: 180px; 
 	left: 0px;
 	text-align: center;
 	line-height: 25px;
 }
 #navbar {
 	color: #000000;
-	background-color: #EFE4B0;
+	background-color: #E6D380;
 	height: 400px;
 	width: 160px;
 	position: absolute;
-	top: 285px;
+	top: 300px;
 	left: 0px;
+	border: 4px solid #FFFFFF;
 }
 #navlist 
 {
 	color: #000000;
 	list-style: none;
 	position: absolute;
-	top: 15px;
-	left: -22px;
 	height: 300px;
-	width: 155px;
+	width: 152px;
 }
 .navlistitem
 {
 	color: #000000;
-	padding-bottom: 10px;
+	padding: 15px;
 	text-decoration: none;
-	position: relative;
-	left: 20px;
-	top: 20px;
+	bottom: 15px;
+	border-bottom: 3px solid #FFFFFF;
+}
+#currentnavlistitem
+{
+	background-color: #5A8F29;
+}
+#currentnavlistlink
+{
+	color: #FFFFFF;
+	text-decoration: none;
 }
 .navlistlink
 {
 	color: #000000;
 	text-decoration: none;
 }
-#content {
-	height: 800px;
+#viewContent {
 	width: 890px;
 	position: absolute;
-	top: 55px;
-	left: 175px;
-	background-color: #FFFFFF;
+	top: 65px;
+	left: 192px;
+	background-color: #E6D380;
+	border: 4px solid #FFFFFF;
 	float: right;
+	padding-left: 15px;
 }
 #footer {
 	font-size: 10px;
@@ -123,7 +141,7 @@
 	font-weight: normal;
 	font-variant: normal;
 	color: #000;
-	background-color: #FFF;
+	background-color: #555555;
 	height: 30px;
 	width: 1100px;
 	vertical-align: middle;
@@ -138,9 +156,8 @@
 	right: 10px;
 }
 #spacer {
-	background-color: #FFF;
-	height: 10px;
+	background-color: #555555;
+	height: 15px;
 	width: 1100px;
-	position: absolute;
-	top: 895px;
+	position: relative;
 }

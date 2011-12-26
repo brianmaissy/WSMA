@@ -12,19 +12,26 @@ class User < ActiveRecord::Base
 
   after_initialize :initialize_defaults
 
-  validates_presence_of :house_id, :email, :name, :access_level
+  validates_presence_of :house_id, :name, :access_level
   validate :presence_of_password
   validates_numericality_of :hours_per_week, :greater_than_or_equal_to => 0
   validates_numericality_of :access_level, :only_integer => true
   validates_uniqueness_of :email
+  validate :email_is_valid
   validate :access_level_has_legal_value
+
+  def email_is_valid
+    # This regex is from http://www.regular-expressions.info/email.html, read there for more information
+    re = Regexp.new("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$", Regexp::IGNORECASE)
+    errors.add(:email, 'must be a valid email' ) if not re.match email
+  end
 
   def access_level_has_legal_value
     errors.add(:access_level, 'must be 1, 2, or 3' ) if not [1, 2, 3].include? access_level
   end
 
   def presence_of_password
-    errors[:base] << ("Password can't be blank") if password.nil? or password == ""
+    errors[:base] << ("Password can't be blank") if password_hash.blank? or password.nil? or password == ""
   end
 
   def initialize_defaults
@@ -51,14 +58,14 @@ class User < ActiveRecord::Base
     self.password_reset_token = ActionController::HttpAuthentication::Digest.nonce(password_hash, TimeProvider.now)[1,20]
     self.token_expiration = TimeProvider.now.advance(:hours => 24)
     self.save!
-    begin
-      UserMailer.password_reset_email(self).deliver
-    rescue Net::SMTPError
-      self.token_expiration = TimeProvider.now
-      self.save!
-      return false
+    TimeProvider.do_now do
+      begin
+        UserMailer.password_reset_email(self).deliver
+      rescue Net::SMTPError
+        self.token_expiration = TimeProvider.now
+        self.save!
+      end
     end
-    return true
   end
 
   def hour_balance

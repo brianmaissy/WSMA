@@ -11,7 +11,7 @@ one:
   using_online_sign_off: 1
   sign_off_verification_mode: 0
   blow_off_penalty_factor: 9.99
-  wsm_email: MyString
+  wsm_email: MyString@fake.fake
 
 two:
   name: MyString2
@@ -24,4 +24,4 @@ two:
   using_online_sign_off: 1
   sign_off_verification_mode: 1
   blow_off_penalty_factor: 9.99
-  wsm_email: MyString
+  wsm_email:

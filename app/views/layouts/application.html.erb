@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>BSC Workshift Manager</title>
-<%= stylesheet_link_tag "constant", "application" %>
+<%= stylesheet_link_tag "application" %>
 <%= javascript_include_tag 'application' %>
 <%= csrf_meta_tags %>
 </head>
@@ -19,8 +19,8 @@
         <div id="time" style="display: inline-block; background-color: #add8e6; margin-left: 20px;"><%= render "demo/time" %></div>
     	<span id="headerlist">
 			<%= link_to "Home", root_path, :class => 'headerlistitem' %>
-            <% if @logged_user %>
-                <%= profile_link :class => 'headerlistitem' -%>
+			<a href="#" class="headerlistitem">Help</a>
+            <% if @logged_user %>                
         	    <%= link_to "Logout", {:controller => :users, :action => :logout}, :class => 'headerlistitem' %>
             <% else %>
               <%= link_to "Login", {:controller => :users, :action => :login}, :class => 'headerlistitem' %>
@@ -34,34 +34,38 @@
       <div id="navbar">
 			<% if @logged_user %>
               <%if @logged_user.access_level == 1 %>
-                <div class="navlistitem"><a class="navlistlink" href="">My Shifts</a></div>
-				<div class="navlistitem"><a class="navlistlink" href="">My Fines</a></div>
-				<div class="navlistitem"><a class="navlistlink" href="">Shift Preferences</a></div>
+                <a class="navlistlink" href="/user/myshift"><div class="navlistitem">My Shifts</div></a>
+				<a class="navlistlink" href="/user/managefines"><div class="navlistitem">My Fines</div></a>
+				<a class="navlistlink" href="/setprefs"><div class="navlistitem">Shift Preferences</div></a>
+				<%= tag("a", {:class => "navlistlink", :href => "/users/"+session[:user_id].to_s+"/profile"}, true) =%><div class="navlistitem">My Profile</div></a>
 
               <%elsif @logged_user.access_level == 2 %>
-                <div class="navlistitem"><a class="navlistlink" href="/manageshifts">Manage Shifts</a></div>
-				<div class="navlistitem"><a class="navlistlink" href="/shifts">Allocate Shifts</a></div>
-				<div class="navlistitem"><a class="navlistlink" href="/createChore">Create Chores and Shifts</a></div>
+				<a class="navlistlink" href="/user/myshift"><div class="navlistitem">My Shifts</div></a>
+				<a class="navlistlink" href="/user/managefines"><div class="navlistitem">My Fines</div></a>
+				<a class="navlistlink" href="/setprefs"><div class="navlistitem">Shift Preferences</div></a>
+                <a class="navlistlink" href="/manageshifts"><div class="navlistitem">Manage Shifts</div></a>
+				<a class="navlistlink" href="/shifts"><div class="navlistitem">Allocate Shifts</div></a>
+				<a class="navlistlink" href="/createChore"><div class="navlistitem">Create Chores and Shifts</div></a>
 
               <%elsif @logged_user.access_level == 3%>
-                <div class="navlistitem"><a class="navlistlink" href="/manageshifts">Manage Shifts</a></div>
-				<div class="navlistitem"><a class="navlistlink" href="/shifts">Allocate Shifts</a></div>
-				<div class="navlistitem"><a class="navlistlink" href="/createChore">Create Chores and Shifts</a></div>
+                <a class="navlistlink" href="/manageshifts"><div class="navlistitem">Manage Shifts</div></a>
+				<a class="navlistlink" href="/shifts"><div class="navlistitem">Allocate Shifts</div></a>
+				<a class="navlistlink" href="/createChore"><div class="navlistitem">Create Chores and Shifts</div></a>
+				<a class="navlistlink" href="#"><div class="navlistitem">Admin Tools</div></a>
 
               <%end%>
 
             <% else %>
-				<a class="navlistitem" href="/login">Login</a>
+				<a class="navlistlink" href="/login"><div class="navlistitem">Login</div></a>
             <% end %>			
       </div>
-      <div id="content">
-        <% if not flash[:notice].blank? -%>
-          <div id="notice"><%= flash[:notice] %></div>
-        <% end -%>
+      <div id="viewContent">
+      	<div id="notice" class="purr"><%= flash[:notice] %></div>
 		<%= yield %>
-	  </div>
-
+		
+	  </div>  
 </div>
+
     </div>
 </body>
 </html>

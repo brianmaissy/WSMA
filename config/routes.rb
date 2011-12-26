@@ -54,6 +54,7 @@ WSMA::Application.routes.draw do
   match "users/find_by_name/:name" => "users#find_by_name"
   match "assignments/find/:shift_id/:user_id" => "assignments#find"
   match "/setprefs" => "preferences#set_prefs"
+  match "/createprefs" => "preferences#create_prefs"
   
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -112,4 +113,3 @@ WSMA::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id(.:format)))'
 end
-

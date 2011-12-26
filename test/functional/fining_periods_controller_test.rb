@@ -46,4 +46,8 @@ class FiningPeriodsControllerTest < ActionController::TestCase
 
     assert_redirected_to fining_periods_path
   end
+
+  def teardown
+    TimeProvider.unschedule_all_tasks
+  end
 end

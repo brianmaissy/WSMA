@@ -1,41 +1,72 @@
-<h1>Listing houses</h1>
+<h1>Houses</h1>
 
-<table>
+<%= form_for(@house, :remote => true) do |f| %>
+<table id="item_list">
   <tr>
     <th>Name</th>
     <th>Semester start date</th>
     <th>Semester end date</th>
     <th>Permanent chores start week</th>
-    <th>Hours per week</th>
+    <th>Required hours per week</th>
     <th>Sign off by hours after</th>
     <th>Using online sign off</th>
     <th>Sign off verification mode</th>
     <th>Blow off penalty factor</th>
     <th>Wsm email</th>
     <th></th>
-    <th></th>
-    <th></th>
   </tr>
 
-<% @houses.each do |house| %>
-  <tr>
-    <td><%= house.name %></td>
-    <td><%= house.semester_start_date %></td>
-    <td><%= house.semester_end_date %></td>
-    <td><%= house.permanent_chores_start_week %></td>
-    <td><%= house.hours_per_week %></td>
-    <td><%= house.sign_off_by_hours_after %></td>
-    <td><%= house.using_online_sign_off %></td>
-    <td><%= house.sign_off_verification_mode %></td>
-    <td><%= house.blow_off_penalty_factor %></td>
-    <td><%= house.wsm_email %></td>
-    <td><%= link_to 'Show', house %></td>
-    <td><%= link_to 'Edit', edit_house_path(house) %></td>
-    <td><%= link_to 'Destroy', house, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
+	<% @houses.each do |house| %>
+	<tr>
+		<td><%= best_in_place house, :name %></td>
+		<td><%= house.semester_start_date %></td>
+		<td><%= house.semester_end_date %></td>
+		<td><%= best_in_place house, :permanent_chores_start_week, :type => :select, :collection => (1..15).collect {|i|[i,i]} %></td>
+		<td><%= best_in_place house, :hours_per_week %></td>
+		<td><%= best_in_place house, :sign_off_by_hours_after %></td>
+		<td><%= best_in_place house, :using_online_sign_off, :type => :select, :collection => [[1, "Yes"], [0, "No"]] %></td>
+		<td><%= best_in_place house, :sign_off_verification_mode, :type => :select, :collection => [[0, "None"], [1, "Without password"], [2, "With password"]] %></td>
+		<td><%= best_in_place house, :blow_off_penalty_factor %></td>
+		<td><%= best_in_place house, :wsm_email %></td>
+		<td><%= link_to 'x', house, :confirm => 'Are you sure you want to delete this house?', :method => :delete, :remote => true, :class => 'delete_button' %></td>
+	</tr>
+	<% end %>
+
+	<tr id="new_item_line">
+	  <td class="new_item_field">
+			<%= f.text_field :name %>
+		</td>
+		<td class="new_item_field">
+			<%= f.text_field :semester_start_date %>
+		</td>
+		<td class="new_item_field">
+			<%= f.text_field :semester_end_date %>
+		</td>
+		<td class="new_item_field">
+			<%= f.select(:permanent_chores_start_week, options_for_select((1..15).collect {|i|[i,i]})) %>
+		</td>
+		<td class="new_item_field">
+			<%= f.text_field :hours_per_week %>
+		</td>
+		<td class="new_item_field">
+			<%= f.text_field :sign_off_by_hours_after %>
+		</td>
+		<td class="new_item_field">
+			<%= f.select(:using_online_sign_off, options_for_select([['Yes', 1], ['No', 0]], 0)) %>
+		</td>
+		<td class="new_item_field">
+			<%= f.select(:sign_off_verification_mode, options_for_select([['None', 0], ['Without password', 1], ['With password', 2]], 2)) %>
+		</td>
+		<td class="new_item_field">
+			<%= f.text_field :blow_off_penalty_factor %>
+		</td>
+		<td class="new_item_field">
+			<%= f.text_field :wsm_email %>
+		</td>
+		<td class="actions">
+			<%= f.submit "Create" %>
+		</td>
+	</tr>
+
 </table>
-
-<br />
-
-<%= link_to 'New House', new_house_path %>
+<% end %>

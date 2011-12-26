@@ -1,7 +1,7 @@
 @charset "utf-8";
 /* CSS Document */
 #content_header {
-	padding-left: 20px;
+	
 }
 #allocationcalendar {
 	position: absolute;
@@ -32,7 +32,7 @@
 	height: 800px;
 	position: absolute;
 	top: 50px;
-	left: 740px;
+	left: 760px;
 	#overflow: auto;
 }
 #namelisttitle

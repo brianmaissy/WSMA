@@ -14,48 +14,16 @@ Tai Schuller
 Cat Callaghan
 
 ========================================
-Testing Instructions
-========================================
-
-Connect to the application as explained in the 'Running the application on the EC2' section below.
-
-Please use Chrome. We have not yet tackled cross-browser compatibility, so we cannot guarantee correct functionality if you use any other browser. The UI design is not yet complete, so the appearance will be somewhat rough around the edges.
-
-Things to test:
-
-Chore and Shift creation:
-1. Are chores and shifts properly created?
-2. Do they get shown on other relevant pages (Shift allocation, Manage shifts)?
-
-Manage Shifts:
-1. Do all shifts get displayed correctly?
-2. Are colors correct?
-
-Shift Allocation
-1. Can you drag and drop resident names onto the shift calendar?
-2. Can you highlight a box on the calendar by clicking on it, click on a resident name, and have that name jump to the highlighted box?
-3. Does the resident's name disappear from the list and appear in the right place on the shift calendar each time you do one of the above things?
-4. Is an assignment created each time you do one of the above things?
-5. Is the appropriate assignment deleted when you click the "x" button on a resident's name in a box on the calendar?
-
-File issues as explained in the 'Issue Tracker' section below.
-
-If you want to see the source, it is accessible at https://github.com/brianmaissy/WSMA/zipball/testing.
-
-Requirements and design documents are available in the doc/ directory of the repository.
-
-If you have any problems accessing or using the application or filing issues, please contact Brian (contact info above).
-
-========================================
 Running the application on the EC2
 ========================================
 
-Navigate to:
-http://107.20.135.212:8092
+Please use Chrome. We have not yet tackled cross-browser compatibility, so we cannot guarantee correct functionality if you use any other browser.
 
-To login with admin privileges: admin//169testers
-To login with workshift manager privileges: wsm//169testers
-To login with user privileges: user//169testers
+Navigate to: http://107.20.135.212:8092
+
+To login with admin privileges: admin//password
+To login with workshift manager privileges: wsm//password
+To login with user privileges: user//password
 
 ========================================
 Issue Tracker
@@ -76,16 +44,22 @@ https://github.com/brianmaissy/WSMA
 To run the server:
 bundle install
 rake bootstrap
-rails server
+rake assets:precompile (optional)
+rails server -e production
 
 (The rake bootstrap task sets up the database and loads it with some sample data)
 
-To see a demo of the existing parts of the frontend, navigate to:
-localhost:3000/
-If asked to login, please login with email: admin and password: admin.
+(Currently the setting is to fall back to the asset pipeline if the precompiled assets are unavailable.
+We should change this in the production.rb config file when deploying.
+This will require configuration of nginx to serve our files in public/assets.)
 
-To use the scaffolding to examine the working aspects of the backend (model skeletons, validation, associations between some models), navigate to:
-localhost:3000/scaffold.html
+Navigate to: localhost:3000/
+
+To login with admin privileges: admin//password
+To login with workshift manager privileges: wsm//password
+To login with user privileges: user//password
+
+Requirements and design documents are available in the doc/ directory of the repository.
 
 To run the tests:
 rake test

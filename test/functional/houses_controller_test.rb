@@ -3,12 +3,12 @@ require 'test_helper'
 class HousesControllerTest < ActionController::TestCase
   setup do
     @house = House.create(:name => "testHouse")
-    @user = User.new(:name => "testUser", :email => "testEmail", :house => @house, :access_level => 3)
+    @user = User.new(:name => "testUser", :email => "testEmail@fake.fake", :house => @house, :access_level => 3)
     @user.password = "testPassword"
     @user.save!
     old_controller = @controller
     @controller = UsersController.new
-    post :login, :email => "testEmail", :password => "testPassword"
+    post :login, :email => "testEmail@fake.fake", :password => "testPassword"
     @controller = old_controller
     @house = houses(:one)
     @house.name = "unique"
@@ -30,7 +30,7 @@ class HousesControllerTest < ActionController::TestCase
       post :create, :house => @house.attributes
     end
 
-    assert_redirected_to house_path(assigns(:house))
+    assert_redirected_to houses_path
   end
 
   test "should show house" do
@@ -45,7 +45,7 @@ class HousesControllerTest < ActionController::TestCase
 
   test "should update house" do
     put :update, :id => @house.to_param, :house => @house.attributes
-    assert_redirected_to house_path(assigns(:house))
+    assert_redirected_to houses_path
   end
 
   test "should destroy house" do

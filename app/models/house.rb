@@ -7,6 +7,7 @@ class House < ActiveRecord::Base
   has_many :fining_periods, :dependent => :destroy
 
   after_initialize :initialize_defaults
+  after_save :semester_start_date_modified
   before_destroy :cancel_jobs
   
   validates_presence_of :name, :using_online_sign_off, :sign_off_verification_mode
@@ -17,6 +18,11 @@ class House < ActiveRecord::Base
   validates_uniqueness_of :name
   validate :using_online_sign_off_has_legal_value
   validate :sign_off_verification_mode_has_legal_value
+	validate :email_is_valid_or_nil
+  validate :current_week_cannot_decrease
+  validate :permanent_chores_start_week_must_be_in_future
+  validate :semester_start_date_is_valid
+  validate :semester_end_date_is_valid
 
   def using_online_sign_off_has_legal_value
     errors.add(:using_online_sign_off, 'must be 0 or 1' ) if not [0, 1].include? using_online_sign_off
@@ -24,6 +30,31 @@ class House < ActiveRecord::Base
   
   def sign_off_verification_mode_has_legal_value
     errors.add(:sign_off_verification_mode, 'must be 0, 1, or 2' ) if not [0, 1, 2].include? sign_off_verification_mode
+  end
+
+	def email_is_valid_or_nil
+    # This regex is from http://www.regular-expressions.info/email.html, read there for more information
+    re = Regexp.new("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$", Regexp::IGNORECASE)
+    errors.add(:wsm_email, 'must be a valid email' ) unless wsm_email.blank? or re.match wsm_email
+  end
+  
+  def current_week_cannot_decrease
+    errors.add(:current_week, 'cannot be decreased' ) if not current_week.blank? and current_week_changed? and current_week < (current_week_was || 0)
+  end
+
+  def permanent_chores_start_week_must_be_in_future
+    errors.add(:permanent_chores_start_week, 'must be in the future' ) if not permanent_chores_start_week.blank? and permanent_chores_start_week_changed? and permanent_chores_start_week <= current_week
+  end
+
+  def semester_start_date_is_valid
+    errors.add(:semester_start_date, 'cannot be changed; semester is already begun') if not semester_start_date.blank? and semester_start_date_changed? and not semester_start_date_was.blank? and semester_start_date_was <= TimeProvider.now
+    errors.add(:semester_start_date, 'must be in the future' ) if not semester_start_date.blank? and semester_start_date_changed? and semester_start_date <= TimeProvider.now
+  end
+
+  def semester_end_date_is_valid
+    errors.add(:semester_end_date, 'cannot be changed; semester is already over') if not semester_end_date.blank? and semester_end_date_changed? and not semester_end_date_was.blank? and semester_end_date_was <= TimeProvider.now
+    errors.add(:semester_end_date, 'must be in the future' ) if not semester_end_date.blank? and semester_end_date_changed? and semester_end_date <= TimeProvider.now
+    errors.add(:semester_end_date, 'must be after semester start date' ) if not semester_end_date.blank? and not semester_start_date.blank? and semester_end_date <= semester_start_date
   end
 
   def initialize_defaults
@@ -34,51 +65,14 @@ class House < ActiveRecord::Base
       self.using_online_sign_off = 1 if using_online_sign_off.nil?
       self.sign_off_verification_mode = 2 if sign_off_verification_mode.nil?
       self.current_week = 0 if current_week.nil?
+      self.permanent_chores_start_week = 1 if permanent_chores_start_week.nil?
     end
   end
 
-  def semester_start_date=(date)
-    if not date.nil?
-      if TimeProvider.now < date and (semester_start_date.nil? or TimeProvider.now < semester_start_date)
-        super(date)
-        cancel_jobs
-        schedule_new_week_job next_sunday_at_midnight date
-      else
-        raise ArgumentError, "Date has already passed!"
-      end
-    end
-  end
-  def semester_end_date=(date)
-    if not date.nil?
-      if TimeProvider.now < date and (semester_end_date.nil? or TimeProvider.now < semester_end_date)
-        super(date)
-      else
-        raise ArgumentError, "Date has already passed!"
-      end
-    end
-  end
-  def current_week=(week)
-    if week.class == String
-      week = week.to_i
-    end
-    if not week.nil?
-      if current_week.nil? or week >= current_week
-        super(week)
-      else
-        raise ArgumentError, "Current week cannot decrease"
-      end
-    end
-  end
-  def permanent_chores_start_week=(week)
-    if week.class == String
-      week = week.to_i
-    end
-    if not week.nil?
-      if current_week.nil? or week > current_week
-        super(week)
-      else
-        raise ArgumentError, "Week has already passed!"
-      end
+  def semester_start_date_modified
+    if semester_start_date_changed?
+      cancel_jobs
+      schedule_new_week_job next_sunday_at_midnight semester_start_date
     end
   end
 
@@ -114,9 +108,7 @@ class House < ActiveRecord::Base
   end
 
   def beginning_of_this_week current
-    if current.class != DateTime
-      current = DateTime.parse(current)
-    end
+    current = DateTime.parse(current.to_s)
     beginning = current.advance(:hours => -current.hour, :minutes => -current.min, :seconds => -current.sec)
     return beginning.advance(:days => -current.wday)
   end
@@ -130,9 +122,7 @@ class House < ActiveRecord::Base
   end
 
   def next_sunday_at_midnight current
-    if current.class != DateTime
-      current = DateTime.parse(current)
-    end
+    current = DateTime.parse(current.to_s)
     beginning = beginning_of_this_week current
     return beginning.advance(:days => 7)
   end

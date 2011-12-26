@@ -83,9 +83,23 @@ class PreferencesController < ApplicationController
   end
   
   # GET /setprefs
-  def set_prefs
-    @preference = Preference.new
-
+  def set_prefs   
+    respond_to do |format|
+      format.html { render :action => "setprefs" }
+    end
+  end
+  
+  # GET /createprefs
+  def create_prefs   
+	params.each do |key, value|
+		begin
+			if Float(key)
+				@preference = Preference.create(:user => User.find_by_id(session[:user_id]), :chore => Chore.find_by_id(key.to_i), :rating => value.to_i)
+			end
+		rescue
+			false
+		end
+	end
     respond_to do |format|
       format.html { render :action => "setprefs" }
     end
