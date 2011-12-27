@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-
+  respond_to :html, :json
   # Pages available without login
   public_pages = [:login, :logout, :forgot_password, :reset_password, :find_profile]
   # Pages available to anyone logged in
@@ -174,9 +174,12 @@ class UsersController < ApplicationController
     if request.post?
       @user = User.find_by_email(params[:email])
       if @user
-        @user.send_reset_password_email
-        flash.now[:notice] = "An email has been sent to you with a password reset token. Enter that token here along with a new password."
-        render :action => :reset_password
+        if @user.send_reset_password_email
+          flash.now[:notice] = "An email has been sent to you with a password reset token. Enter that token here along with a new password."
+          render :action => :reset_password
+        else
+          flash.now[:notice] = "There was an error sending email to #{params[:email]}, please contact your system administrator."
+        end
       else
         flash.now[:notice] = "User with email #{params[:email]} not found"
       end
@@ -272,3 +275,4 @@ class UsersController < ApplicationController
     end
   end
 end
+

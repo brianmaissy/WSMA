@@ -12,12 +12,10 @@
 $(document).ready(function() {
 
     // page is now ready, initialize the calendar...
-    var date = new Date();
-    var m = date.getMonth();
-    var y = date.getFullYear();
-    var d = date.getDate();
-    var dayOfWeek = date.getDay();
-    var base = d-dayOfWeek;
+    
+
+
+
 
 
 
@@ -25,12 +23,6 @@ $(document).ready(function() {
         defaultView: 'agendaWeek',
         slotMinutes: 30,
         eventClick: function(calEvent, jsEvent, view) {
-
-
-            //$('div.event_name').replaceWith('<div class="inner event_name">'+calEvent.name+'</div>');
-            //$('div.event_description').replaceWith('<div class="inner event_description">'+calEvent.description+'</div>');
-            //$('div.event_assignedto').replaceWith('<div class="inner event_assignedto">'+calEvent.assigned_to+'</div>');
-            //$('div.event_status').replaceWith('<div class="inner event_status">'+calEvent.status+'</div>');
             $('div.event_name').empty();
             $('div.event_name').append(calEvent.name);
 
@@ -65,6 +57,8 @@ $(document).ready(function() {
              <% @chores.each do |chore| %>
                 <% for shift in chore.shifts %>
                     <% if shift.assignments.length == 0 %>
+		      <% start_time = shift.start_time_this_week %>
+		      <% end_time = shift.end_time_this_week %>
                       events.push({
                           shift_id: '<%=shift.id%>',
                           title: '<%=chore.name%>' + ': Unassigned',
@@ -74,13 +68,14 @@ $(document).ready(function() {
                           color: "#808080",
                           isAssigned: 0,
                           status: "Unassigned",
-                          start: new Date(y,m,base-1+<%=shift.day_of_week%>, <%=shift.time.hour%>, <%=shift.time.min%>),
-                          end: new Date (y,m,base-1+<%=shift.day_of_week%>, <%=shift.time.hour%> + <%=chore.hours%>, <%=shift.time.min%> ),
+                          start: "<%= start_time.to_s(:db) %>",
+                          end: "<%= end_time.to_s(:db) %>",
                           allDay: false
                       })
                     <% end %>
                     <% for assignment in shift.assignments %>
-
+		       <% start_time = assignment.start_date %>
+                       <% end_time = assignment.end_date %>
                        events.push({
                            assignment_id: '<%=assignment.id%>',
                            title: '<%=chore.name%>'+': '+ '<%=assignment.user.name%>',
@@ -88,8 +83,8 @@ $(document).ready(function() {
                            assigned_uid: '<%=assignment.user.id%>',
                            assigned_to: '<%=assignment.user.name%>',
                            description: '<%=chore.description%>',
-                           start: new Date(y,m,base-1+<%=shift.day_of_week%>, <%=shift.time.hour%>, <%=shift.time.min%>),
-                           end: new Date (y,m,base-1+<%=shift.day_of_week%>, <%=shift.time.hour%> + <%=chore.hours%>, <%=shift.time.min%> ),
+                           start: "<%= start_time.to_s(:db) %>",
+                           end: "<%= end_time.to_s(:db) %>",
                            allDay: false,
                            isAssigned: 1,
                            status: statie[<%= assignment.status%>-1],

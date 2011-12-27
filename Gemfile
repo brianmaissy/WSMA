@@ -44,3 +44,4 @@ gem 'best_in_place'
 
 # To use debugger
 # gem 'ruby-debug'
+

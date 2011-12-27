@@ -47,3 +47,4 @@ function flash_red(flash){
     $('#notice').css('backgroundColor', '#FCC')
     refresh_flash(flash)
 }
+
