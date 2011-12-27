@@ -81,7 +81,7 @@ class ShiftTest < ActiveSupport::TestCase
     house = House.create(:name => "testHouse1", :hours_per_week => 5, :sign_off_by_hours_after => 7)
     c1 = Chore.create(:house => house, :name => "a", :hours => 2, :sign_out_by_hours_before => 2, :due_hours_after => 4)
     s1 = Shift.create(:day_of_week => '2', :chore => c1, :time => Time.mktime(2000, 1, 1, 14, 30), :temporary => 1)
-    blow_off_time = s1.blow_off_time
+    blow_off_time = s1.blow_off_time_this_week
     assert_equal(beginning + 2.days + 14.hours + 30.minutes + 2.hours + 4.hours + 7.hours, blow_off_time)
   end
 

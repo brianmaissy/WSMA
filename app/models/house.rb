@@ -109,22 +109,23 @@ class House < ActiveRecord::Base
 
   def beginning_of_this_week current
     current = DateTime.parse(current.to_s)
-    beginning = current.advance(:hours => -current.hour, :minutes => -current.min, :seconds => -current.sec)
-    return beginning.advance(:days => -current.wday)
-  end
-
-  def end_of_this_week current
-    end_of_week current_week
-  end
-
-  def end_of_week week
-    next_sunday_at_midnight(TimeProvider.now).advance(:days => 7 * (week - current_week))
+    current.change(:hour => 0, :min => 0, :sec => 0).advance(:days => -current.wday)
   end
 
   def next_sunday_at_midnight current
-    current = DateTime.parse(current.to_s)
-    beginning = beginning_of_this_week current
-    return beginning.advance(:days => 7)
+    beginning_of_this_week(current).advance(:days => 7)
+  end
+
+  def end_of_this_week current
+    beginning_of_this_week(current).advance(:days => 7)
+  end
+
+  def beginning_of_week week
+    beginning_of_this_week(TimeProvider.now).advance(:days => 7 * (week - current_week))
+  end
+
+  def end_of_week week
+    beginning_of_week(week).advance(:days => 7)
   end
 
   def unassigned_shifts
