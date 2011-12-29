@@ -54,6 +54,20 @@ class User < ActiveRecord::Base
     return (0..12).map{ chars[rand(chars.length)] }.join
   end
 
+  def send_new_account_email
+    pass = User.create_random_password
+    self.password = pass
+    save!
+    TimeProvider.do_now do
+      begin
+        UserMailer.new_account_email(self, pass).deliver
+      rescue Net::SMTPError
+        self.token_expiration = TimeProvider.now
+        self.save!
+      end
+    end
+  end
+
   def send_reset_password_email
     self.password_reset_token = ActionController::HttpAuthentication::Digest.nonce(password_hash, TimeProvider.now)[1,20]
     self.token_expiration = TimeProvider.now.advance(:hours => 24)

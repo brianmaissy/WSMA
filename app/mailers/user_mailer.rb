@@ -12,4 +12,10 @@ class UserMailer < ActionMailer::Base
     mail(:to => user.email, :subject => "WSMA password reset request")
   end
 
+  def new_account_email(user, pass)
+    @user = user
+    @password = pass
+    mail(:to => user.email, :subject => "WSMA new account created")
+  end
+
 end
