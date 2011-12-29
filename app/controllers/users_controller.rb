@@ -45,6 +45,12 @@ class UsersController < ApplicationController
     end
   end
 
+  def managers
+    @users = User.find_all_by_access_level([2,3])
+    @user = User.new
+    render :index
+  end
+
   # GET /users/new
   # GET /users/new.json
   def new
