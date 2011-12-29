@@ -51,7 +51,7 @@ class ApplicationController < ActionController::Base
   end
 
   def format_errors(errors)
-    ('<ul><li>' + (errors.full_messages.join "</li><li>") + '</li></ul>').html_safe
+    (errors.full_messages.join "<br>").html_safe
   end
 
 end
