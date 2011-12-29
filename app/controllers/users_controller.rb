@@ -107,9 +107,6 @@ class UsersController < ApplicationController
   # PUT /users/1.json
   def update
     @user = User.find(params[:id])
-    if not params[:password].to_s.blank?
-      @user.password=params[:password]
-    end
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
