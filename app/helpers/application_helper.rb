@@ -4,4 +4,8 @@ module ApplicationHelper
     link_to "Profile", {:controller => :users, :action => :profile, :id => @logged_user.to_param}, attributes
   end
 
+  def reverse_elements(array)
+    array.collect{|a| a.reverse}
+  end
+
 end
