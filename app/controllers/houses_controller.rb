@@ -54,7 +54,7 @@ class HousesController < ApplicationController
         format.json { render :json => @house, :status => :created, :location => @house }
         format.js
       else
-        flash.now[:notice] = ('<ul><li>' + (@house.errors.full_messages.join "</li><li>") + '</li></ul>').html_safe
+        flash.now[:notice] = format_errors(@house.errors)
         format.html { render :action => "index" }
         format.json { render :json => @house.errors, :status => :unprocessable_entity }
         format.js

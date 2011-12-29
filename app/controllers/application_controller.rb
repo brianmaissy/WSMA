@@ -50,4 +50,8 @@ class ApplicationController < ActionController::Base
     redirect_to :controller => :users, :action => :login
   end
 
+  def format_errors(errors)
+    ('<ul><li>' + (errors.full_messages.join "</li><li>") + '</li></ul>').html_safe
+  end
+
 end
