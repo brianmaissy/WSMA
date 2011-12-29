@@ -1,13 +1,13 @@
 <tr>
-	<td><%= best_in_place house, :name %></td>
-	<td><%= house.semester_start_date %></td>
-	<td><%= house.semester_end_date %></td>
+	<td class="wide"><%= best_in_place house, :name %></td>
+	<td class="wide"><%= house.semester_start_date %></td>
+	<td class="wide"><%= house.semester_end_date %></td>
 	<td><%= best_in_place house, :permanent_chores_start_week, :type => :select, :collection => reverse_elements(permanent_chores_start_week_options) %></td>
 	<td><%= best_in_place house, :hours_per_week %></td>
 	<td><%= best_in_place house, :sign_off_by_hours_after %></td>
 	<td><%= best_in_place house, :using_online_sign_off, :type => :select, :collection => reverse_elements(using_online_sign_off_options) %></td>
 	<td><%= best_in_place house, :sign_off_verification_mode, :type => :select, :collection => reverse_elements(sign_off_verification_mode_options) %></td>
 	<td><%= best_in_place house, :blow_off_penalty_factor %></td>
-	<td><%= best_in_place house, :wsm_email %></td>
+	<td class="wide"><%= best_in_place house, :wsm_email %></td>
 	<td><%= link_to 'x', house, :confirm => 'Are you sure you want to delete this house?', :method => :delete, :remote => true, :class => 'delete_button' %></td>
 </tr>

@@ -19,5 +19,9 @@ a.delete_button {
 }
 
 .new_item_field input, .best_in_place input {
-	max-width: 50px;
+	max-width: 40px;
+}
+
+.new_item_field_wide input, .new_item_field textarea, .best_in_place textarea, td.wide input{
+	max-width: 80px;
 }
