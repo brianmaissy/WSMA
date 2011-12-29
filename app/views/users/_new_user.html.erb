@@ -1,0 +1,29 @@
+<tr id="new_item_line">
+	<td class="new_item_field_wide">
+    <%= f.text_field :name %>
+  </td>
+  <td class="new_item_field_wide">
+    <%= f.text_field :email %>
+  </td>
+	<td class="new_item_field">
+    <%= f.collection_select(:house_id, House.all, :id, :name) %>
+  </td>
+  <td class="new_item_field">
+    <%= f.select(:access_level, options_for_select(access_level_options, 1)) %>
+  </td>
+  <td class="new_item_field_wide">
+    <%= f.text_field :phone_number %>
+  </td>
+  <td class="new_item_field">
+    <%= f.text_field :room_number %>
+  </td>
+  <td class="new_item_field">
+    <%= f.text_field :hours_per_week %>
+  </td>
+  <td class="new_item_field">
+    <%= f.text_area :notes, :rows => 2 %>
+  </td>
+  <td class="actions">
+		<%= f.submit "Create" %>
+  </td>
+</tr>

@@ -8,4 +8,8 @@ module ApplicationHelper
     array.collect{|a| a.reverse}
   end
 
+  def select_model(collection)
+    collection.collect{|e| [e.id, e.name]}
+  end
+
 end

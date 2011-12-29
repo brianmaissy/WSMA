@@ -1,37 +1,22 @@
-<h1>All Users</h1>
+<h1>Users</h1>
 
-<table>
+<%= form_for(@user, :remote => true) do |f| %>
+<table id="item_list">
   <tr>
-    <th>House</th>
+		<th>Name</th>
     <th>Email</th>
+		<th>House</th>
     <th>Access level</th>
-    <th>Name</th>
     <th>Phone number</th>
     <th>Room number</th>
     <th>Hours per week</th>
     <th>Notes</th>
     <th></th>
-    <th></th>
-    <th></th>
   </tr>
 
-<% @users.each do |user| %>
-  <tr>
-    <td><%= user.house.name %></td>
-    <td><%= user.email %></td>
-    <td><%= user.access_level %></td>
-    <td><%= user.name %></td>
-    <td><%= user.phone_number %></td>
-    <td><%= user.room_number %></td>
-    <td><%= user.hours_per_week %></td>
-    <td><%= user.notes %></td>
-    <td><%= link_to 'Show', user %></td>
-    <td><%= link_to 'Edit', edit_user_path(user) %></td>
-    <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
+	<%= render @users %>
+
+	<%= render :partial => 'new_user', :locals => {:f => f} %>
+
 </table>
-
-<br />
-
-<%= link_to 'New User', new_user_path %>
+<% end %>
