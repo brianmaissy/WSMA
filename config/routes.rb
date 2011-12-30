@@ -47,6 +47,7 @@ WSMA::Application.routes.draw do
   match "/reset_password" => "users#reset_password"
   match "/login" => "users#login"
   match "/logout" => "users#logout"
+  match "/admin/set_admin_active_house" => "admin#set_admin_active_house"
 
   match "/manageshifts" => "shifts#manageshifts"
   match "/createChore" => "chores#createChore"

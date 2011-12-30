@@ -1,0 +1,3 @@
+<%= form_tag({:controller => "admin", :action => "set_admin_active_house"}, :id => "change_admin_active_house") do
+			select_tag(:house, options_from_collection_for_select(House.all, :id, :name, @active_house.to_param) , :onchange => "$('#change_admin_active_house').submit()")
+end %>

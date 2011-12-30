@@ -17,6 +17,13 @@
         </span>
         <!-- for demo/testing purposes -->
         <div id="time" style="display: inline-block; background-color: #add8e6; margin-left: 20px;"><%= render "demo/time" %></div>
+				<!-- -->
+				<% if @logged_user and @logged_user.access_level == 3 %>
+					<div style="display: inline-block; margin-left: 20px;">Administrate house:</div>
+					<div id="admin_active_house" style="display: inline-block;">
+						<%= render :partial => "admin/admin_active_house" %>
+					</div>
+				<% end %>
     	<span id="headerlist">
 			<%= link_to "Home", root_path, :class => 'headerlistitem' %>
 			<a href="#" class="headerlistitem">Help</a>

@@ -98,13 +98,16 @@ end
   # DELETE /houses/1.json
   def destroy
     @house = House.find(params[:id])
+    if @house == @active_house:
+      session[:admin_active_house] = nil
+    end
     @house.destroy
 
     respond_to do |format|
       flash.now[:notice] = 'House deleted'
       format.html { redirect_to :action => "index" }
       format.json { head :ok }
-      format.js { render :js => 'flash_green("' + flash[:notice] + '")' }
+      format.js
     end
   end
 end

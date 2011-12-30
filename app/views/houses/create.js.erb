@@ -1,6 +1,7 @@
 <% if @house.errors.none? %>
 	$('#new_item_line').before('<%= escape_javascript(render(@house)) %>')
 	$('#new_house')[0].reset()
+	$('#admin_active_house').html('<%= escape_javascript render :partial => "admin/admin_active_house" %>')
 	setup()
 	flash_green('<%= escape_javascript flash[:notice] %>')
 <% else %>
