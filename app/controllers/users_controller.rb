@@ -15,7 +15,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    @users = @active_house.users
     @user = User.new
 
     respond_to do |format|
