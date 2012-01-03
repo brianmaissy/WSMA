@@ -12,4 +12,10 @@ module ApplicationHelper
     collection.collect{|e| [e.id, e.name]}
   end
 
+  def admin_area
+    if @logged_user and @logged_user.access_level == 3
+      yield
+    end
+  end
+
 end
