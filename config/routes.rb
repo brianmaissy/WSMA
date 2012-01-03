@@ -1,54 +1,38 @@
 WSMA::Application.routes.draw do
 
-  resources :admin
-
+  # RESTful resources
   resources :houses
-
   resources :chores
-
   resources :shifts
-
   resources :assignments
-
   resources :fining_periods
-
   resources :fines
-
   resources :preferences
-
   resources :user_hour_requirements
-
   resources :house_hour_requirements
-
   resources :houses
-
   resources :users
-  
-  resources :demo
-  
-  #match "/demo/login" => "users#login"
-  match "/demo/chores" => "chores#new"
-  #match "/demo/profile" => "users#profile"
-  match "/demo/myshift" => "users#myshift"
-  match "/user/myshift" => "users#myshift"
 
-  match "/demo/advance_time"
-  match "/demo/mock_time"
-  match "/demo/real_time"
-  
+  # authentication
+  match "/login" => "users#login"
+  match "/logout" => "users#logout"
+  match "/forgot_password" => "users#forgot_password"
+  match "/reset_password" => "users#reset_password"
+
+  # admin
+  match "/admin" => "admin#index"
+  match "/admin/set_admin_active_house" => "admin#set_admin_active_house"
+
+  # users
   match "/user/managefines" => "users#manage"
   match "/user/profile" => "users#find_profile"
   match "/user/register" => "users#register"
   match "/user/managers" => "users#managers"
-
+  match "/user/myshift" => "users#myshift"
   match "/users/:id/profile" => "users#profile"
   match "/users/:id/change_password/" => "users#change_password"
-  match "/forgot_password" => "users#forgot_password"
-  match "/reset_password" => "users#reset_password"
-  match "/login" => "users#login"
-  match "/logout" => "users#logout"
-  match "/admin/set_admin_active_house" => "admin#set_admin_active_house"
 
+  # chores, shifts, assignments, and preferences
   match "/manageshifts" => "shifts#manageshifts"
   match "/createChore" => "chores#createChore"
   match "/quickassign" => "assignments#quickcreate"
@@ -56,7 +40,19 @@ WSMA::Application.routes.draw do
   match "assignments/find/:shift_id/:user_id" => "assignments#find"
   match "/setprefs" => "preferences#set_prefs"
   match "/createprefs" => "preferences#create_prefs"
-  
+
+  # time mocking
+  match "/demo/advance_time"
+  match "/demo/mock_time"
+  match "/demo/real_time"
+
+  # demo
+  resources :demo
+  #match "/demo/login" => "users#login"
+  match "/demo/chores" => "chores#new"
+  #match "/demo/profile" => "users#profile"
+  match "/demo/myshift" => "users#myshift"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
