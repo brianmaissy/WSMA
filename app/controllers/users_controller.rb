@@ -15,7 +15,8 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = @active_house.users
+    params[:search] = nil if params[:clear]
+    @users = User.search(@active_house, params[:search])
     @user = User.new
 
     respond_to do |format|

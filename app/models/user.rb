@@ -134,4 +134,12 @@ class User < ActiveRecord::Base
     return values.min
   end
 
+  def self.search(house, search)
+    if search
+      find_all_by_house_id(house.to_param, :conditions => ['name LIKE ?', "%#{search}%"])
+    else
+      find_all_by_house_id(house.to_param)
+    end
+  end
+
 end

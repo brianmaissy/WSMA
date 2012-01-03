@@ -128,6 +128,12 @@ class UserTest < ActiveSupport::TestCase
     assert_equal(shifts(:two).chore.hours, @user.completed_hours_this_week)
   end
 
+  test "search" do
+    assert_equal 1, User.search(houses(:one), "Bob").size
+    assert_equal 2, User.search(houses(:one), "smith").size
+    assert_equal 0, User.search(houses(:one), "none").size
+  end
+
   def teardown
     TimeProvider.unschedule_all_tasks
   end
