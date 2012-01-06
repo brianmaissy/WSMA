@@ -21,9 +21,9 @@ Please use Chrome. We have not yet tackled cross-browser compatibility, so we ca
 
 Navigate to: http://107.20.135.212:8092
 
-To login with admin privileges: admin//password
-To login with workshift manager privileges: wsm//password
-To login with user privileges: user//password
+To login with admin privileges: admin@fake.fake//password
+To login with workshift manager privileges: wsm@fake.fake//password
+To login with user privileges: user@fake.fake//password
 
 ========================================
 Issue Tracker
