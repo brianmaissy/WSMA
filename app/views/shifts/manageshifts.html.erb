@@ -74,8 +74,8 @@ $(document).ready(function() {
                       })
                     <% end %>
                     <% for assignment in shift.assignments %>
-		       <% start_time = assignment.start_date %>
-                       <% end_time = assignment.end_date %>
+		               <% start_time = assignment.start_time %>
+                       <% end_time = assignment.end_time %>
                        events.push({
                            assignment_id: '<%=assignment.id%>',
                            title: '<%=chore.name%>'+': '+ '<%=assignment.user.name%>',

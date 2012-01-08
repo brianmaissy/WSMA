@@ -95,7 +95,7 @@ class Assignment < ActiveRecord::Base
   end
 
   def start_time
-    house.beginning_of_week(week).advance(:days => shift.day_of_week.to_f, :hours => shift.time.hour.to_f, :minutes => shift.time.min.to_f)
+    house.beginning_of_week(week).advance(:days => shift.day_of_week.to_f-1, :hours => shift.time.hour.to_f, :minutes => shift.time.min.to_f)
   end
 
   def end_time

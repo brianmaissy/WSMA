@@ -111,5 +111,9 @@ class AssignmentsController < ApplicationController
    @chores = Chore.find_all_by_house_id(@house.id)
    @users = User.find_all_by_house_id(@house.id)
    render :layout => false
- end
+  end
+
+  def sign_out
+
+  end
 end

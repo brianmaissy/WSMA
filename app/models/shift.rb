@@ -24,7 +24,7 @@ class Shift < ActiveRecord::Base
   end
 
   def start_time_this_week
-    house.beginning_of_this_week(TimeProvider.now).advance(:days => day_of_week.to_f, :hours => time.hour.to_f, :minutes => time.min.to_f)
+    house.beginning_of_this_week(TimeProvider.now).advance(:days => day_of_week.to_f-1, :hours => time.hour.to_f, :minutes => time.min.to_f)
   end
 
   def end_time_this_week
