@@ -1,0 +1,35 @@
+<tr id="new_item_line">
+	<td class="new_item_field_wide">
+		<%= f.text_field :name %>
+	</td>
+	<td class="new_item_field_wide">
+		<%= f.text_field :semester_start_date %>
+	</td>
+	<td class="new_item_field_wide">
+		<%= f.text_field :semester_end_date %>
+	</td>
+	<td class="new_item_field">
+		<%= f.select(:permanent_chores_start_week, options_for_select(permanent_chores_start_week_options)) %>
+	</td>
+	<td class="new_item_field">
+		<%= f.text_field :hours_per_week %>
+	</td>
+	<td class="new_item_field">
+		<%= f.text_field :sign_off_by_hours_after %>
+	</td>
+	<td class="new_item_field">
+		<%= f.select(:using_online_sign_off, options_for_select(using_online_sign_off_options, 0)) %>
+	</td>
+	<td class="new_item_field">
+		<%= f.select(:sign_off_verification_mode, options_for_select(sign_off_verification_mode_options, 2)) %>
+	</td>
+	<td class="new_item_field">
+		<%= f.text_field :blow_off_penalty_factor %>
+	</td>
+	<td class="new_item_field_wide">
+		<%= f.text_field :wsm_email %>
+	</td>
+	<td class="actions">
+		<%= f.submit "Create" %>
+	</td>
+</tr>

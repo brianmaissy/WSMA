@@ -7,10 +7,10 @@ class UserFlowsTest < ActionDispatch::IntegrationTest
     @house = House.create(:name => "testHouse", :hours_per_week => 5, :sign_off_verification_mode => 0)
     @house.current_week = 1
     @house.save!
-    @user1 = User.new(:name => "testUser1", :email => "testEmail1", :house => @house, :access_level => 3)
+    @user1 = User.new(:name => "testUser1", :email => "testEmail1@fake.fake", :house => @house, :access_level => 3)
     @user1.password = "testPassword1"
     @user1.save!
-    @user2 = User.new(:name => "testUser2", :email => "testEmail2", :house => @house, :access_level => 3)
+    @user2 = User.new(:name => "testUser2", :email => "testEmail2@fake.fake", :house => @house, :access_level => 3)
     @user2.password = "testPassword2"
     @user2.save!
     @chore = Chore.create(:house => @house, :name => "wash dishes", :hours => 3, :sign_out_by_hours_before => 2, :due_hours_after => 3)

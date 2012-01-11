@@ -1,0 +1,11 @@
+<tr>
+	<td class="wide"><%= best_in_place user, :name %></td>
+	<td class="wide"><%= best_in_place user, :email %></td>
+	<td><%= best_in_place user, :house_id, :type => :select, :collection => select_model(House.all) %></td>
+	<td><%= best_in_place user, :access_level, :type => :select, :collection => reverse_elements(access_level_options) %></td>
+	<td class="wide"><%= best_in_place user, :phone_number %></td>
+	<td><%= best_in_place user, :room_number %></td>
+	<td><%= best_in_place user, :hours_per_week %></td>
+	<td><%= best_in_place user, :notes, :type => :textarea, :display_with => :simple_format %></td>
+	<td><%= link_to 'x', user, :confirm => 'Are you sure you want to delete this user?', :method => :delete, :remote => true, :class => 'delete_button' %></td>
+</tr>

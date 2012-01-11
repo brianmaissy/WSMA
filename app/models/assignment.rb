@@ -32,7 +32,7 @@ class Assignment < ActiveRecord::Base
   def schedule_blow_off_job
     if house.using_online_sign_off == 1
       tag = TimeProvider.generate_job_tag(self)
-      TimeProvider.schedule_execute_at(shift.blow_off_time, tag, self.class.to_s, self.id)
+      TimeProvider.schedule_execute_at(blow_off_time, tag, self.class.to_s, self.id)
     end
   end
 
@@ -93,5 +93,17 @@ class Assignment < ActiveRecord::Base
       raise ArgumentError
     end
   end
-  
+
+  def start_time
+    house.beginning_of_week(week).advance(:days => shift.day_of_week.to_f-1, :hours => shift.time.hour.to_f, :minutes => shift.time.min.to_f)
+  end
+
+  def end_time
+    start_time.advance(:hours => chore.hours.to_f)
+  end
+
+  def blow_off_time
+    end_time.advance(:hours => chore.due_hours_after.to_f + house.sign_off_by_hours_after.to_f)
+  end
+
 end

@@ -15,7 +15,9 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    params[:search] = nil if params[:clear]
+    @users = User.search(@active_house, params[:search])
+    @user = User.new
 
     respond_to do |format|
       format.html # index.html.erb
@@ -42,6 +44,12 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.json { render :json => @user }
     end
+  end
+
+  def managers
+    @users = User.find_all_by_access_level([2,3])
+    @user = User.new
+    render :index
   end
 
   # GET /users/new
@@ -82,15 +90,22 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     if not params[:password].to_s.blank?
        @user.password=params[:password]
+    else
+      @user.password = "temporary"
     end
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, :notice => 'User was successfully created.' }
+        @user.send_new_account_email
+        flash.now[:notice] = 'User created'
+        format.html { redirect_to :users}
         format.json { render :json => @user, :status => :created, :location => @user }
+        format.js
       else
-        format.html { render :action => "new" }
+        flash.now[:notice] = format_errors(@user.errors)
+        format.html { render :action => "index" }
         format.json { render :json => @user.errors, :status => :unprocessable_entity }
+        format.js
       end
     end
   end
@@ -99,17 +114,14 @@ class UsersController < ApplicationController
   # PUT /users/1.json
   def update
     @user = User.find(params[:id])
-    if not params[:password].to_s.blank?
-      @user.password=params[:password]
-    end
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
-        format.html { redirect_to @user, :notice => 'User was successfully updated.' }
+        format.html { redirect_to :users, :notice => 'User updated' }
         format.json { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.json { render :json => @user.errors, :status => :unprocessable_entity }
+        format.html { render :action => "index" }
+        format.json { render :json => @user.errors.full_messages, :status => :unprocessable_entity }
       end
     end
   end
@@ -121,8 +133,10 @@ class UsersController < ApplicationController
     @user.destroy
 
     respond_to do |format|
-      format.html { redirect_to users_url }
+      flash.now[:notice] = 'User deleted'
+      format.html { redirect_to :action => "index" }
       format.json { head :ok }
+      format.js { render :js => 'flash_green("' + flash[:notice] + '")' }
     end
   end
 
@@ -275,3 +289,4 @@ class UsersController < ApplicationController
     end
   end
 end
+

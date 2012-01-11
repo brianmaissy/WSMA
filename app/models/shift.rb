@@ -24,19 +24,15 @@ class Shift < ActiveRecord::Base
   end
 
   def start_time_this_week
-    start = house.beginning_of_this_week(TimeProvider.now)
-    start += day_of_week.days
-    start += time.hour.hours
-    start += time.min.minutes
-    return start
+    house.beginning_of_this_week(TimeProvider.now).advance(:days => day_of_week.to_f-1, :hours => time.hour.to_f, :minutes => time.min.to_f)
   end
 
-  def blow_off_time
-    blow_off = start_time_this_week
-    blow_off = blow_off.advance(:hours => chore.hours.to_f)
-    blow_off = blow_off.advance(:hours => chore.due_hours_after.to_f)
-    blow_off = blow_off.advance(:hours => house.sign_off_by_hours_after.to_f)
-    return blow_off
+  def end_time_this_week
+    start_time_this_week.advance(:hours => chore.hours.to_f)
+  end
+
+  def blow_off_time_this_week
+    end_time_this_week.advance(:hours => chore.due_hours_after.to_f + house.sign_off_by_hours_after.to_f)
   end
 
 end

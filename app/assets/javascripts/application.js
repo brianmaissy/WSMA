@@ -7,5 +7,44 @@
 //= require jquery
 //= require jquery-ui
 //= require jquery_ujs
+//= require jquery.purr
+//= require best_in_place
 //= require_tree .
+
+function setup() {
+    /* Activating Best In Place */
+    $(".best_in_place").best_in_place()
+    /* When deleted, things go away */
+    $('.delete_button').bind('ajax:success', function() {
+            $(this).closest('tr').fadeOut()
+    })
+}
+
+function show_flash() {
+    /* Showing the flash if nonempty */
+    $('#notice:not(:empty)').show()
+    /* Fading the flash */
+    $('#notice').delay(2500).fadeOut()
+}
+
+$(document).ready(function(){
+    setup()
+    show_flash()
+})
+
+// these are called by javascript views which are returned by ajax calls
+// since the page is not loaded, we need to manually show the flash if we want to
+
+function refresh_flash(flash){
+    $('#notice').html(flash)
+    show_flash()
+}
+function flash_green(flash){
+    $('#notice').css('backgroundColor', '#CFC')
+    refresh_flash(flash)
+}
+function flash_red(flash){
+    $('#notice').css('backgroundColor', '#FCC')
+    refresh_flash(flash)
+}
 

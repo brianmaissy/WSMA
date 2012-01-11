@@ -1,0 +1,27 @@
+.purr {
+  display: none;
+  position: fixed;
+  top: 30px;
+  right: 100px;
+  width: 250px;
+  padding: 20px;
+  background-color: #FCC;
+  border: solid 2px #666;
+  &:first-letter { text-transform: uppercase };
+}
+
+a.delete_button {
+	color: red;
+	font-weight: bold;
+  text-decoration: none;
+  &:hover {
+    background-color: transparent; }
+}
+
+.new_item_field input, .best_in_place input {
+	max-width: 40px;
+}
+
+.new_item_field_wide input, .new_item_field textarea, .best_in_place textarea, td.wide input{
+	max-width: 80px;
+}

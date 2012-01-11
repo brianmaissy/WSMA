@@ -9,4 +9,9 @@ class AdminController < ApplicationController
     end
   end
 
+  def set_admin_active_house
+    session[:admin_active_house] = params[:house]
+    redirect_to :back
+  end
+
 end

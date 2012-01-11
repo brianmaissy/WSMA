@@ -4,7 +4,7 @@ class UserTest < ActiveSupport::TestCase
 
   def setup
     @house = House.create(:name => "testHouse", :hours_per_week => 5)
-    @user = User.new(:name => "testUser", :email => "testEmail", :house => @house, :access_level => 3)
+    @user = User.new(:name => "testUser", :email => "testEmail@fake.fake", :house => @house, :access_level => 3)
     @user.password = "testPassword"
     @user.save!
   end
@@ -20,14 +20,18 @@ class UserTest < ActiveSupport::TestCase
   test "name must not be null" do
     test_attribute_may_not_be_null @user, :name
   end
-  
-  test "email must not be null" do
-    test_attribute_may_not_be_null @user, :email
+
+  test "email must be valid" do
+    assert @user.valid?
+    @user.email = "notavalidemail@whatever.toolongtobeatld"
+    assert @user.invalid?
   end
-  
+
   test "email must be unique" do
     @user = User.new(@user.attributes)
-    test_attribute_must_be_unique @user, :email
+    assert @user.invalid?
+    @user.email = "unique@fake.fake"
+    assert @user.valid?
   end
   
   test "password must not be blank" do
@@ -122,6 +126,16 @@ class UserTest < ActiveSupport::TestCase
     Assignment.create(:user => @user, :shift => shifts(:two), :week => 0, :status => 2)
     Assignment.create(:user => @user, :shift => shifts(:one), :week => 1, :status => 2)
     assert_equal(shifts(:two).chore.hours, @user.completed_hours_this_week)
+  end
+
+  test "search" do
+    assert_equal 1, User.search(houses(:one), "Bob").size
+    assert_equal 2, User.search(houses(:one), "smith").size
+    assert_equal 0, User.search(houses(:one), "none").size
+  end
+
+  def teardown
+    TimeProvider.unschedule_all_tasks
   end
 
 end

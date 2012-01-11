@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   before_filter :fetch_logged_user
+  before_filter :fetch_active_house, :if => Proc.new{ @logged_user }
 
   protected
 
@@ -12,6 +13,18 @@ class ApplicationController < ActionController::Base
       session[:user_id] = nil
       @logged_user = nil
       flash[:notice] = "Logged out"
+    end
+  end
+
+  def fetch_active_house
+    if @logged_user.access_level == 3
+      if session[:admin_active_house]
+        @active_house = House.find(session[:admin_active_house])
+      else
+        @active_house = House.first
+      end
+    else
+      @active_house = @logged_user.house
     end
   end
 
@@ -48,6 +61,10 @@ class ApplicationController < ActionController::Base
 
   def redirect_to_login
     redirect_to :controller => :users, :action => :login
+  end
+
+  def format_errors(errors)
+    (errors.full_messages.join "<br>").html_safe
   end
 
 end

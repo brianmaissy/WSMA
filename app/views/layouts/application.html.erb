@@ -17,6 +17,13 @@
         </span>
         <!-- for demo/testing purposes -->
         <div id="time" style="display: inline-block; background-color: #add8e6; margin-left: 20px;"><%= render "demo/time" %></div>
+				<!-- -->
+				<% admin_area do %>
+					<div style="display: inline-block; margin-left: 20px;">Administrate house:</div>
+					<div id="admin_active_house" style="display: inline-block;">
+						<%= render :partial => "admin/admin_active_house" %>
+					</div>
+				<% end %>
     	<span id="headerlist">
 			<%= link_to "Home", root_path, :class => 'headerlistitem' %>
 			<a href="#" class="headerlistitem">Help</a>
@@ -51,7 +58,7 @@
                 <a class="navlistlink" href="/manageshifts"><div class="navlistitem">Manage Shifts</div></a>
 				<a class="navlistlink" href="/shifts"><div class="navlistitem">Allocate Shifts</div></a>
 				<a class="navlistlink" href="/createChore"><div class="navlistitem">Create Chores and Shifts</div></a>
-				<a class="navlistlink" href="#"><div class="navlistitem">Admin Tools</div></a>
+				<a class="navlistlink" href="/admin"><div class="navlistitem">Admin Tools</div></a>
 
               <%end%>
 
@@ -60,9 +67,7 @@
             <% end %>			
       </div>
       <div id="viewContent">
-        <% if not flash[:notice].blank? -%>
-          <div id="notice"><%= flash[:notice] %></div>
-        <% end -%>
+      	<div id="notice" class="purr"><%= flash[:notice] %></div>
 		<%= yield %>
 		
 	  </div>  

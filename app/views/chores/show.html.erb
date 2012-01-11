@@ -29,7 +29,7 @@
   <b>Shifts:</b>
   <ul>
     <% for shift in @chore.shifts %>
-      <li><%= link_to shift.name, shift%></li>
+      <li><%= link_to shift.time, shift%></li>
     <% end %>
   </ul>
 </p>

@@ -7,6 +7,7 @@ class HousesController < ApplicationController
   # GET /houses.json
   def index
     @houses = House.all
+    @house = House.new
 
     respond_to do |format|
       format.html # index.html.erb
@@ -48,11 +49,15 @@ class HousesController < ApplicationController
 
     respond_to do |format|
       if @house.save
-        format.html { redirect_to @house, :notice => 'House was successfully created.' }
+        flash.now[:notice] = 'House created'
+        format.html { redirect_to :houses }
         format.json { render :json => @house, :status => :created, :location => @house }
+        format.js
       else
-        format.html { render :action => "new" }
+        flash.now[:notice] = format_errors(@house.errors)
+        format.html { render :action => "index" }
         format.json { render :json => @house.errors, :status => :unprocessable_entity }
+        format.js
       end
     end
   end
@@ -64,11 +69,11 @@ class HousesController < ApplicationController
 
     respond_to do |format|
       if @house.update_attributes(params[:house])
-        format.html { redirect_to @house, :notice => 'House was successfully updated.' }
+        format.html { redirect_to :houses, :notice => 'House updated' }
         format.json { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.json { render :json => @house.errors, :status => :unprocessable_entity }
+        format.html { render :action => "index" }
+        format.json { render :json => @house.errors.full_messages, :status => :unprocessable_entity }
       end
     end
   end
@@ -93,11 +98,16 @@ end
   # DELETE /houses/1.json
   def destroy
     @house = House.find(params[:id])
+    if @house == @active_house:
+      session[:admin_active_house] = nil
+    end
     @house.destroy
 
     respond_to do |format|
-      format.html { redirect_to houses_url }
+      flash.now[:notice] = 'House deleted'
+      format.html { redirect_to :action => "index" }
       format.json { head :ok }
+      format.js
     end
   end
 end

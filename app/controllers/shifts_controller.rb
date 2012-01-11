@@ -106,7 +106,7 @@ class ShiftsController < ApplicationController
     if request.post?
       if params[:assign] == '1' #Creating an assignment
         assign_params = {"shift_id"=>params[:shift_id],
-                         "week"=>params[:week],
+                         "week"=>@house.current_week,
                          "user_id"=>params[:user_id],
                          "status"=>params[:status]}
         #assign_params[:shift_id] = params[:shift_id]

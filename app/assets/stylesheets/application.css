@@ -3,16 +3,9 @@
  * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
  * the top of the compiled file, but it's generally better to create a new file per style scope.
  *= require_self
+ *= require_directory ../../../vendor/assets/stylesheets
  *= require_tree . 
 */
-
-#notice {
-    border: 2px solid red;
-    padding: 1em;
-    margin-bottom: 2em;
-    background-color: #f0f0f0 ;
-    font: bold smaller sans-serif;
-}
 
 .inline {
     display: inline;

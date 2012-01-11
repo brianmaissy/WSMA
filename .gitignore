@@ -7,3 +7,5 @@ tmp/
 .idea/
 coverage/
 db/schema.rb
+.DS_Store
+public/assets/

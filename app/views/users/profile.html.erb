@@ -1,16 +1,17 @@
 
 
 
-		<div id="Layer1"><h2>My Profile </h2></div>
+
+		<div id="Layer1"><strong>My Profile </strong></div>
 	 <a>House: </a><a><%= @user.house_id%></a><br/><br/>
-        <a>Email: </a><a id="desc3"> <%= @user.email%></a><br /><br />
-        <a>Name: </a><a id="desc"> <%= @user.name %></a><br /><br />
-        <a>Phone Number: </a><a id="desc4"><%= @user.phone_number%></a><br /><br />
-		<a>Room Number: </a><a id="desc2"> <%= @user.room_number%></a><br /><br />
+        <a>Email: </a><a id="desc3"> <%= best_in_place @user, :email %></a><br /><br />
+        <a>Name: </a><a id="desc"> <%= best_in_place @user, :name %></a><br /><br />
+        <a>Phone Number: </a><a id="desc4"><%= best_in_place @user, :phone_number %></a><br /><br />
+		<a>Room Number: </a><a id="desc2"> <%= best_in_place @user, :room_number %></a><br /><br />
 
 
 
-        <a>About me:</a><p id="desc5"><%= @user.notes%></p>
+        <a>About me:</a><p id="desc5"><%= best_in_place @user, :notes, :type => :textarea %></p>
         <p>&nbsp; </p>
         <p>&nbsp;</p>
         <p>&nbsp;</p>

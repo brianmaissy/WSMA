@@ -1,41 +1,24 @@
-<h1>Listing houses</h1>
+<h1>Houses</h1>
 
-<table>
+<%= form_for(@house, :remote => true) do |f| %>
+<table id="item_list">
   <tr>
     <th>Name</th>
     <th>Semester start date</th>
     <th>Semester end date</th>
     <th>Permanent chores start week</th>
-    <th>Hours per week</th>
+    <th>Required hours per week</th>
     <th>Sign off by hours after</th>
     <th>Using online sign off</th>
     <th>Sign off verification mode</th>
     <th>Blow off penalty factor</th>
     <th>Wsm email</th>
     <th></th>
-    <th></th>
-    <th></th>
   </tr>
 
-<% @houses.each do |house| %>
-  <tr>
-    <td><%= house.name %></td>
-    <td><%= house.semester_start_date %></td>
-    <td><%= house.semester_end_date %></td>
-    <td><%= house.permanent_chores_start_week %></td>
-    <td><%= house.hours_per_week %></td>
-    <td><%= house.sign_off_by_hours_after %></td>
-    <td><%= house.using_online_sign_off %></td>
-    <td><%= house.sign_off_verification_mode %></td>
-    <td><%= house.blow_off_penalty_factor %></td>
-    <td><%= house.wsm_email %></td>
-    <td><%= link_to 'Show', house %></td>
-    <td><%= link_to 'Edit', edit_house_path(house) %></td>
-    <td><%= link_to 'Destroy', house, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
+	<%= render @houses %>
+
+	<%= render :partial => 'new_house', :locals => {:f => f} %>
+
 </table>
-
-<br />
-
-<%= link_to 'New House', new_house_path %>
+<% end %>

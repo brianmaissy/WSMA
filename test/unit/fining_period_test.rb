@@ -34,8 +34,10 @@ class FiningPeriodTest < ActiveSupport::TestCase
   end
   
   test "initialize_defaults works" do
-    h1 = House.create(:name => "testHouse", :hours_per_week => 5, :current_week => 2)
-    u1 = User.new(:name => "testUser", :email => "testEmail", :house => h1, :access_level => 3)
+    h1 = House.create(:name => "testHouse", :hours_per_week => 5)
+    h1.current_week = 2
+    h1.save!
+    u1 = User.new(:name => "testUser", :email => "testEmail@fake.fake", :house => h1, :access_level => 3)
     u1.password = "testPassword"
     u1.save!
     h1.blow_off_penalty_factor = 1.2
@@ -44,13 +46,15 @@ class FiningPeriodTest < ActiveSupport::TestCase
     s1 = Shift.create(:day_of_week => 1, :chore => c1, :time => TimeProvider.now, :temporary => 0)
     a1 = Assignment.create(:user => u1, :shift => s1, :week => 1, :status => 2)
     TimeProvider.set_mock_time h1.end_of_week(3)
-    TimeProvider.advance_mock_time h1.sign_off_by_hours_after.hours + 1.minute
+    TimeProvider.advance_mock_time(h1.sign_off_by_hours_after.hours.to_f.hours + 1.minute)
     assert_equal(60, u1.fines[0].amount)
   end
 
   test "calculate_fines correctly creates fines" do
-    h1 = House.create(:name => "testHouse", :hours_per_week => 5, :current_week => 2)
-    u1 = User.new(:name => "testUser", :email => "testEmail", :house => h1, :access_level => 3)
+    h1 = House.create(:name => "testHouse", :hours_per_week => 5)
+    h1.current_week = 2
+    h1.save!
+    u1 = User.new(:name => "testUser", :email => "testEmail@fake.fake", :house => h1, :access_level => 3)
     u1.password = "testPassword"
     u1.save!
     h1.blow_off_penalty_factor = 1.2
@@ -61,4 +65,9 @@ class FiningPeriodTest < ActiveSupport::TestCase
     fp1.calculate_fines
     assert_equal(60, u1.fines[0].amount)
   end
+
+  def teardown
+    TimeProvider.unschedule_all_tasks
+  end
+
 end

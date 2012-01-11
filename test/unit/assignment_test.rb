@@ -77,7 +77,7 @@ class AssignmentTest < ActiveSupport::TestCase
     assignment.house.using_online_sign_off = 1 
     assignment.house.sign_off_verification_mode = 2
     @house = House.create(:name => "testHouse", :hours_per_week => 5)
-    @user = User.new(:name => "testUser", :email => "testEmail", :house => @house, :access_level => 3)
+    @user = User.new(:name => "testUser", :email => "testEmail@fake.fake", :house => @house, :access_level => 3)
     @user.password = "testPassword"
     @user.save!
     assignment.sign_off(@user, @user.password)
@@ -91,14 +91,28 @@ class AssignmentTest < ActiveSupport::TestCase
     assignment.house.using_online_sign_off = 1
     assignment.house.save!
     assignment.save!
-    TimeProvider.set_mock_time(assignment.shift.blow_off_time)
+    TimeProvider.set_mock_time(assignment.blow_off_time)
     assert_equal(3, assignment.status)
   end
 
+  test "start/end/blow off times" do
+    assignment = Assignment.new(:user => users(:one), :shift => shifts(:one), :week => 11, :status => 1)
+    assignment.house.using_online_sign_off = 1
+    assignment.house.current_week = 11
+    assignment.house.save!
+    assignment.save!
+    assert_equal(assignment.shift.start_time_this_week, assignment.start_time)
+    assert_equal(assignment.shift.end_time_this_week, assignment.end_time)
+    assert_equal(assignment.shift.blow_off_time_this_week, assignment.blow_off_time)
+    assert_equal(assignment.blow_off_time, assignment.start_time.advance(:hours => 13.2 + 3.23 + 9.99))
+    assignment.house.start_new_week
+    TimeProvider.set_mock_time(assignment.house.beginning_of_week(12))
+    TimeProvider.advance_mock_time(3.hours)
+    assert_equal(assignment.shift.blow_off_time_this_week, assignment.blow_off_time.advance(:days => 7))
+  end
+
   def teardown
-    for assignment in @assignments
-      assignment.destroy
-    end
+    TimeProvider.unschedule_all_tasks
   end
 
 end
